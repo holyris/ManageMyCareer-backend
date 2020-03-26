@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,6 +43,23 @@ public class FileController {
                 .stream()
                 .map(file -> uploadFile(file))
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/downloadFile")
+    public List<ResponseEntity<Resource>> getAllFiles() {
+        // Load file from database
+
+
+        List<FileEntity> files = fileService.getAll();
+        List<ResponseEntity<Resource>> responses = new ArrayList<ResponseEntity<Resource>>();
+        for (FileEntity file : files
+        ) {
+            responses.add(ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(file.getFileType()))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName() + "\"")
+                    .body(new ByteArrayResource(file.getData())));
+        }
+        return responses;
     }
 
     @GetMapping("/downloadFile/{fileId}")
