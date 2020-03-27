@@ -17,6 +17,9 @@ public class FileEntity {
 
     private String fileType;
 
+    private Long fileSize;
+
+
     @Lob
     private byte[] data;
 
@@ -24,10 +27,11 @@ public class FileEntity {
 
     }
 
-    public FileEntity(String fileName, String fileType, byte[] data){
+    public FileEntity(String fileName, String fileType, Long fileSize, byte[] data){
         this.fileName = fileName;
         this.fileType = fileType;
         this.data = data;
+        this.fileSize = fileSize;
     }
 
     public String getId() {
@@ -38,23 +42,14 @@ public class FileEntity {
         return fileName;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
     public String getFileType() {
         return fileType;
-    }
-
-    public void setFileType(String fileType) {
-        this.fileType = fileType;
     }
 
     public byte[] getData() {
         return data;
     }
 
-    public void setData(byte[] data) {
-        this.data = data;
-    }
+    public Long getFileSize() {return fileSize; }
+
 }

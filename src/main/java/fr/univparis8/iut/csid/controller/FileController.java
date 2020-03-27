@@ -34,7 +34,7 @@ public class FileController {
                 .toUriString();
 
         return new UploadFileResponse(dbFile.getFileName(), fileDownloadUri,
-                file.getContentType(), file.getSize());
+                dbFile.getFileType(), dbFile.getFileSize());
     }
 
     @PostMapping("/uploadMultipleFiles")
@@ -46,18 +46,14 @@ public class FileController {
     }
 
     @GetMapping("/downloadFile")
-    public List<ResponseEntity<Resource>> getAllFiles() {
+    public List<UploadFileResponse> getAllFiles() {
         // Load file from database
 
-
-        List<FileEntity> files = fileService.getAll();
-        List<ResponseEntity<Resource>> responses = new ArrayList<ResponseEntity<Resource>>();
-        for (FileEntity file : files
-        ) {
-            responses.add(ResponseEntity.ok()
-                    .contentType(MediaType.parseMediaType(file.getFileType()))
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName() + "\"")
-                    .body(new ByteArrayResource(file.getData())));
+        List<FileEntity> dbFiles = fileService.getAll();
+        List<UploadFileResponse> responses = new ArrayList<UploadFileResponse>();
+        for (FileEntity file : dbFiles) {
+            String downloadUrl = "http://localhost:8080/downloadFile/"+file.getId();
+            responses.add(new UploadFileResponse(file.getFileName(), downloadUrl, file.getFileType(), file.getFileSize()));
         }
         return responses;
     }

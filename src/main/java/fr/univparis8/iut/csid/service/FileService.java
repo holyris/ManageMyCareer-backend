@@ -18,10 +18,6 @@ public class FileService {
     @Autowired
     private FileRepository fileRepository;
 
-    public List<FileEntity> getAll() {
-        return fileRepository.findAll();
-    }
-
     public FileEntity saveFile(MultipartFile file) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
 
@@ -32,13 +28,18 @@ public class FileService {
                 System.out.println("erreur : le nom du fichier contient un caractère");
             }
 
-            FileEntity dbFile = new FileEntity(filename, file.getContentType(), file.getBytes());
+            FileEntity dbFile = new FileEntity(filename, file.getContentType(), file.getSize(), file.getBytes());
 
             return fileRepository.save(dbFile);
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + filename + ". Please try again!", ex);
         }
 
+    }
+
+    public List<FileEntity> getAll() {
+        System.out.println(fileRepository.findAll());
+        return  fileRepository.findAll();
     }
 
     public FileEntity getFile(String fileId) {
