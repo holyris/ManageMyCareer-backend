@@ -1,4 +1,4 @@
-package fr.univparis8.iut.csid.entity;
+package fr.univparis8.iut.csid.file;
 
 import org.hibernate.annotations.GenericGenerator;
 

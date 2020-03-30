@@ -1,9 +1,7 @@
-package fr.univparis8.iut.csid.service;
+package fr.univparis8.iut.csid.file;
 
-import fr.univparis8.iut.csid.entity.FileEntity;
 import fr.univparis8.iut.csid.exception.FileStorageException;
 import fr.univparis8.iut.csid.exception.MyFileNotFoundException;
-import fr.univparis8.iut.csid.repository.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -19,6 +17,7 @@ public class FileService {
     private FileRepository fileRepository;
 
     public FileEntity saveFile(MultipartFile file) {
+
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
 
         try {

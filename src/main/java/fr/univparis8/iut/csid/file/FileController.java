@@ -1,8 +1,5 @@
-package fr.univparis8.iut.csid.controller;
+package fr.univparis8.iut.csid.file;
 
-import fr.univparis8.iut.csid.entity.FileEntity;
-import fr.univparis8.iut.csid.payload.UploadFileResponse;
-import fr.univparis8.iut.csid.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -19,12 +16,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("files")
 public class FileController {
 
     @Autowired
     FileService fileService;
 
-    @PostMapping("/uploadFile")
+    @PostMapping("")
     public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
         FileEntity dbFile = fileService.saveFile(file);
 
@@ -37,7 +35,7 @@ public class FileController {
                 dbFile.getFileType(), dbFile.getFileSize());
     }
 
-    @PostMapping("/uploadMultipleFiles")
+    @PostMapping("/multiples")
     public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
         return Arrays.asList(files)
                 .stream()
@@ -45,20 +43,20 @@ public class FileController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/downloadFile")
+    @GetMapping()
     public List<UploadFileResponse> getAllFiles() {
         // Load file from database
 
         List<FileEntity> dbFiles = fileService.getAll();
         List<UploadFileResponse> responses = new ArrayList<UploadFileResponse>();
         for (FileEntity file : dbFiles) {
-            String downloadUrl = "http://localhost:8080/downloadFile/"+file.getId();
+            String downloadUrl = "http://localhost:8080/"+file.getId();
             responses.add(new UploadFileResponse(file.getFileName(), downloadUrl, file.getFileType(), file.getFileSize()));
         }
         return responses;
     }
 
-    @GetMapping("/downloadFile/{fileId}")
+    @GetMapping("/{fileId}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileId) {
         // Load file from database
         FileEntity dbFile = fileService.getFile(fileId);
