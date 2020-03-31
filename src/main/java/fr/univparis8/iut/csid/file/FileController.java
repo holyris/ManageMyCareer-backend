@@ -7,64 +7,54 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("files")
+@RequestMapping("file")
 public class FileController {
 
+    private final FileService fileService;
     @Autowired
-    FileService fileService;
+    public FileController(FileService fileService){this.fileService = fileService;}
 
-    @PostMapping("")
-    public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
-        FileEntity dbFile = fileService.saveFile(file);
-
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/downloadFile/")
-                .path(dbFile.getId())
-                .toUriString();
-
-        return new UploadFileResponse(dbFile.getFileName(), fileDownloadUri,
-                dbFile.getFileType(), dbFile.getFileSize());
-    }
-
-    @PostMapping("/multiples")
-    public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
-        return Arrays.asList(files)
-                .stream()
-                .map(file -> uploadFile(file))
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping()
-    public List<UploadFileResponse> getAllFiles() {
-        // Load file from database
-
-        List<FileEntity> dbFiles = fileService.getAll();
-        List<UploadFileResponse> responses = new ArrayList<UploadFileResponse>();
-        for (FileEntity file : dbFiles) {
-            String downloadUrl = "http://localhost:8080/"+file.getId();
-            responses.add(new UploadFileResponse(file.getFileName(), downloadUrl, file.getFileType(), file.getFileSize()));
+    @PostMapping
+    public List<FileDto> uploadFiles(@RequestBody List<FileDto> fileDto) {
+        List<FileDto> responses = new ArrayList<FileDto>();
+        for(FileDto filesDto : fileDto){
+            responses.add(FileMapper.toFileDto(fileService.saveFile(FileMapper.toFile(filesDto))));
         }
         return responses;
     }
 
-    @GetMapping("/{fileId}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileId) {
-        // Load file from database
-        FileEntity dbFile = fileService.getFile(fileId);
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(dbFile.getFileType()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + dbFile.getFileName() + "\"")
-                .body(new ByteArrayResource(dbFile.getData()));
+    @GetMapping()
+    public List<FileDto> getAllFiles() {
+        return FileMapper.toFileDtoList(fileService.getAll());
     }
 
+    @GetMapping("/get_one")
+    public FileDto getOneFile(@RequestBody FileDto fileDto){
+        return FileMapper.toFileDto(fileService.getFile(fileDto.getId()));
+    }
+
+    @GetMapping("/{fileId}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileId) {
+
+        File file = fileService.getFile(fileId);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(file.getType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
+                .body(new ByteArrayResource(file.getData()));
+    }
+
+    @PutMapping
+    public FileDto updateFile(@RequestBody FileDto fileDto){
+        return FileMapper.toFileDto(fileService.update(FileMapper.toFile(fileDto)));
+    }
+
+    @DeleteMapping
+    public String deleteFile(@RequestBody FileDto fileDto){
+        return "Le fichier "+fileService.delete(FileMapper.toFile(fileDto)).getName()+" a bien été supprimé";
+    }
 }

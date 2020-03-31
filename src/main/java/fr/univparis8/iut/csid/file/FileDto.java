@@ -1,25 +1,21 @@
 package fr.univparis8.iut.csid.file;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
-
-@Entity
-@Table(name = "file")
-public class FileEntity {
-
-    @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
+public class FileDto {
     private String id;
     private String name;
     private String type;
     private Long size;
-
-    @Lob
     private byte[] data;
 
-    public FileEntity(){
+    public FileDto() {
+    }
+
+    public FileDto(String id, String name, String type, Long size, byte[] data) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.size = size;
+        this.data = data;
     }
 
     public String getId() {
@@ -62,54 +58,51 @@ public class FileEntity {
         this.data = data;
     }
 
-    public static final class FileEntityBuilder {
+    public static final class FileDtoBuilder{
         private String id;
         private String name;
         private String type;
         private Long size;
         private byte[] data;
 
-        public FileEntityBuilder() {
+        public FileDtoBuilder() {
         }
 
-        public static FileEntityBuilder create(){return new FileEntityBuilder();}
+        public static FileDtoBuilder create(){return new FileDtoBuilder();}
 
-        public FileEntityBuilder withId(String id) {
+        public FileDtoBuilder withId(String id) {
             this.id = id;
             return this;
         }
 
-        public FileEntityBuilder withName(String name) {
+        public FileDtoBuilder withName(String name) {
             this.name = name;
             return this;
         }
 
-        public FileEntityBuilder withType(String type) {
+        public FileDtoBuilder withType(String type) {
             this.type = type;
             return this;
         }
 
-        public FileEntityBuilder withSize(Long size) {
+        public FileDtoBuilder withSize(Long size) {
             this.size = size;
             return this;
         }
 
-        public FileEntityBuilder withData(byte[] data) {
+        public FileDtoBuilder withData(byte[] data) {
             this.data = data;
             return this;
         }
 
-        public FileEntity build() {
-            FileEntity fileEntity = new FileEntity();
-            fileEntity.setId(id);
-            fileEntity.setName(name);
-            fileEntity.setType(type);
-            fileEntity.setSize(size);
-            fileEntity.setData(data);
-            return fileEntity;
+        public FileDto build() {
+            FileDto fileDto = new FileDto();
+            fileDto.setId(id);
+            fileDto.setName(name);
+            fileDto.setType(type);
+            fileDto.setSize(size);
+            fileDto.setData(data);
+            return fileDto;
         }
-
-
     }
-
 }
