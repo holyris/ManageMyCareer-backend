@@ -1,37 +1,38 @@
 {
 	"info": {
-		"_postman_id": "40d5172a-4840-42a9-b06e-c60d59a53064",
+		"_postman_id": "20db9e47-161e-4453-a505-ebc3fe44d658",
 		"name": "File",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "post",
+			"name": "http://localhost:8080/uploadFile",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
-					"mode": "raw",
-					"raw": "[{\n\t\"name\":\"test3\",\n\t\"type\":\"coucou\",\n\t\"size\":\"20\",\n\t\"data\":\"Y291Y291\"\n}]",
-					"options": {
-						"raw": {
-							"language": "json"
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/yannh/OneDrive/Documents/JL-PUTE/CV j.pdf"
 						}
-					}
+					]
 				},
 				"url": {
-					"raw": "http://localhost:8080/file",
+					"raw": "http://localhost:8080/uploadFile",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"file"
+						"uploadFile"
 					],
 					"query": [
 						{
-							"key": "",
+							"key": "mult",
 							"value": null,
 							"disabled": true
 						}
@@ -41,99 +42,59 @@
 			"response": []
 		},
 		{
-			"name": "getall",
+			"name": "http://localhost:8080/uploadMultipleFiles",
 			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/file",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"file"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "getOne",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"body": {
-					"mode": "raw",
-					"raw": "{\"id\":\"id\"}",
-					"options": {
-						"raw": {
-							"language": "json"
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "files",
+							"type": "file",
+							"src": "/C:/Users/yannh/OneDrive/Documents/JL-PUTE/CV j.pdf"
+						},
+						{
+							"key": "files",
+							"type": "file",
+							"src": "/C:/Users/yannh/OneDrive/Documents/JL-PUTE/Stage du 5 juin au 4 juillet 2019.docx"
+						},
+						{
+							"key": "files",
+							"type": "file",
+							"src": "/C:/Users/yannh/OneDrive/Documents/JL-PUTE/Lettre de motivation j.pdf"
 						}
-					}
+					]
 				},
 				"url": {
-					"raw": "http://localhost:8080/file/get_one",
+					"raw": "http://localhost:8080/uploadMultipleFiles",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"file",
-						"get_one"
+						"uploadMultipleFiles"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "put",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "   {\r\n        \"id\": \"5108fc4d-fa76-46bd-bebb-34f618e2a7db\",\r\n        \"name\": \"upadte\",\r\n        \"type\": \"update\",\r\n        \"size\": 20,\r\n        \"data\": \"Y291Y291\"\r\n    }",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/file",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"file"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "download",
+			"name": "http://localhost:8080/downloadFile/{unId}",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/file/1fbd68b3-26bc-47fc-910a-f1eb1d309523",
+					"raw": "http://localhost:8080/downloadFile/{unId}",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"file",
-						"1fbd68b3-26bc-47fc-910a-f1eb1d309523"
+						"downloadFile",
+						"{unId}"
 					]
 				}
 			},
