@@ -1,5 +1,8 @@
 package fr.univparis8.iut.csid.file;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,7 +14,6 @@ public final class FileMapper {
                 .withName(fileDto.getName())
                 .withType(fileDto.getType())
                 .withSize(fileDto.getSize())
-                .withData(fileDto.getData())
                 .build();
     }
 
@@ -31,7 +33,6 @@ public final class FileMapper {
                 .withName(file.getName())
                 .withType(file.getType())
                 .withSize(file.getSize())
-                .withData(file.getData())
                 .build();
     }
 
@@ -42,6 +43,15 @@ public final class FileMapper {
                 .withType(file.getType())
                 .withSize(file.getSize())
                 .withData(file.getData())
+                .build();
+    }
+
+    public static File toFile(MultipartFile file) throws IOException {
+        return File.FileBuilder.create()
+                .withName(file.getOriginalFilename())
+                .withType(file.getContentType())
+                .withSize(file.getSize())
+                .withData(file.getBytes())
                 .build();
     }
 

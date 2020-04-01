@@ -7,7 +7,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,12 +22,12 @@ public class FileController {
     public FileController(FileService fileService){this.fileService = fileService;}
 
     @PostMapping
-    public List<FileDto> uploadFiles(@RequestBody List<FileDto> fileDto) {
-        List<FileDto> responses = new ArrayList<FileDto>();
-        for(FileDto filesDto : fileDto){
-            responses.add(FileMapper.toFileDto(fileService.saveFile(FileMapper.toFile(filesDto))));
-        }
-        return responses;
+    public List<FileDto> uploadFiles(@RequestParam("file") MultipartFile[] files) throws IOException {
+        ArrayList<FileDto> response = new ArrayList<>();
+        for(MultipartFile file : files){
+           response.add(FileMapper.toFileDto(fileService.saveFile(FileMapper.toFile(file))));
+       }
+        return response;
     }
 
     @GetMapping()

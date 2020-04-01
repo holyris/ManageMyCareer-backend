@@ -5,7 +5,6 @@ public class FileDto {
     private String name;
     private String type;
     private Long size;
-    private byte[] data;
 
     public FileDto() {
     }
@@ -15,7 +14,6 @@ public class FileDto {
         this.name = name;
         this.type = type;
         this.size = size;
-        this.data = data;
     }
 
     public String getId() {
@@ -50,20 +48,11 @@ public class FileDto {
         this.size = size;
     }
 
-    public byte[] getData() {
-        return data;
-    }
-
-    public void setData(byte[] data) {
-        this.data = data;
-    }
-
     public static final class FileDtoBuilder{
         private String id;
         private String name;
         private String type;
         private Long size;
-        private byte[] data;
 
         public FileDtoBuilder() {
         }
@@ -90,18 +79,12 @@ public class FileDto {
             return this;
         }
 
-        public FileDtoBuilder withData(byte[] data) {
-            this.data = data;
-            return this;
-        }
-
         public FileDto build() {
             FileDto fileDto = new FileDto();
             fileDto.setId(id);
             fileDto.setName(name);
             fileDto.setType(type);
             fileDto.setSize(size);
-            fileDto.setData(data);
             return fileDto;
         }
     }
