@@ -16,8 +16,9 @@ public class FileEntity {
     private String type;
     private Long size;
 
-    @Lob
-    private byte[] data;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "file_content_id", referencedColumnName = "id")
+    private FileContentEntity fileContent;
 
     public FileEntity(){
     }
@@ -54,12 +55,12 @@ public class FileEntity {
         this.size = size;
     }
 
-    public byte[] getData() {
-        return data;
+    public FileContentEntity getFileContent() {
+        return fileContent;
     }
 
-    public void setData(byte[] data) {
-        this.data = data;
+    public void setFileContent(FileContentEntity fileContent) {
+        this.fileContent = fileContent;
     }
 
     public static final class FileEntityBuilder {
@@ -67,7 +68,7 @@ public class FileEntity {
         private String name;
         private String type;
         private Long size;
-        private byte[] data;
+        private FileContentEntity fileContent;
 
         public FileEntityBuilder() {
         }
@@ -94,8 +95,8 @@ public class FileEntity {
             return this;
         }
 
-        public FileEntityBuilder withData(byte[] data) {
-            this.data = data;
+        public FileEntityBuilder withData(FileContentEntity fileContentEntity) {
+            this.fileContent = fileContentEntity;
             return this;
         }
 
@@ -105,7 +106,7 @@ public class FileEntity {
             fileEntity.setName(name);
             fileEntity.setType(type);
             fileEntity.setSize(size);
-            fileEntity.setData(data);
+            fileEntity.setFileContent(fileContent);
             return fileEntity;
         }
 

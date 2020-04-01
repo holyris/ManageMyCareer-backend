@@ -8,14 +8,14 @@ public class File {
     private final String name;
     private final String type;
     private final Long size;
-    private final byte[] data;
+    private final FileContentEntity fileContent;
 
-    public File(String id, String name, String type, Long size, byte[] data) {
+    public File(String id, String name, String type, Long size, FileContentEntity fileContent) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.size = size;
-        this.data = data;
+        this.fileContent = fileContent;
     }
 
     public String getId() {
@@ -34,8 +34,8 @@ public class File {
         return size;
     }
 
-    public byte[] getData() {
-        return data;
+    public FileContentEntity getFileContent() {
+        return fileContent;
     }
 
     public File mergeWith(File other) {
@@ -44,7 +44,7 @@ public class File {
                 .withName(Objects.requireNonNullElse(other.name, name))
                 .withType(Objects.requireNonNullElse(other.type, type))
                 .withSize((Objects.requireNonNullElse(other.size, size)))
-                .withData((Objects.requireNonNullElse(other.data, data)))
+                .withFileContent((Objects.requireNonNullElse(other.fileContent, fileContent)))
                 .build();
     }
 
@@ -55,7 +55,7 @@ public class File {
         private String name;
         private String type;
         private Long size;
-        private byte[] data;
+        private FileContentEntity fileContent;
 
         public FileBuilder() {
         }
@@ -84,13 +84,13 @@ public class File {
             return this;
         }
 
-        public FileBuilder withData(byte[] data) {
-            this.data = data;
+        public FileBuilder withFileContent(FileContentEntity fileContent) {
+            this.fileContent = fileContent;
             return this;
         }
 
         public File build() {
-            return new File(id, name, type, size, data);
+            return new File(id, name, type, size, fileContent);
         }
     }
 }

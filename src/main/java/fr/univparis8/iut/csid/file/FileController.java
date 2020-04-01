@@ -47,7 +47,7 @@ public class FileController {
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(file.getType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
-                .body(new ByteArrayResource(file.getData()));
+                .body(new ByteArrayResource(file.getFileContent().getFileContent()));
     }
 
     @PutMapping

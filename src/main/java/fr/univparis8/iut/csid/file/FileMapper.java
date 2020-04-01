@@ -23,7 +23,7 @@ public final class FileMapper {
                 .withName(fileEntity.getName())
                 .withType(fileEntity.getType())
                 .withSize(fileEntity.getSize())
-                .withData(fileEntity.getData())
+                .withFileContent(fileEntity.getFileContent())
                 .build();
     }
 
@@ -42,16 +42,18 @@ public final class FileMapper {
                 .withName(file.getName())
                 .withType(file.getType())
                 .withSize(file.getSize())
-                .withData(file.getData())
+                .withData(file.getFileContent())
                 .build();
     }
 
     public static File toFile(MultipartFile file) throws IOException {
+        FileContentEntity fileContentEntity = new FileContentEntity();
+        fileContentEntity.setFileContent(file.getBytes());
         return File.FileBuilder.create()
                 .withName(file.getOriginalFilename())
                 .withType(file.getContentType())
                 .withSize(file.getSize())
-                .withData(file.getBytes())
+                .withFileContent(fileContentEntity)
                 .build();
     }
 
