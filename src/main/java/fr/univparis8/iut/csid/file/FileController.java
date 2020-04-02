@@ -17,9 +17,8 @@ import java.util.List;
 @RequestMapping("file")
 public class FileController {
 
-    private final FileService fileService;
     @Autowired
-    public FileController(FileService fileService){this.fileService = fileService;}
+    private FileService fileService;
 
     @PostMapping
     public List<FileDto> uploadFiles(@RequestParam("file") MultipartFile[] files) throws IOException {
@@ -55,8 +54,8 @@ public class FileController {
         return FileMapper.toFileDto(fileService.update(FileMapper.toFile(fileDto)));
     }
 
-    @DeleteMapping
-    public String deleteFile(@RequestBody FileDto fileDto){
-        return "Le fichier "+fileService.delete(FileMapper.toFile(fileDto)).getName()+" a bien été supprimé";
+    @DeleteMapping("/{fileId}")
+    public FileDto deleteFile(@PathVariable String fileId){
+        return FileMapper.toFileDto(fileService.delete(fileId));
     }
 }

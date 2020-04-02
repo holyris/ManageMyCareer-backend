@@ -39,9 +39,11 @@ public class FileService {
         return FileMapper.toFile(fileRepository.save(FileMapper.toFileEntity(newFile)));
     }
 
-    public File delete(File file){
-        file = FileMapper.toFile(fileRepository.getOne(file.getId()));
-        fileRepository.deleteById(file.getId());
+    public File delete(String fileId){
+        File file = FileMapper.toFile(fileRepository.getOne(fileId));
+        if(file != null) {
+            fileRepository.deleteById(file.getId());
+        }
         return file;
     }
 }
