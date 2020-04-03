@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("file")
+@RequestMapping("files")
 public class FileController {
 
     @Autowired

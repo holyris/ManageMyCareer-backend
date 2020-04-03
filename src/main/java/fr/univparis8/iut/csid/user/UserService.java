@@ -45,8 +45,8 @@ public class UserService {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    public void deleteUser(UserCredentials user){
-        jdbcUserDetailsManager.deleteUser(user.getUsername());
+    public void deleteUser(String user){
+        jdbcUserDetailsManager.deleteUser(user);
     }
 
     public Object getCurrentUser(){

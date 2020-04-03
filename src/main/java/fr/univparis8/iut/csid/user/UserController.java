@@ -35,10 +35,10 @@ public class UserController {
         return newUser;
     }
 
-    @DeleteMapping
-    public String deleteUser(@RequestBody UserCredentials user){
+    @DeleteMapping("/{user}")
+    public String deleteUser(@PathVariable String user){
         userService.deleteUser(user);
-        return "L'utilisateur "+user.getUsername()+" à été supprimé";
+        return "L'utilisateur "+user+" à été supprimé";
     }
 
     @GetMapping("/me")
