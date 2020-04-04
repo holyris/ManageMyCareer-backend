@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class UserCredentials {
 
-    @Autowired
-    private String id;
 
     @Autowired
     private String username;
@@ -14,14 +12,6 @@ public class UserCredentials {
     private String password;
 
     public UserCredentials(){
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getUsername() {

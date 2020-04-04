@@ -32,7 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.formLogin().disable().authorizeRequests()
-            .antMatchers("/").permitAll()
+            .antMatchers("/users/create_user").permitAll()
             .antMatchers("/h2-console/**").permitAll()
             .anyRequest().authenticated()
             .and()
