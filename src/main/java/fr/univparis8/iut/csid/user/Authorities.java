@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 @Entity
 @Table(name = "AUTHORITIES")
 public class Authorities {
@@ -14,5 +15,6 @@ public class Authorities {
 
     @Autowired
     private String authority;
+
 }
 

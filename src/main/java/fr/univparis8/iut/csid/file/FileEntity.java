@@ -3,6 +3,7 @@ package fr.univparis8.iut.csid.file;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "file")
@@ -14,7 +15,13 @@ public class FileEntity {
     private String id;
     private String name;
     private String type;
+    private String typeFile;
     private Long size;
+    private Date date;
+    private String company;
+    private String workplace;
+    private Double grossSalary;
+    private Double netSalary;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "file_content_id", referencedColumnName = "id")
@@ -47,12 +54,60 @@ public class FileEntity {
         this.type = type;
     }
 
+    public String getTypeFile() {
+        return typeFile;
+    }
+
+    public void setTypeFile(String typeFile) {
+        this.typeFile = typeFile;
+    }
+
     public Long getSize() {
         return size;
     }
 
     public void setSize(Long size) {
         this.size = size;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getWorkplace() {
+        return workplace;
+    }
+
+    public void setWorkplace(String workplace) {
+        this.workplace = workplace;
+    }
+
+    public Double getGrossSalary() {
+        return grossSalary;
+    }
+
+    public void setGrossSalary(Double grossSalary) {
+        this.grossSalary = grossSalary;
+    }
+
+    public Double getNetSalary() {
+        return netSalary;
+    }
+
+    public void setNetSalary(Double netSalary) {
+        this.netSalary = netSalary;
     }
 
     public FileContentEntity getFileContent() {
@@ -67,7 +122,13 @@ public class FileEntity {
         private String id;
         private String name;
         private String type;
+        private String typeFile;
         private Long size;
+        private Date date;
+        private String company;
+        private String workplace;
+        private Double grossSalary;
+        private Double netSalary;
         private FileContentEntity fileContent;
 
         public FileEntityBuilder() {
@@ -90,6 +151,11 @@ public class FileEntity {
             return this;
         }
 
+        public FileEntityBuilder withTypeFile(String typeFile) {
+            this.typeFile = typeFile;
+            return this;
+        }
+
         public FileEntityBuilder withSize(Long size) {
             this.size = size;
             return this;
@@ -100,13 +166,44 @@ public class FileEntity {
             return this;
         }
 
+        public FileEntityBuilder withDate(Date date) {
+            this.date = date;
+            return this;
+        }
+
+        public FileEntityBuilder withCompany(String company) {
+            this.company = company;
+            return this;
+        }
+
+        public FileEntityBuilder withWorkplace(String workplace) {
+            this.workplace = workplace;
+            return this;
+        }
+
+        public FileEntityBuilder withGrossSalary(Double grossSalary) {
+            this.grossSalary = grossSalary;
+            return this;
+        }
+
+        public FileEntityBuilder withNetSalary(Double netSalary) {
+            this.netSalary = netSalary;
+            return this;
+        }
+
         public FileEntity build() {
             FileEntity fileEntity = new FileEntity();
             fileEntity.setId(id);
             fileEntity.setName(name);
             fileEntity.setType(type);
+            fileEntity.setTypeFile(typeFile);
             fileEntity.setSize(size);
             fileEntity.setFileContent(fileContent);
+            fileEntity.setDate(date);
+            fileEntity.setCompany(company);
+            fileEntity.setWorkplace(workplace);
+            fileEntity.setGrossSalary(grossSalary);
+            fileEntity.setNetSalary(netSalary);
             return fileEntity;
         }
 

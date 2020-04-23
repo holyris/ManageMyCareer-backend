@@ -33,6 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http.formLogin().disable().authorizeRequests()
             .antMatchers("/users/create_user").permitAll()
+            /*.antMatchers("/**").permitAll()*/
             .antMatchers("/h2-console/**").permitAll()
             .anyRequest().authenticated()
             .and()

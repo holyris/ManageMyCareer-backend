@@ -13,7 +13,13 @@ public final class FileMapper {
                 .withId(fileDto.getId())
                 .withName(fileDto.getName())
                 .withType(fileDto.getType())
+                .withTypeFile(fileDto.getTypeFile())
                 .withSize(fileDto.getSize())
+                .withDate(fileDto.getDate())
+                .withCompany(fileDto.getCompany())
+                .withWorkplace(fileDto.getWorkplace())
+                .withGrossSalary(fileDto.getGrossSalary())
+                .withNetSalary(fileDto.getNetSalary())
                 .build();
     }
 
@@ -22,8 +28,14 @@ public final class FileMapper {
                 .withId(fileEntity.getId())
                 .withName(fileEntity.getName())
                 .withType(fileEntity.getType())
+                .withTypeFile(fileEntity.getTypeFile())
                 .withSize(fileEntity.getSize())
                 .withFileContent(fileEntity.getFileContent())
+                .withDate(fileEntity.getDate())
+                .withCompany(fileEntity.getCompany())
+                .withWorkplace(fileEntity.getWorkplace())
+                .withGrossSalary(fileEntity.getGrossSalary())
+                .withNetSalary(fileEntity.getNetSalary())
                 .build();
     }
 
@@ -32,7 +44,13 @@ public final class FileMapper {
                 .withId(file.getId())
                 .withName(file.getName())
                 .withType(file.getType())
+                .withTypeFile(file.getTypeFile())
                 .withSize(file.getSize())
+                .withDate(file.getDate())
+                .withCompany(file.getCompany())
+                .withWorkplace(file.getWorkplace())
+                .withGrossSalary(file.getGrossSalary())
+                .withNetSalary(file.getNetSalary())
                 .build();
     }
 
@@ -41,19 +59,31 @@ public final class FileMapper {
                 .withId(file.getId())
                 .withName(file.getName())
                 .withType(file.getType())
+                .withTypeFile(file.getTypeFile())
                 .withSize(file.getSize())
                 .withData(file.getFileContent())
+                .withDate(file.getDate())
+                .withCompany(file.getCompany())
+                .withWorkplace(file.getWorkplace())
+                .withGrossSalary(file.getGrossSalary())
+                .withNetSalary(file.getNetSalary())
                 .build();
     }
 
-    public static File toFile(MultipartFile file) throws IOException {
+    public static File toFile(FileReceiveDto fileReceiveDto) throws IOException {
         FileContentEntity fileContentEntity = new FileContentEntity();
-        fileContentEntity.setFileContent(file.getBytes());
+        fileContentEntity.setFileContent(fileReceiveDto.getFileContent());
         return File.FileBuilder.create()
-                .withName(file.getOriginalFilename())
-                .withType(file.getContentType())
-                .withSize(file.getSize())
+                .withName(fileReceiveDto.getName())
+                .withType(fileReceiveDto.getType())
+                .withTypeFile(fileReceiveDto.getTypeFile())
+                .withSize(fileReceiveDto.getSize())
                 .withFileContent(fileContentEntity)
+                .withDate(fileReceiveDto.getDate())
+                .withCompany(fileReceiveDto.getCompany())
+                .withWorkplace(fileReceiveDto.getWorkplace())
+                .withGrossSalary(fileReceiveDto.getGrossSalary())
+                .withNetSalary(fileReceiveDto.getNetSalary())
                 .build();
     }
 

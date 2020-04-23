@@ -7,7 +7,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,11 +19,13 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
+    private MimeTypes mimeTypes;
+
     @PostMapping
-    public List<FileDto> uploadFiles(@RequestParam("file") MultipartFile[] files) throws IOException {
+    public List<FileDto> uploadFiles(@RequestBody FileReceiveDto[] filesReceiveDto) throws IOException {
         ArrayList<FileDto> response = new ArrayList<>();
-        for(MultipartFile file : files){
-           response.add(FileMapper.toFileDto(fileService.saveFile(FileMapper.toFile(file))));
+        for(FileReceiveDto file : filesReceiveDto){
+                response.add(FileMapper.toFileDto(fileService.saveFile(FileMapper.toFile(file))));
        }
         return response;
     }
@@ -44,12 +45,12 @@ public class FileController {
 
         File file = fileService.getFile(fileId);
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(file.getType()))
+                .contentType(MediaType.parseMediaType(mimeTypes.getMimeType(file.getType())))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
                 .body(new ByteArrayResource(file.getFileContent().getFileContent()));
     }
 
-    @PutMapping
+    @PatchMapping
     public FileDto updateFile(@RequestBody FileDto fileDto){
         return FileMapper.toFileDto(fileService.update(FileMapper.toFile(fileDto)));
     }
