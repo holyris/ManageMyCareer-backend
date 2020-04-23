@@ -32,12 +32,10 @@ public class UserService {
     }
 
     public void changePassword(ChangePasswordDto passwordDto){
-
         jdbcUserDetailsManager.changePassword(passwordDto.getOldPassword(), passwordEncoder.encode(passwordDto.getNewPassword()));
     }
 
     public void createUser(UserCredentials newUser){
-
         jdbcUserDetailsManager.createUser(
                 User.withUsername(newUser.getUsername())
                         .password(passwordEncoder.encode(newUser.getPassword()))
