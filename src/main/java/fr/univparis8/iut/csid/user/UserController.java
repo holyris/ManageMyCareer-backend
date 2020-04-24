@@ -19,7 +19,7 @@ public class UserController {
 
 
     @GetMapping
-    public List<UserDetails> getAll(){
+    public List<UserDetails> getAllForOne(){
         return userService.getAll();
     }
 

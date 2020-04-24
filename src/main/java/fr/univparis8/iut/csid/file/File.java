@@ -8,22 +8,26 @@ public class File {
     private final String id;
     private final String name;
     private final String type;
-    private final String typeFile;
+    private final String documentType;
     private final Long size;
-    private final Date date;
+    private final Date addedDate;
+    private final Date modifiedDate;
+    private final Date dateOfDoc;
     private final String company;
     private final String workplace;
     private final Double grossSalary;
     private final Double netSalary;
     private final FileContentEntity fileContent;
 
-    public File(String id, String name, String type, String typeFile, Long size, Date date, String company, String workplace, Double grossSalary, Double netSalary, FileContentEntity fileContent) {
+    public File(String id, String name, String type, String documentType, Long size, Date addedDate, Date modifiedDate, Date dateOfDoc, String company, String workplace, Double grossSalary, Double netSalary, FileContentEntity fileContent) {
         this.id = id;
         this.name = name;
         this.type = type;
-        this.typeFile = typeFile;
+        this.documentType = documentType;
         this.size = size;
-        this.date = date;
+        this.addedDate = addedDate;
+        this.modifiedDate = modifiedDate;
+        this.dateOfDoc = dateOfDoc;
         this.company = company;
         this.workplace = workplace;
         this.grossSalary = grossSalary;
@@ -43,16 +47,24 @@ public class File {
         return type;
     }
 
-    public String getTypeFile() {
-        return typeFile;
+    public String getDocumentType() {
+        return documentType;
     }
 
     public Long getSize() {
         return size;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getAddedDate() {
+        return addedDate;
+    }
+
+    public Date getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public Date getDateOfDoc() {
+        return dateOfDoc;
     }
 
     public String getCompany() {
@@ -79,10 +91,12 @@ public class File {
         return FileBuilder.create()
                 .withId(id)
                 .withName(Objects.requireNonNullElse(other.name, name))
-                .withType(Objects.requireNonNullElse(other.type, type))
-                .withTypeFile(Objects.requireNonNullElse(other.typeFile, typeFile))
+                .withDocumentType(Objects.requireNonNullElse(other.type, type))
+                .withType(Objects.requireNonNullElse(other.documentType, documentType))
                 .withSize((Objects.requireNonNullElse(other.size, size)))
-                .withDate((Objects.requireNonNullElse(other.date, date)))
+                .withDateOfDoc((Objects.requireNonNullElse(other.dateOfDoc, dateOfDoc)))
+                .withAddedDate((Objects.requireNonNullElse(other.addedDate, addedDate)))
+                .withModifiedDate((Objects.requireNonNullElse(other.modifiedDate, modifiedDate)))
                 .withCompany((Objects.requireNonNullElse(other.company, company)))
                 .withWorkplace((Objects.requireNonNullElse(other.workplace, workplace)))
                 .withGrossSalary((Objects.requireNonNullElse(other.grossSalary, grossSalary)))
@@ -97,9 +111,11 @@ public class File {
         private String id;
         private String name;
         private String type;
-        private String typeFile;
+        private String documentType;
         private Long size;
-        private Date date;
+        private Date addedDate;
+        private Date modifiedDate;
+        private Date dateOfDoc;
         private String company;
         private String workplace;
         private Double grossSalary;
@@ -123,13 +139,13 @@ public class File {
             return this;
         }
 
-        public FileBuilder withType(String type) {
-            this.type = type;
+        public FileBuilder withDocumentType(String documentType) {
+            this.documentType = documentType;
             return this;
         }
 
-        public FileBuilder withTypeFile(String typeFile) {
-            this.typeFile = typeFile;
+        public FileBuilder withType(String type) {
+            this.type = type;
             return this;
         }
 
@@ -138,8 +154,18 @@ public class File {
             return this;
         }
 
-        public FileBuilder withDate(Date date) {
-            this.date = date;
+        public FileBuilder withDateOfDoc(Date dateOfDoc) {
+            this.dateOfDoc = dateOfDoc;
+            return this;
+        }
+
+        public FileBuilder withAddedDate(Date addedDate) {
+            this.addedDate = addedDate;
+            return this;
+        }
+
+        public FileBuilder withModifiedDate(Date modifiedDate) {
+            this.modifiedDate = modifiedDate;
             return this;
         }
 
@@ -171,7 +197,7 @@ public class File {
         }
 
         public File build() {
-            return new File(id, name, type, typeFile, size, date, company, workplace, grossSalary, netSalary, fileContent);
+            return new File(id, name, type, documentType, size, addedDate, modifiedDate, dateOfDoc, company, workplace, grossSalary, netSalary, fileContent);
         }
     }
 }

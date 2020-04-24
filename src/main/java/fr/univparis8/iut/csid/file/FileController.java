@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -22,22 +23,24 @@ public class FileController {
     private MimeTypes mimeTypes;
 
     @PostMapping
-    public List<FileDto> uploadFiles(@RequestBody FileReceiveDto[] filesReceiveDto) throws IOException {
-        ArrayList<FileDto> response = new ArrayList<>();
+    public List<FileResponseDto> uploadFiles(@RequestBody FileReceiveDto[] filesReceiveDto) throws IOException {
+        ArrayList<FileResponseDto> response = new ArrayList<>();
         for(FileReceiveDto file : filesReceiveDto){
-                response.add(FileMapper.toFileDto(fileService.saveFile(FileMapper.toFile(file))));
-       }
+            file.setAddedDate(new Date());
+            response.add(FileMapper.toFileDto(fileService.saveFile(FileMapper.toFile(file))));
+
+        }
         return response;
     }
 
     @GetMapping()
-    public List<FileDto> getAllFiles() {
+    public List<FileResponseDto> getAllFiles() {
         return FileMapper.toFileDtoList(fileService.getAll());
     }
 
     @GetMapping("/get_one")
-    public FileDto getOneFile(@RequestBody FileDto fileDto){
-        return FileMapper.toFileDto(fileService.getFile(fileDto.getId()));
+    public FileResponseDto getOneFile(@RequestBody FileResponseDto fileResponseDto){
+        return FileMapper.toFileDto(fileService.getFile(fileResponseDto.getId()));
     }
 
     @GetMapping("/{fileId}")
@@ -45,18 +48,20 @@ public class FileController {
 
         File file = fileService.getFile(fileId);
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(mimeTypes.getMimeType(file.getType())))
+                .contentType(MediaType.parseMediaType(file.getType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
                 .body(new ByteArrayResource(file.getFileContent().getFileContent()));
     }
 
     @PatchMapping
-    public FileDto updateFile(@RequestBody FileDto fileDto){
-        return FileMapper.toFileDto(fileService.update(FileMapper.toFile(fileDto)));
+    public FileResponseDto updateFile(@RequestBody FileReceiveDto fileReceiveDto) throws IOException {
+        fileReceiveDto.setModifiedDate(new Date());
+        System.out.println(fileReceiveDto.getModifiedDate());
+        return FileMapper.toFileDto(fileService.update(FileMapper.toFile(fileReceiveDto)));
     }
 
     @DeleteMapping("/{fileId}")
-    public FileDto deleteFile(@PathVariable String fileId){
+    public FileResponseDto deleteFile(@PathVariable String fileId){
         return FileMapper.toFileDto(fileService.delete(fileId));
     }
 }
