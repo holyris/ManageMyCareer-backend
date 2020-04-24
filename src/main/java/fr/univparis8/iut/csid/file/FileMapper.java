@@ -1,25 +1,25 @@
 package fr.univparis8.iut.csid.file;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public final class FileMapper {
 
-    public static File toFile(FileDto fileDto){
+    public static File toFile(FileResponseDto fileResponseDto){
         return File.FileBuilder.create()
-                .withId(fileDto.getId())
-                .withName(fileDto.getName())
-                .withType(fileDto.getType())
-                .withTypeFile(fileDto.getTypeFile())
-                .withSize(fileDto.getSize())
-                .withDate(fileDto.getDate())
-                .withCompany(fileDto.getCompany())
-                .withWorkplace(fileDto.getWorkplace())
-                .withGrossSalary(fileDto.getGrossSalary())
-                .withNetSalary(fileDto.getNetSalary())
+                .withId(fileResponseDto.getId())
+                .withName(fileResponseDto.getName())
+                .withType(fileResponseDto.getType())
+                .withDocumentType(fileResponseDto.getDocumentType())
+                .withSize(fileResponseDto.getSize())
+                .withDateOfDoc(fileResponseDto.getDateOfDoc())
+                .withAddedDate(fileResponseDto.getAddedDate())
+                .withModifiedDate(fileResponseDto.getModifiedDate())
+                .withCompany(fileResponseDto.getCompany())
+                .withWorkplace(fileResponseDto.getWorkplace())
+                .withGrossSalary(fileResponseDto.getGrossSalary())
+                .withNetSalary(fileResponseDto.getNetSalary())
                 .build();
     }
 
@@ -28,10 +28,12 @@ public final class FileMapper {
                 .withId(fileEntity.getId())
                 .withName(fileEntity.getName())
                 .withType(fileEntity.getType())
-                .withTypeFile(fileEntity.getTypeFile())
+                .withDocumentType(fileEntity.getDocumentType())
                 .withSize(fileEntity.getSize())
                 .withFileContent(fileEntity.getFileContent())
-                .withDate(fileEntity.getDate())
+                .withDateOfDoc(fileEntity.getDateOfDoc())
+                .withAddedDate(fileEntity.getAddedDate())
+                .withModifiedDate(fileEntity.getModifiedDate())
                 .withCompany(fileEntity.getCompany())
                 .withWorkplace(fileEntity.getWorkplace())
                 .withGrossSalary(fileEntity.getGrossSalary())
@@ -39,14 +41,16 @@ public final class FileMapper {
                 .build();
     }
 
-    public static FileDto toFileDto(File file){
-        return FileDto.FileDtoBuilder.create()
+    public static FileResponseDto toFileDto(File file){
+        return FileResponseDto.FileDtoBuilder.create()
                 .withId(file.getId())
                 .withName(file.getName())
                 .withType(file.getType())
-                .withTypeFile(file.getTypeFile())
+                .withDocumentType(file.getDocumentType())
                 .withSize(file.getSize())
-                .withDate(file.getDate())
+                .withDateOfDoc(file.getDateOfDoc())
+                .withAddedDate(file.getAddedDate())
+                .withModifiedDate(file.getModifiedDate())
                 .withCompany(file.getCompany())
                 .withWorkplace(file.getWorkplace())
                 .withGrossSalary(file.getGrossSalary())
@@ -59,10 +63,12 @@ public final class FileMapper {
                 .withId(file.getId())
                 .withName(file.getName())
                 .withType(file.getType())
-                .withTypeFile(file.getTypeFile())
+                .withDocumentType(file.getDocumentType())
                 .withSize(file.getSize())
                 .withData(file.getFileContent())
-                .withDate(file.getDate())
+                .withDateOfDoc(file.getDateOfDoc())
+                .withAddedDate(file.getAddedDate())
+                .withModifiedDate(file.getModifiedDate())
                 .withCompany(file.getCompany())
                 .withWorkplace(file.getWorkplace())
                 .withGrossSalary(file.getGrossSalary())
@@ -73,13 +79,17 @@ public final class FileMapper {
     public static File toFile(FileReceiveDto fileReceiveDto) throws IOException {
         FileContentEntity fileContentEntity = new FileContentEntity();
         fileContentEntity.setFileContent(fileReceiveDto.getFileContent());
+
         return File.FileBuilder.create()
+                .withId(fileReceiveDto.getId())
                 .withName(fileReceiveDto.getName())
                 .withType(fileReceiveDto.getType())
-                .withTypeFile(fileReceiveDto.getTypeFile())
+                .withDocumentType(fileReceiveDto.getDocumentType())
                 .withSize(fileReceiveDto.getSize())
                 .withFileContent(fileContentEntity)
-                .withDate(fileReceiveDto.getDate())
+                .withDateOfDoc(fileReceiveDto.getDateOfDoc())
+                .withAddedDate(fileReceiveDto.getAddedDate())
+                .withModifiedDate(fileReceiveDto.getModifiedDate())
                 .withCompany(fileReceiveDto.getCompany())
                 .withWorkplace(fileReceiveDto.getWorkplace())
                 .withGrossSalary(fileReceiveDto.getGrossSalary())
@@ -93,7 +103,7 @@ public final class FileMapper {
                 .collect(Collectors.toList());
     }
 
-    public static List<FileDto> toFileDtoList(List<File> files) {
+    public static List<FileResponseDto> toFileDtoList(List<File> files) {
         return files.stream()
                 .map(FileMapper::toFileDto)
                 .collect(Collectors.toList());

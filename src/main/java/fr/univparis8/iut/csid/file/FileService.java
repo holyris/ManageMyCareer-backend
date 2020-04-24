@@ -29,6 +29,7 @@ public class FileService {
     }
 
     public File update(File file) {
+        System.out.println(file.getModifiedDate());
         if (!fileRepository.existsById(file.getId())) {
             throw new MyFileNotFoundException("File not found with id " + file.getId());
         }

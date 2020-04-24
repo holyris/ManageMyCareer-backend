@@ -15,9 +15,11 @@ public class FileEntity {
     private String id;
     private String name;
     private String type;
-    private String typeFile;
+    private String documentType;
     private Long size;
-    private Date date;
+    private Date addedDate;
+    private Date modifiedDate;
+    private Date dateOfDoc;
     private String company;
     private String workplace;
     private Double grossSalary;
@@ -54,12 +56,12 @@ public class FileEntity {
         this.type = type;
     }
 
-    public String getTypeFile() {
-        return typeFile;
+    public String getDocumentType() {
+        return documentType;
     }
 
-    public void setTypeFile(String typeFile) {
-        this.typeFile = typeFile;
+    public void setDocumentType(String documentType) {
+        this.documentType = documentType;
     }
 
     public Long getSize() {
@@ -70,12 +72,28 @@ public class FileEntity {
         this.size = size;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getAddedDate() {
+        return addedDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setAddedDate(Date addedDate) {
+        this.addedDate = addedDate;
+    }
+
+    public Date getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    public Date getDateOfDoc() {
+        return dateOfDoc;
+    }
+
+    public void setDateOfDoc(Date dateOfDoc) {
+        this.dateOfDoc = dateOfDoc;
     }
 
     public String getCompany() {
@@ -122,9 +140,11 @@ public class FileEntity {
         private String id;
         private String name;
         private String type;
-        private String typeFile;
+        private String documentType;
         private Long size;
-        private Date date;
+        private Date addedDate;
+        private Date modifiedDate;
+        private Date dateOfDoc;
         private String company;
         private String workplace;
         private Double grossSalary;
@@ -146,13 +166,13 @@ public class FileEntity {
             return this;
         }
 
-        public FileEntityBuilder withType(String type) {
-            this.type = type;
+        public FileEntityBuilder withDocumentType(String documentType) {
+            this.documentType = documentType;
             return this;
         }
 
-        public FileEntityBuilder withTypeFile(String typeFile) {
-            this.typeFile = typeFile;
+        public FileEntityBuilder withType(String type) {
+            this.type = type;
             return this;
         }
 
@@ -166,8 +186,18 @@ public class FileEntity {
             return this;
         }
 
-        public FileEntityBuilder withDate(Date date) {
-            this.date = date;
+        public FileEntityBuilder withDateOfDoc(Date dateOfDoc) {
+            this.dateOfDoc = dateOfDoc;
+            return this;
+        }
+
+        public FileEntityBuilder withAddedDate(Date addedDate) {
+            this.addedDate = addedDate;
+            return this;
+        }
+
+        public FileEntityBuilder withModifiedDate(Date modifiedDate) {
+            this.modifiedDate = modifiedDate;
             return this;
         }
 
@@ -196,10 +226,12 @@ public class FileEntity {
             fileEntity.setId(id);
             fileEntity.setName(name);
             fileEntity.setType(type);
-            fileEntity.setTypeFile(typeFile);
+            fileEntity.setDocumentType(documentType);
             fileEntity.setSize(size);
             fileEntity.setFileContent(fileContent);
-            fileEntity.setDate(date);
+            fileEntity.setAddedDate(addedDate);
+            fileEntity.setModifiedDate(modifiedDate);
+            fileEntity.setDateOfDoc(dateOfDoc);
             fileEntity.setCompany(company);
             fileEntity.setWorkplace(workplace);
             fileEntity.setGrossSalary(grossSalary);
