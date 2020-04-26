@@ -14,9 +14,9 @@ public class FileResponseDto {
     @JsonProperty( access = JsonProperty.Access.READ_ONLY)
     private Date addedDate;
     private Date modifiedDate;
-    @JsonProperty( access = JsonProperty.Access.READ_ONLY)
-    private Date dateOfDoc;
-    private String company;
+  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+  private Date documentDate;
+  private String company;
     private String workplace;
     @JsonProperty( access = JsonProperty.Access.READ_ONLY)
     private Double grossSalary;
@@ -26,17 +26,17 @@ public class FileResponseDto {
     public FileResponseDto() {
     }
 
-    public FileResponseDto(String id, String name, String type, String documentType, Long size, Date dateOfDoc, Date addedDate, Date modifiedDate, String company, String workplace, Double grossSalary, Double netSalary) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.documentType = documentType;
-        this.size = size;
-        this.dateOfDoc = dateOfDoc;
-        this.addedDate = addedDate;
-        this.modifiedDate = modifiedDate;
-        this.company = company;
-        this.workplace = workplace;
+  public FileResponseDto(String id, String name, String type, String documentType, Long size, Date documentDate, Date addedDate, Date modifiedDate, String company, String workplace, Double grossSalary, Double netSalary) {
+    this.id = id;
+    this.name = name;
+    this.type = type;
+    this.documentType = documentType;
+    this.size = size;
+    this.documentDate = documentDate;
+    this.addedDate = addedDate;
+    this.modifiedDate = modifiedDate;
+    this.company = company;
+    this.workplace = workplace;
         this.grossSalary = grossSalary;
         this.netSalary = netSalary;
     }
@@ -73,29 +73,29 @@ public class FileResponseDto {
         this.documentType = documentType;
     }
 
-    public Long getSize() {
-        return size;
-    }
+  public Long getSize() {
+    return size;
+  }
 
-    public void setSize(Long size) {
-        this.size = size;
-    }
+  public void setSize(Long size) {
+    this.size = size;
+  }
 
-    public Date getDateOfDoc() {
-        return dateOfDoc;
-    }
+  public Date getDocumentDate() {
+    return documentDate;
+  }
 
-    public void setDateOfDoc(Date dateOfDoc) {
-        this.dateOfDoc = dateOfDoc;
-    }
+  public void setDocumentDate(Date documentDate) {
+    this.documentDate = documentDate;
+  }
 
-    public Date getAddedDate() {
-        return addedDate;
-    }
+  public Date getAddedDate() {
+    return addedDate;
+  }
 
-    public void setAddedDate(Date addedDate) {
-        this.addedDate = addedDate;
-    }
+  public void setAddedDate(Date addedDate) {
+    this.addedDate = addedDate;
+  }
 
     public Date getModifiedDate() {
         return modifiedDate;
@@ -222,9 +222,9 @@ public class FileResponseDto {
             fileResponseDto.setName(name);
             fileResponseDto.setType(type);
             fileResponseDto.setDocumentType(documentType);
-            fileResponseDto.setSize(size);
-            fileResponseDto.setDateOfDoc(dateOfDoc);
-            fileResponseDto.setAddedDate(addedDate);
+          fileResponseDto.setSize(size);
+          fileResponseDto.setDocumentDate(dateOfDoc);
+          fileResponseDto.setAddedDate(addedDate);
             fileResponseDto.setModifiedDate(modifiedDate);
             fileResponseDto.setCompany(company);
             fileResponseDto.setWorkplace(workplace);
