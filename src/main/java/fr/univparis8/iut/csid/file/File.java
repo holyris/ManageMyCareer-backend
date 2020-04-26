@@ -12,14 +12,14 @@ public class File {
     private final Long size;
     private final Date addedDate;
     private final Date modifiedDate;
-    private final Date dateOfDoc;
+    private final Date documentDate;
     private final String company;
     private final String workplace;
     private final Double grossSalary;
     private final Double netSalary;
     private final FileContentEntity fileContent;
 
-    public File(String id, String name, String type, String documentType, Long size, Date addedDate, Date modifiedDate, Date dateOfDoc, String company, String workplace, Double grossSalary, Double netSalary, FileContentEntity fileContent) {
+    public File(String id, String name, String type, String documentType, Long size, Date addedDate, Date modifiedDate, Date documentDate, String company, String workplace, Double grossSalary, Double netSalary, FileContentEntity fileContent) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -27,7 +27,7 @@ public class File {
         this.size = size;
         this.addedDate = addedDate;
         this.modifiedDate = modifiedDate;
-        this.dateOfDoc = dateOfDoc;
+        this.documentDate = documentDate;
         this.company = company;
         this.workplace = workplace;
         this.grossSalary = grossSalary;
@@ -63,8 +63,8 @@ public class File {
         return modifiedDate;
     }
 
-    public Date getDateOfDoc() {
-        return dateOfDoc;
+    public Date getDocumentDate() {
+        return documentDate;
     }
 
     public String getCompany() {
@@ -94,7 +94,7 @@ public class File {
                 .withDocumentType(Objects.requireNonNullElse(other.type, type))
                 .withType(Objects.requireNonNullElse(other.documentType, documentType))
                 .withSize((Objects.requireNonNullElse(other.size, size)))
-                .withDateOfDoc((Objects.requireNonNullElse(other.dateOfDoc, dateOfDoc)))
+                .withDateOfDoc((Objects.requireNonNullElse(other.documentDate, documentDate)))
                 .withAddedDate((Objects.requireNonNullElse(other.addedDate, addedDate)))
                 .withModifiedDate((Objects.requireNonNullElse(other.modifiedDate, modifiedDate)))
                 .withCompany((Objects.requireNonNullElse(other.company, company)))

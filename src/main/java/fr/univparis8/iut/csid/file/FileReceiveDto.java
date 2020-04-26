@@ -9,8 +9,8 @@ public class FileReceiveDto {
     private String type;
     private String documentType;
     private Long size;
-    private Date dateOfDoc;
-    private Date addedDate;
+  private Date documentDate;
+  private Date addedDate;
     private Date modifiedDate;
     private String company;
     private String workplace;
@@ -21,17 +21,17 @@ public class FileReceiveDto {
     public FileReceiveDto() {
     }
 
-    public FileReceiveDto(String id, String name, String type, String documentType, Long size, Date dateOfDoc, Date addedDate, Date modifiedDate, String company, String workplace, Double grossSalary, Double netSalary, byte[] fileContent) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.documentType = documentType;
-        this.size = size;
-        this.dateOfDoc = dateOfDoc;
-        this.addedDate = addedDate;
-        this.modifiedDate = modifiedDate;
-        this.company = company;
-        this.workplace = workplace;
+  public FileReceiveDto(String id, String name, String type, String documentType, Long size, Date documentDate, Date addedDate, Date modifiedDate, String company, String workplace, Double grossSalary, Double netSalary, byte[] fileContent) {
+    this.id = id;
+    this.name = name;
+    this.type = type;
+    this.documentType = documentType;
+    this.size = size;
+    this.documentDate = documentDate;
+    this.addedDate = addedDate;
+    this.modifiedDate = modifiedDate;
+    this.company = company;
+    this.workplace = workplace;
         this.grossSalary = grossSalary;
         this.netSalary = netSalary;
         this.fileContent = fileContent;
@@ -53,25 +53,25 @@ public class FileReceiveDto {
         return type;
     }
 
-    public String getDocumentType() {
-        return documentType;
-    }
+  public String getDocumentType() {
+    return documentType;
+  }
 
-    public Long getSize() {
-        return size;
-    }
+  public Long getSize() {
+    return size;
+  }
 
-    public Date getDateOfDoc() {
-        return dateOfDoc;
-    }
+  public Date getDocumentDate() {
+    return documentDate;
+  }
 
-    public Date getAddedDate() {
-        return addedDate;
-    }
+  public Date getAddedDate() {
+    return addedDate;
+  }
 
-    public void setAddedDate(Date addedDate) {
-        this.addedDate = addedDate;
-    }
+  public void setAddedDate(Date addedDate) {
+    this.addedDate = addedDate;
+  }
 
     public Date getModifiedDate() {
         return modifiedDate;

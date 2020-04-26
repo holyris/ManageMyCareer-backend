@@ -6,7 +6,6 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "file")
 public class FileEntity {
 
     @Id
@@ -19,8 +18,8 @@ public class FileEntity {
     private Long size;
     private Date addedDate;
     private Date modifiedDate;
-    private Date dateOfDoc;
-    private String company;
+  private Date documentDate;
+  private String company;
     private String workplace;
     private Double grossSalary;
     private Double netSalary;
@@ -80,29 +79,29 @@ public class FileEntity {
         this.addedDate = addedDate;
     }
 
-    public Date getModifiedDate() {
-        return modifiedDate;
-    }
+  public Date getModifiedDate() {
+    return modifiedDate;
+  }
 
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
-    }
+  public void setModifiedDate(Date modifiedDate) {
+    this.modifiedDate = modifiedDate;
+  }
 
-    public Date getDateOfDoc() {
-        return dateOfDoc;
-    }
+  public Date getDocumentDate() {
+    return documentDate;
+  }
 
-    public void setDateOfDoc(Date dateOfDoc) {
-        this.dateOfDoc = dateOfDoc;
-    }
+  public void setDocumentDate(Date documentDate) {
+    this.documentDate = documentDate;
+  }
 
-    public String getCompany() {
-        return company;
-    }
+  public String getCompany() {
+    return company;
+  }
 
-    public void setCompany(String company) {
-        this.company = company;
-    }
+  public void setCompany(String company) {
+    this.company = company;
+  }
 
     public String getWorkplace() {
         return workplace;
@@ -230,9 +229,9 @@ public class FileEntity {
             fileEntity.setSize(size);
             fileEntity.setFileContent(fileContent);
             fileEntity.setAddedDate(addedDate);
-            fileEntity.setModifiedDate(modifiedDate);
-            fileEntity.setDateOfDoc(dateOfDoc);
-            fileEntity.setCompany(company);
+          fileEntity.setModifiedDate(modifiedDate);
+          fileEntity.setDocumentDate(dateOfDoc);
+          fileEntity.setCompany(company);
             fileEntity.setWorkplace(workplace);
             fileEntity.setGrossSalary(grossSalary);
             fileEntity.setNetSalary(netSalary);
