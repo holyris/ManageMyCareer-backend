@@ -90,18 +90,18 @@ public class File {
     public File mergeWith(File other) {
         return FileBuilder.create()
                 .withId(id)
-                .withName(Objects.requireNonNullElse(other.name, name))
-                .withDocumentType(Objects.requireNonNullElse(other.type, type))
-                .withType(Objects.requireNonNullElse(other.documentType, documentType))
-                .withSize((Objects.requireNonNullElse(other.size, size)))
-                .withDateOfDoc((Objects.requireNonNullElse(other.documentDate, documentDate)))
-                .withAddedDate((Objects.requireNonNullElse(other.addedDate, addedDate)))
-                .withModifiedDate((Objects.requireNonNullElse(other.modifiedDate, modifiedDate)))
-                .withCompany((Objects.requireNonNullElse(other.company, company)))
-                .withWorkplace((Objects.requireNonNullElse(other.workplace, workplace)))
-                .withGrossSalary((Objects.requireNonNullElse(other.grossSalary, grossSalary)))
-                .withNetSalary((Objects.requireNonNullElse(other.netSalary, netSalary)))
-                .withFileContent((Objects.requireNonNullElse(other.fileContent, fileContent)))
+                .withName(other.name != null ? other.name : name)
+                .withType(other.type != null ? other.type : type)
+                .withDocumentType(other.documentType != null ? other.documentType : documentType)
+                .withSize(other.size != null ? other.size : size)
+                .withDocumentDate(other.documentDate != null ? other.documentDate : documentDate)
+                .withAddedDate(other.addedDate != null ? other.addedDate : addedDate)
+                .withModifiedDate(other.modifiedDate != null ? other.modifiedDate : modifiedDate)
+                .withCompany(other.company != null ? other.company : company)
+                .withWorkplace(other.workplace != null ? other.workplace : workplace)
+                .withGrossSalary(other.grossSalary != null ? other.grossSalary : grossSalary)
+                .withNetSalary(other.netSalary != null ? other.netSalary : netSalary)
+                .withFileContent(fileContent)
                 .build();
     }
 
@@ -115,7 +115,7 @@ public class File {
         private Long size;
         private Date addedDate;
         private Date modifiedDate;
-        private Date dateOfDoc;
+        private Date documentDate;
         private String company;
         private String workplace;
         private Double grossSalary;
@@ -154,8 +154,8 @@ public class File {
             return this;
         }
 
-        public FileBuilder withDateOfDoc(Date dateOfDoc) {
-            this.dateOfDoc = dateOfDoc;
+        public FileBuilder withDocumentDate(Date documentDate) {
+            this.documentDate = documentDate;
             return this;
         }
 
@@ -197,7 +197,7 @@ public class File {
         }
 
         public File build() {
-            return new File(id, name, type, documentType, size, addedDate, modifiedDate, dateOfDoc, company, workplace, grossSalary, netSalary, fileContent);
+            return new File(id, name, type, documentType, size, addedDate, modifiedDate, documentDate, company, workplace, grossSalary, netSalary, fileContent);
         }
     }
 }

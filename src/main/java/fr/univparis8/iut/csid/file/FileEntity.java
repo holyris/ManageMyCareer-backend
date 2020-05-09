@@ -18,8 +18,8 @@ public class FileEntity {
     private Long size;
     private Date addedDate;
     private Date modifiedDate;
-  private Date documentDate;
-  private String company;
+    private Date documentDate;
+    private String company;
     private String workplace;
     private Double grossSalary;
     private Double netSalary;
@@ -143,7 +143,7 @@ public class FileEntity {
         private Long size;
         private Date addedDate;
         private Date modifiedDate;
-        private Date dateOfDoc;
+        private Date documentDate;
         private String company;
         private String workplace;
         private Double grossSalary;
@@ -185,8 +185,8 @@ public class FileEntity {
             return this;
         }
 
-        public FileEntityBuilder withDateOfDoc(Date dateOfDoc) {
-            this.dateOfDoc = dateOfDoc;
+        public FileEntityBuilder withDocumentDate(Date documentDate) {
+            this.documentDate = documentDate;
             return this;
         }
 
@@ -229,9 +229,9 @@ public class FileEntity {
             fileEntity.setSize(size);
             fileEntity.setFileContent(fileContent);
             fileEntity.setAddedDate(addedDate);
-          fileEntity.setModifiedDate(modifiedDate);
-          fileEntity.setDocumentDate(dateOfDoc);
-          fileEntity.setCompany(company);
+            fileEntity.setModifiedDate(modifiedDate);
+            fileEntity.setDocumentDate(documentDate);
+            fileEntity.setCompany(company);
             fileEntity.setWorkplace(workplace);
             fileEntity.setGrossSalary(grossSalary);
             fileEntity.setNetSalary(netSalary);
