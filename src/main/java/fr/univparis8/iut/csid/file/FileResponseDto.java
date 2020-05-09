@@ -143,7 +143,7 @@ public class FileResponseDto {
         private String type;
         private String documentType;
         private Long size;
-        private Date dateOfDoc;
+        private Date documentDate;
         private Date addedDate;
         private Date modifiedDate;
         private String company;
@@ -181,8 +181,8 @@ public class FileResponseDto {
             return this;
         }
 
-        public FileDtoBuilder withDateOfDoc(Date dateOfDoc) {
-            this.dateOfDoc = dateOfDoc;
+        public FileDtoBuilder withDocumentDate(Date documentDate) {
+            this.documentDate = documentDate;
             return this;
         }
 
@@ -223,7 +223,7 @@ public class FileResponseDto {
             fileResponseDto.setType(type);
             fileResponseDto.setDocumentType(documentType);
           fileResponseDto.setSize(size);
-          fileResponseDto.setDocumentDate(dateOfDoc);
+          fileResponseDto.setDocumentDate(documentDate);
           fileResponseDto.setAddedDate(addedDate);
             fileResponseDto.setModifiedDate(modifiedDate);
             fileResponseDto.setCompany(company);
