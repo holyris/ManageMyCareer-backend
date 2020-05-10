@@ -51,7 +51,7 @@ public class UserService {
         return SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     public List<UserEntity> getAllUsers(){
         return userRepository.findAll();
     }

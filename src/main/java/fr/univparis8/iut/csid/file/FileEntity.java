@@ -1,6 +1,10 @@
 package fr.univparis8.iut.csid.file;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.univparis8.iut.csid.user.UserEntity;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -18,11 +22,15 @@ public class FileEntity {
     private Long size;
     private Date addedDate;
     private Date modifiedDate;
-    private Date documentDate;
+    private Date dateOfDoc;
     private String company;
     private String workplace;
     private Double grossSalary;
     private Double netSalary;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn
+    private UserEntity userEntity;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "file_content_id", referencedColumnName = "id")
@@ -87,12 +95,12 @@ public class FileEntity {
     this.modifiedDate = modifiedDate;
   }
 
-  public Date getDocumentDate() {
-    return documentDate;
+  public Date getDateOfDoc() {
+    return dateOfDoc;
   }
 
-  public void setDocumentDate(Date documentDate) {
-    this.documentDate = documentDate;
+  public void setDocumentDate(Date dateOfDoc) {
+    this.dateOfDoc = dateOfDoc;
   }
 
   public String getCompany() {
@@ -135,6 +143,14 @@ public class FileEntity {
         this.fileContent = fileContent;
     }
 
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
+    }
+
     public static final class FileEntityBuilder {
         private String id;
         private String name;
@@ -143,12 +159,13 @@ public class FileEntity {
         private Long size;
         private Date addedDate;
         private Date modifiedDate;
-        private Date documentDate;
+        private Date dateOfDoc;
         private String company;
         private String workplace;
         private Double grossSalary;
         private Double netSalary;
         private FileContentEntity fileContent;
+        private UserEntity userEntity;
 
         public FileEntityBuilder() {
         }
@@ -185,8 +202,8 @@ public class FileEntity {
             return this;
         }
 
-        public FileEntityBuilder withDocumentDate(Date documentDate) {
-            this.documentDate = documentDate;
+        public FileEntityBuilder withDateOfDoc(Date dateOfDoc) {
+            this.dateOfDoc = dateOfDoc;
             return this;
         }
 
@@ -220,6 +237,11 @@ public class FileEntity {
             return this;
         }
 
+        public FileEntityBuilder withUserEntity(UserEntity userEntity) {
+            this.userEntity = userEntity;
+            return this;
+        }
+
         public FileEntity build() {
             FileEntity fileEntity = new FileEntity();
             fileEntity.setId(id);
@@ -230,11 +252,12 @@ public class FileEntity {
             fileEntity.setFileContent(fileContent);
             fileEntity.setAddedDate(addedDate);
             fileEntity.setModifiedDate(modifiedDate);
-            fileEntity.setDocumentDate(documentDate);
+            fileEntity.setDocumentDate(dateOfDoc);
             fileEntity.setCompany(company);
             fileEntity.setWorkplace(workplace);
             fileEntity.setGrossSalary(grossSalary);
             fileEntity.setNetSalary(netSalary);
+            fileEntity.setUserEntity(userEntity);
             return fileEntity;
         }
 

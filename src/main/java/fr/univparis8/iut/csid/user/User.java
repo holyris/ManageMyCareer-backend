@@ -5,19 +5,14 @@ import java.util.Objects;
 
 public class User {
 
-    private final String id;
     private final String username;
     private final String password;
 
-    public User(String id, String username, String password) {
-        this.id = id;
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public String getId() {
-        return id;
-    }
 
     public String getUsername() {
         return username;
@@ -29,7 +24,6 @@ public class User {
 
     public User mergeWith(User other) {
         return User.UserBuilder.create()
-                .withId(id)
                 .withUsername(Objects.requireNonNullElse(other.username, username))
                 .withPassword(Objects.requireNonNullElse(other.password, password))
                 .build();
@@ -37,7 +31,6 @@ public class User {
 
     public static final class UserBuilder{
 
-        private String id;
         private String username;
         private String password;
 
@@ -46,11 +39,6 @@ public class User {
 
         public static UserBuilder create() {
             return new UserBuilder();
-        }
-
-        public UserBuilder withId(String id) {
-            this.id = id;
-            return this;
         }
 
         public UserBuilder withUsername(String username) {
@@ -64,7 +52,7 @@ public class User {
         }
 
         public User build() {
-            return new User(id, username, password);
+            return new User(username, password);
         }
     }
 }
