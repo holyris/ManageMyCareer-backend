@@ -2,6 +2,8 @@ package fr.univparis8.iut.csid.file;
 
 import fr.univparis8.iut.csid.exception.NotFoundException;
 
+import fr.univparis8.iut.csid.user.UserEntity;
+import fr.univparis8.iut.csid.user.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,13 +12,21 @@ import java.util.List;
 public class FileService {
 
     private final FileRepository fileRepository;
+    private final UserService userService;
 
-    public FileService(FileRepository fileRepository) {
+    public FileService(FileRepository fileRepository, UserService userService) {
         this.fileRepository = fileRepository;
+        this.userService = userService;
     }
 
     public File saveFile(File file) {
-        return FileMapper.toFile(fileRepository.save(FileMapper.toFileEntity(file)));
+        UserEntity userEntity = UserEntity.UserEntityBuilder.create()
+                .withUsername(userService.getCurrentUserId())
+                .build();
+        FileEntity fileEntity= FileMapper.toFileEntity(file);
+        fileEntity.setUserEntity(userEntity);
+
+        return FileMapper.toFile(fileRepository.save(fileEntity));
     }
 
     public List<File> getAll() {
