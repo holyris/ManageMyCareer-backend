@@ -45,9 +45,6 @@ public final class FileMapper {
     }
 
     public static FileEntity toFileEntity(File file){
-        UserEntity userEntity = UserEntity.UserEntityBuilder.create()
-                .withUsername(file.getUserEntity().getUsername())
-                .build();
 
         return FileEntity.FileEntityBuilder.create()
                 .withId(file.getId())
@@ -63,16 +60,12 @@ public final class FileMapper {
                 .withWorkplace(file.getWorkplace())
                 .withGrossSalary(file.getGrossSalary())
                 .withNetSalary(file.getNetSalary())
-                .withUserEntity(userEntity)
                 .build();
     }
 
     public static File toFile(FileReceiveDto fileReceiveDto) throws IOException {
         FileContentEntity fileContentEntity = new FileContentEntity();
         fileContentEntity.setFileContent(fileReceiveDto.getFileContent());
-        User user = User.UserBuilder.create()
-                .withUsername(fileReceiveDto.getUserId())
-                .build();
 
         return File.FileBuilder.create()
                 .withId(fileReceiveDto.getId())
@@ -88,7 +81,6 @@ public final class FileMapper {
                 .withWorkplace(fileReceiveDto.getWorkplace())
                 .withGrossSalary(fileReceiveDto.getGrossSalary())
                 .withNetSalary(fileReceiveDto.getNetSalary())
-                .withUser(user)
                 .build();
     }
 

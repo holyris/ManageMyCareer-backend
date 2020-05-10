@@ -17,12 +17,11 @@ public class FileReceiveDto {
     private Double grossSalary;
     private Double netSalary;
     private byte[] fileContent;
-    private String userId;
 
     public FileReceiveDto() {
     }
 
-    public FileReceiveDto(String id, String name, String type, String documentType, Long size, Date dateOfDoc, Date addedDate, Date modifiedDate, String company, String workplace, Double grossSalary, Double netSalary, byte[] fileContent, String userId) {
+    public FileReceiveDto(String id, String name, String type, String documentType, Long size, Date dateOfDoc, Date addedDate, Date modifiedDate, String company, String workplace, Double grossSalary, Double netSalary, byte[] fileContent) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -36,7 +35,6 @@ public class FileReceiveDto {
         this.grossSalary = grossSalary;
         this.netSalary = netSalary;
         this.fileContent = fileContent;
-        this.userId = userId;
     }
 
     public String getId() {
@@ -143,14 +141,6 @@ public class FileReceiveDto {
         this.fileContent = fileContent;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public static final class FileReceiveDtoBuilder{
 
         private String id;
@@ -166,7 +156,6 @@ public class FileReceiveDto {
         private Double grossSalary;
         private Double netSalary;
         private byte[] fileContent;
-        private String userId;
 
         public FileReceiveDtoBuilder() {
         }
@@ -238,10 +227,6 @@ public class FileReceiveDto {
             return this;
         }
 
-        public FileReceiveDtoBuilder withUserId(String userId) {
-            this.userId = userId;
-            return this;
-        }
 
         public FileReceiveDto build() {
             FileReceiveDto fileResponseDto = new FileReceiveDto();
@@ -257,7 +242,6 @@ public class FileReceiveDto {
             fileResponseDto.setWorkplace(workplace);
             fileResponseDto.setGrossSalary(grossSalary);
             fileResponseDto.setNetSalary(netSalary);
-            fileResponseDto.setUserId(userId);
             fileResponseDto.setFileContent(fileContent);
             return fileResponseDto;
         }
