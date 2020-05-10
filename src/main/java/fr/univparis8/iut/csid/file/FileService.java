@@ -1,6 +1,6 @@
 package fr.univparis8.iut.csid.file;
 
-import fr.univparis8.iut.csid.exception.MyFileNotFoundException;
+import fr.univparis8.iut.csid.exception.NotFoundException;
 
 import org.springframework.stereotype.Service;
 
@@ -25,13 +25,15 @@ public class FileService {
 
     public File getFile(String fileId) {
         return FileMapper.toFile(fileRepository.findById(fileId)
-                .orElseThrow(() -> new MyFileNotFoundException("File not found with id " + fileId)));
+                .orElseThrow(() -> new NotFoundException("File not found with id " + fileId)));
     }
 
     public File update(File file) {
-        System.out.println(file.getModifiedDate());
+        if(file.getId() == null){
+            throw new NotFoundException("File not found with id " + file.getId());
+        }
         if (!fileRepository.existsById(file.getId())) {
-            throw new MyFileNotFoundException("File not found with id " + file.getId());
+            throw new NotFoundException("File not found with id " + file.getId());
         }
 
         File currentFile = FileMapper.toFile(fileRepository.getOne(file.getId()));
@@ -42,7 +44,7 @@ public class FileService {
 
     public File delete(String fileId){
         File file = FileMapper.toFile(fileRepository.getOne(fileId));
-        if(file != null) {
+        if(!fileRepository.existsById(file.getId())) {
             fileRepository.deleteById(file.getId());
         }
         return file;

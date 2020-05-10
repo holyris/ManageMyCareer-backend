@@ -1,27 +1,13 @@
 package fr.univparis8.iut.csid.file;
 
+import fr.univparis8.iut.csid.user.User;
+import fr.univparis8.iut.csid.user.UserEntity;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public final class FileMapper {
-
-    public static File toFile(FileResponseDto fileResponseDto){
-        return File.FileBuilder.create()
-                .withId(fileResponseDto.getId())
-                .withName(fileResponseDto.getName())
-                .withType(fileResponseDto.getType())
-                .withDocumentType(fileResponseDto.getDocumentType())
-                .withSize(fileResponseDto.getSize())
-                .withDocumentDate(fileResponseDto.getDocumentDate())
-                .withAddedDate(fileResponseDto.getAddedDate())
-                .withModifiedDate(fileResponseDto.getModifiedDate())
-                .withCompany(fileResponseDto.getCompany())
-                .withWorkplace(fileResponseDto.getWorkplace())
-                .withGrossSalary(fileResponseDto.getGrossSalary())
-                .withNetSalary(fileResponseDto.getNetSalary())
-                .build();
-    }
 
     public static File toFile(FileEntity fileEntity){
         return File.FileBuilder.create()
@@ -31,7 +17,7 @@ public final class FileMapper {
                 .withDocumentType(fileEntity.getDocumentType())
                 .withSize(fileEntity.getSize())
                 .withFileContent(fileEntity.getFileContent())
-                .withDocumentDate(fileEntity.getDocumentDate())
+                .withDateOfDoc(fileEntity.getDateOfDoc())
                 .withAddedDate(fileEntity.getAddedDate())
                 .withModifiedDate(fileEntity.getModifiedDate())
                 .withCompany(fileEntity.getCompany())
@@ -42,13 +28,13 @@ public final class FileMapper {
     }
 
     public static FileResponseDto toFileDto(File file){
-        return FileResponseDto.FileDtoBuilder.create()
+        return FileResponseDto.FileResponseDtoBuilder.create()
                 .withId(file.getId())
                 .withName(file.getName())
                 .withType(file.getType())
                 .withDocumentType(file.getDocumentType())
                 .withSize(file.getSize())
-                .withDocumentDate(file.getDocumentDate())
+                .withDateOfDoc(file.getDateOfDoc())
                 .withAddedDate(file.getAddedDate())
                 .withModifiedDate(file.getModifiedDate())
                 .withCompany(file.getCompany())
@@ -59,6 +45,10 @@ public final class FileMapper {
     }
 
     public static FileEntity toFileEntity(File file){
+        UserEntity userEntity = UserEntity.UserEntityBuilder.create()
+                .withUsername(file.getUserEntity().getUsername())
+                .build();
+
         return FileEntity.FileEntityBuilder.create()
                 .withId(file.getId())
                 .withName(file.getName())
@@ -66,19 +56,23 @@ public final class FileMapper {
                 .withDocumentType(file.getDocumentType())
                 .withSize(file.getSize())
                 .withData(file.getFileContent())
-                .withDocumentDate(file.getDocumentDate())
+                .withDateOfDoc(file.getDateOfDoc())
                 .withAddedDate(file.getAddedDate())
                 .withModifiedDate(file.getModifiedDate())
                 .withCompany(file.getCompany())
                 .withWorkplace(file.getWorkplace())
                 .withGrossSalary(file.getGrossSalary())
                 .withNetSalary(file.getNetSalary())
+                .withUserEntity(userEntity)
                 .build();
     }
 
     public static File toFile(FileReceiveDto fileReceiveDto) throws IOException {
         FileContentEntity fileContentEntity = new FileContentEntity();
         fileContentEntity.setFileContent(fileReceiveDto.getFileContent());
+        User user = User.UserBuilder.create()
+                .withUsername(fileReceiveDto.getUserId())
+                .build();
 
         return File.FileBuilder.create()
                 .withId(fileReceiveDto.getId())
@@ -87,13 +81,14 @@ public final class FileMapper {
                 .withDocumentType(fileReceiveDto.getDocumentType())
                 .withSize(fileReceiveDto.getSize())
                 .withFileContent(fileContentEntity)
-                .withDocumentDate(fileReceiveDto.getDocumentDate())
+                .withDateOfDoc(fileReceiveDto.getDateOfDoc())
                 .withAddedDate(fileReceiveDto.getAddedDate())
                 .withModifiedDate(fileReceiveDto.getModifiedDate())
                 .withCompany(fileReceiveDto.getCompany())
                 .withWorkplace(fileReceiveDto.getWorkplace())
                 .withGrossSalary(fileReceiveDto.getGrossSalary())
                 .withNetSalary(fileReceiveDto.getNetSalary())
+                .withUser(user)
                 .build();
     }
 

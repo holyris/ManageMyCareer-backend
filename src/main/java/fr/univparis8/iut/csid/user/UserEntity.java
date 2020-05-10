@@ -1,13 +1,16 @@
 package fr.univparis8.iut.csid.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.univparis8.iut.csid.company.CompanyEntity;
+import fr.univparis8.iut.csid.file.FileEntity;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
-@Table(name = "USERS")
+@Table(name = "users")
 public class UserEntity {
 
     @Id
@@ -19,7 +22,23 @@ public class UserEntity {
     @Autowired
     private String enabled;
 
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<FileEntity> fileEntities;
+
+   /* @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<CompanyEntity> companyEntities;*/
+
     public UserEntity(){
+    }
+
+    public String getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(String enabled) {
+        this.enabled = enabled;
     }
 
     public String getUsername() {
@@ -36,6 +55,75 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<FileEntity> getFileEntities() {
+        return fileEntities;
+    }
+
+    public void setFileEntities(Set<FileEntity> fileEntities) {
+        this.fileEntities = fileEntities;
+    }
+
+   /* public Set<CompanyEntity> getCompanyEntities() {
+        return companyEntities;
+    }
+
+    public void setCompanyEntities(Set<CompanyEntity> companyEntities) {
+        this.companyEntities = companyEntities;
+    }*/
+
+    public static final class UserEntityBuilder{
+        private String username;
+        private String password;
+        private String enabled;
+        private Set<FileEntity> fileEntities;
+        private Set<CompanyEntity> companyEntities;
+
+        private UserEntityBuilder(){
+
+        }
+
+        public static UserEntityBuilder create(){
+            return new UserEntityBuilder();
+        }
+
+        public UserEntityBuilder withUsername(String username){
+            this.username = username;
+            return this;
+        }
+
+        public UserEntityBuilder withPassword(String password){
+            this.password = password;
+            return this;
+        }
+
+        public UserEntityBuilder withEnabled(String enabled){
+            this.enabled = enabled;
+            return this;
+        }
+
+        public UserEntityBuilder withFileEntities(Set<FileEntity> fileEntities){
+            this.fileEntities = fileEntities;
+            return this;
+        }
+
+        public UserEntityBuilder withCompanyEntities(Set<CompanyEntity> companyEntities){
+            this.companyEntities = companyEntities;
+            return this;
+        }
+
+        public UserEntity build(){
+            UserEntity userEntity = new UserEntity();
+            userEntity.setUsername(username);
+            userEntity.setPassword(password);
+            userEntity.setEnabled(enabled);
+            userEntity.setFileEntities(fileEntities);
+//            userEntity.setCompanyEntities(companyEntities);
+            return userEntity;
+        }
+
+
     }
 }
 
