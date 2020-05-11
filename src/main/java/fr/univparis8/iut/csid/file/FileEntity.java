@@ -1,10 +1,7 @@
 package fr.univparis8.iut.csid.file;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.univparis8.iut.csid.user.UserEntity;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -22,7 +19,7 @@ public class FileEntity {
     private Long size;
     private Date addedDate;
     private Date modifiedDate;
-    private Date dateOfDoc;
+    private Date documentDate;
     private String company;
     private String workplace;
     private Double grossSalary;
@@ -95,12 +92,12 @@ public class FileEntity {
     this.modifiedDate = modifiedDate;
   }
 
-  public Date getDateOfDoc() {
-    return dateOfDoc;
+  public Date getDocumentDate() {
+    return documentDate;
   }
 
   public void setDocumentDate(Date dateOfDoc) {
-    this.dateOfDoc = dateOfDoc;
+    this.documentDate = dateOfDoc;
   }
 
   public String getCompany() {
@@ -159,7 +156,7 @@ public class FileEntity {
         private Long size;
         private Date addedDate;
         private Date modifiedDate;
-        private Date dateOfDoc;
+        private Date documentDate;
         private String company;
         private String workplace;
         private Double grossSalary;
@@ -202,8 +199,8 @@ public class FileEntity {
             return this;
         }
 
-        public FileEntityBuilder withDateOfDoc(Date dateOfDoc) {
-            this.dateOfDoc = dateOfDoc;
+        public FileEntityBuilder withDocumentDate(Date documentDate) {
+            this.documentDate = documentDate;
             return this;
         }
 
@@ -252,7 +249,7 @@ public class FileEntity {
             fileEntity.setFileContent(fileContent);
             fileEntity.setAddedDate(addedDate);
             fileEntity.setModifiedDate(modifiedDate);
-            fileEntity.setDocumentDate(dateOfDoc);
+            fileEntity.setDocumentDate(documentDate);
             fileEntity.setCompany(company);
             fileEntity.setWorkplace(workplace);
             fileEntity.setGrossSalary(grossSalary);

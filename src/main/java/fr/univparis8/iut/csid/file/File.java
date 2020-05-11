@@ -2,7 +2,6 @@ package fr.univparis8.iut.csid.file;
 
 
 import fr.univparis8.iut.csid.user.User;
-import fr.univparis8.iut.csid.user.UserEntity;
 
 import java.util.Date;
 import java.util.Objects;
@@ -15,7 +14,7 @@ public class File {
     private final Long size;
     private final Date addedDate;
     private final Date modifiedDate;
-    private final Date dateOfDoc;
+    private final Date documentDate;
     private final String company;
     private final String workplace;
     private final Double grossSalary;
@@ -23,7 +22,7 @@ public class File {
     private final FileContentEntity fileContent;
     private final User user;
 
-    public File(String id, String name, String type, String documentType, Long size, Date addedDate, Date modifiedDate, Date dateOfDoc, String company, String workplace, Double grossSalary, Double netSalary, FileContentEntity fileContent, User user) {
+    public File(String id, String name, String type, String documentType, Long size, Date addedDate, Date modifiedDate, Date documentDate, String company, String workplace, Double grossSalary, Double netSalary, FileContentEntity fileContent, User user) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -31,7 +30,7 @@ public class File {
         this.size = size;
         this.addedDate = addedDate;
         this.modifiedDate = modifiedDate;
-        this.dateOfDoc = dateOfDoc;
+        this.documentDate = documentDate;
         this.company = company;
         this.workplace = workplace;
         this.grossSalary = grossSalary;
@@ -68,8 +67,8 @@ public class File {
         return modifiedDate;
     }
 
-    public Date getDateOfDoc() {
-        return dateOfDoc;
+    public Date getDocumentDate() {
+        return documentDate;
     }
 
     public String getCompany() {
@@ -103,7 +102,7 @@ public class File {
                 .withType(other.type != null ? other.type : type)
                 .withDocumentType(other.documentType != null ? other.documentType : documentType)
                 .withSize(other.size != null ? other.size : size)
-                .withDateOfDoc(other.dateOfDoc != null ? other.dateOfDoc : dateOfDoc)
+                .withDocumentDate(other.documentDate != null ? other.documentDate : documentDate)
                 .withAddedDate(other.addedDate != null ? other.addedDate : addedDate)
                 .withModifiedDate(other.modifiedDate != null ? other.modifiedDate : modifiedDate)
                 .withCompany(other.company != null ? other.company : company)
@@ -125,7 +124,7 @@ public class File {
         private Long size;
         private Date addedDate;
         private Date modifiedDate;
-        private Date dateOfDoc;
+        private Date documentDate;
         private String company;
         private String workplace;
         private Double grossSalary;
@@ -165,8 +164,8 @@ public class File {
             return this;
         }
 
-        public FileBuilder withDateOfDoc(Date dateOfDoc) {
-            this.dateOfDoc = dateOfDoc;
+        public FileBuilder withDocumentDate(Date documentDate) {
+            this.documentDate = documentDate;
             return this;
         }
 
@@ -213,7 +212,7 @@ public class File {
         }
 
         public File build() {
-            return new File(id, name, type, documentType, size, addedDate, modifiedDate, dateOfDoc, company, workplace, grossSalary, netSalary, fileContent, user);
+            return new File(id, name, type, documentType, size, addedDate, modifiedDate, documentDate, company, workplace, grossSalary, netSalary, fileContent, user);
         }
     }
 }
