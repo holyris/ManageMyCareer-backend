@@ -50,9 +50,14 @@ public class FileService {
         }
 
         File currentFile = FileMapper.toFile(fileRepository.getOne(file.getId()));
-        File newFile = currentFile.mergeWith(file);
 
-        return FileMapper.toFile(fileRepository.save(FileMapper.toFileEntity(newFile)));
+        FileEntity newFile = FileMapper.toFileEntity(currentFile.mergeWith(file));
+
+        UserEntity userEntity = UserEntity.UserEntityBuilder.create()
+                .withUsername(userService.getCurrentUserId())
+                .build();
+        newFile.setUserEntity(userEntity);
+        return FileMapper.toFile(fileRepository.save(newFile));
     }
 
     public File delete(String fileId){

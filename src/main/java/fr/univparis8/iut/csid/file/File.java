@@ -110,7 +110,6 @@ public class File {
                 .withGrossSalary(other.grossSalary != null ? other.grossSalary : grossSalary)
                 .withNetSalary(other.netSalary != null ? other.netSalary : netSalary)
                 .withFileContent(fileContent)
-                .withUser((Objects.requireNonNullElse(other.user, user)))
                 .build();
     }
 
