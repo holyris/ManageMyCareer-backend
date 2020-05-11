@@ -30,7 +30,10 @@ public class FileService {
     }
 
     public List<File> getAll() {
-        return  FileMapper.toFilesList(fileRepository.findAll());
+        UserEntity userEntity = UserEntity.UserEntityBuilder.create()
+                .withUsername(userService.getCurrentUserId())
+                .build();
+        return FileMapper.toFilesList(fileRepository.findAllByUserEntity(userEntity));
     }
 
     public File getFile(String fileId) {

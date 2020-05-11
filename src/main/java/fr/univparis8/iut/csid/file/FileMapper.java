@@ -1,8 +1,5 @@
 package fr.univparis8.iut.csid.file;
 
-import fr.univparis8.iut.csid.user.User;
-import fr.univparis8.iut.csid.user.UserEntity;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,7 +14,7 @@ public final class FileMapper {
                 .withDocumentType(fileEntity.getDocumentType())
                 .withSize(fileEntity.getSize())
                 .withFileContent(fileEntity.getFileContent())
-                .withDateOfDoc(fileEntity.getDateOfDoc())
+                .withDocumentDate(fileEntity.getDocumentDate())
                 .withAddedDate(fileEntity.getAddedDate())
                 .withModifiedDate(fileEntity.getModifiedDate())
                 .withCompany(fileEntity.getCompany())
@@ -34,7 +31,7 @@ public final class FileMapper {
                 .withType(file.getType())
                 .withDocumentType(file.getDocumentType())
                 .withSize(file.getSize())
-                .withDateOfDoc(file.getDateOfDoc())
+                .withDocumentDate(file.getDocumentDate())
                 .withAddedDate(file.getAddedDate())
                 .withModifiedDate(file.getModifiedDate())
                 .withCompany(file.getCompany())
@@ -53,7 +50,7 @@ public final class FileMapper {
                 .withDocumentType(file.getDocumentType())
                 .withSize(file.getSize())
                 .withData(file.getFileContent())
-                .withDateOfDoc(file.getDateOfDoc())
+                .withDocumentDate(file.getDocumentDate())
                 .withAddedDate(file.getAddedDate())
                 .withModifiedDate(file.getModifiedDate())
                 .withCompany(file.getCompany())
@@ -74,7 +71,7 @@ public final class FileMapper {
                 .withDocumentType(fileReceiveDto.getDocumentType())
                 .withSize(fileReceiveDto.getSize())
                 .withFileContent(fileContentEntity)
-                .withDateOfDoc(fileReceiveDto.getDateOfDoc())
+                .withDocumentDate(fileReceiveDto.getDocumentDate())
                 .withAddedDate(fileReceiveDto.getAddedDate())
                 .withModifiedDate(fileReceiveDto.getModifiedDate())
                 .withCompany(fileReceiveDto.getCompany())

@@ -15,7 +15,7 @@ public class FileResponseDto {
     private Date addedDate;
     private Date modifiedDate;
     @JsonProperty( access = JsonProperty.Access.READ_ONLY)
-    private Date dateOfDoc;
+    private Date documentDate;
     private String company;
     private String workplace;
     @JsonProperty( access = JsonProperty.Access.READ_ONLY)
@@ -26,13 +26,13 @@ public class FileResponseDto {
     public FileResponseDto() {
     }
 
-    public FileResponseDto(String id, String name, String type, String documentType, Long size, Date dateOfDoc, Date addedDate, Date modifiedDate, String company, String workplace, Double grossSalary, Double netSalary) {
+    public FileResponseDto(String id, String name, String type, String documentType, Long size, Date documentDate, Date addedDate, Date modifiedDate, String company, String workplace, Double grossSalary, Double netSalary) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.documentType = documentType;
         this.size = size;
-        this.dateOfDoc = dateOfDoc;
+        this.documentDate = documentDate;
         this.addedDate = addedDate;
         this.modifiedDate = modifiedDate;
         this.company = company;
@@ -81,12 +81,12 @@ public class FileResponseDto {
         this.size = size;
     }
 
-    public Date getDateOfDoc() {
-        return dateOfDoc;
+    public Date getDocumentDate() {
+        return documentDate;
     }
 
-    public void setDateOfDoc(Date dateOfDoc) {
-        this.dateOfDoc = dateOfDoc;
+    public void setDocumentDate(Date documentDate) {
+        this.documentDate = documentDate;
     }
 
     public Date getAddedDate() {
@@ -143,7 +143,7 @@ public class FileResponseDto {
         private String type;
         private String documentType;
         private Long size;
-        private Date dateOfDoc;
+        private Date documentDate;
         private Date addedDate;
         private Date modifiedDate;
         private String company;
@@ -181,8 +181,8 @@ public class FileResponseDto {
             return this;
         }
 
-        public FileResponseDtoBuilder withDateOfDoc(Date dateOfDoc) {
-            this.dateOfDoc = dateOfDoc;
+        public FileResponseDtoBuilder withDocumentDate(Date documentDate) {
+            this.documentDate = documentDate;
             return this;
         }
 
@@ -223,7 +223,7 @@ public class FileResponseDto {
             fileResponseDto.setType(type);
             fileResponseDto.setDocumentType(documentType);
             fileResponseDto.setSize(size);
-            fileResponseDto.setDateOfDoc(dateOfDoc);
+            fileResponseDto.setDocumentDate(documentDate);
             fileResponseDto.setAddedDate(addedDate);
             fileResponseDto.setModifiedDate(modifiedDate);
             fileResponseDto.setCompany(company);
