@@ -1,5 +1,8 @@
 package fr.univparis8.iut.csid.company;
 
+import fr.univparis8.iut.csid.workplace.WorkplaceDto;
+import fr.univparis8.iut.csid.workplace.WorkplaceMapper;
+import fr.univparis8.iut.csid.workplace.WorkplaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +28,11 @@ public class CompanyController {
     @GetMapping("/{companyId}")
     public CompanyDto getCompany(@PathVariable String companyId){
         return CompanyMapper.toCompanyDto(companyService.getOne(companyId));
+    }
+
+    @GetMapping("/{companyId}/workplaces")
+    public List<WorkplaceDto> getWorkplaces(@PathVariable String companyId){
+        return WorkplaceMapper.toWorkplaceDtoList(companyService.getWorkplaces(companyId));
     }
 
     @PatchMapping

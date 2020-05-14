@@ -27,9 +27,9 @@ public class CompanyEntity {
     @JsonIgnore
     private Set<WorkplaceEntity> workplaceEntities;
 
-   /* @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn
-    private UserEntity userEntity;*/
+    private UserEntity userEntity;
 
     public CompanyEntity() {
     }
@@ -66,13 +66,13 @@ public class CompanyEntity {
         this.workplaceEntities = workplaceEntities;
     }
 
-   /* public UserEntity getUserEntity() {
+    public UserEntity getUserEntity() {
         return userEntity;
     }
 
     public void setUserEntity(UserEntity userEntity) {
         this.userEntity = userEntity;
-    }*/
+    }
 
     public static final class CompanyEntityBuilder {
         private String id;
@@ -119,7 +119,7 @@ public class CompanyEntity {
             companyEntity.setName(name);
             companyEntity.setDescription(description);
             companyEntity.setWorkplaceEntities(workplaceEntities);
-            /*companyEntity.setUserEntity(userEntity);*/
+            companyEntity.setUserEntity(userEntity);
             return companyEntity;
         }
     }

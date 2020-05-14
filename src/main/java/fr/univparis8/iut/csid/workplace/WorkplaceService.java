@@ -1,6 +1,7 @@
 package fr.univparis8.iut.csid.workplace;
 
 import fr.univparis8.iut.csid.company.Company;
+import fr.univparis8.iut.csid.company.CompanyEntity;
 import fr.univparis8.iut.csid.company.CompanyMapper;
 import fr.univparis8.iut.csid.company.CompanyRepository;
 import fr.univparis8.iut.csid.exception.NotFoundException;
@@ -17,20 +18,24 @@ public class WorkplaceService {
         this.workplaceRepository = workplaceRepository;
     }
 
-    public Workplace save(Workplace workplace){
+    public Workplace save(Workplace workplace) {
         return WorkplaceMapper.toWorkplace(workplaceRepository.save(WorkplaceMapper.toWorkplaceEntity(workplace)));
     }
 
-    public List<Workplace> getAll(){
+    public List<Workplace> getAll() {
         return WorkplaceMapper.toWorkplaceList(workplaceRepository.findAll());
     }
 
-    public Workplace getOne(String id){
+    public List<Workplace> getByCompany(Company company) {
+        return WorkplaceMapper.toWorkplaceList(workplaceRepository.findAllByCompanyEntity(CompanyMapper.toCompanyEntity(company)));
+    }
+
+    public Workplace getOne(String id) {
         return WorkplaceMapper.toWorkplace(workplaceRepository.getOne(id));
     }
 
-    public Workplace update(Workplace workplace){
-        if(workplace.getId() == null){
+    public Workplace update(Workplace workplace) {
+        if (workplace.getId() == null) {
             throw new NotFoundException("Company not found with id " + workplace.getId());
         }
         if (!workplaceRepository.existsById(workplace.getId())) {
@@ -43,12 +48,12 @@ public class WorkplaceService {
         return WorkplaceMapper.toWorkplace(workplaceRepository.save(WorkplaceMapper.toWorkplaceEntity(newWorkplace)));
     }
 
-    public Workplace delete(String id){
-        if(workplaceRepository.existsById(id)){
+    public Workplace delete(String id) {
+        if (workplaceRepository.existsById(id)) {
             Workplace workplace = WorkplaceMapper.toWorkplace(workplaceRepository.getOne(id));
             workplaceRepository.deleteById(id);
             return workplace;
-        }else{
+        } else {
             throw new NotFoundException("Company not found with id " + id);
         }
     }
