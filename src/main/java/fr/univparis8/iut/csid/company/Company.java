@@ -12,13 +12,13 @@ public class Company {
     private final String id;
     private final String name;
     private final String description;
-    /*private final User user;*/
+    private final User user;
 
-    public Company(String id, String name, String description) {
+    public Company(String id, String name, String description, User user) {
         this.id = id;
         this.name = name;
         this.description = description;
-        /*this.user = user;*/
+        this.user = user;
     }
 
     public String getId() {
@@ -33,9 +33,9 @@ public class Company {
         return description;
     }
 
-    /*public User getUser() {
+    public User getUser() {
         return user;
-    }*/
+    }
 
     public Company mergeWith(Company other) {
         return Company.CompanyBuilder.create()
@@ -74,13 +74,13 @@ public class Company {
             return this;
         }
 
-        public CompanyBuilder withDescription(User user) {
+        public CompanyBuilder withUser(User user) {
             this.user = user;
             return this;
         }
 
         public Company build() {
-            return new Company(id, name, description);
+            return new Company(id, name, description ,user);
         }
     }
 }

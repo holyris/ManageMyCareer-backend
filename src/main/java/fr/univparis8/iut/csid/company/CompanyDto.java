@@ -15,7 +15,6 @@ public class CompanyDto {
         this.id = id;
         this.name = name;
         this.description = description;
-//        this.userId = userId;
     }
 
     public String getId() {
@@ -42,20 +41,11 @@ public class CompanyDto {
         this.description = description;
     }
 
-   /* public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }*/
-
     public static final class CompanyDtoBuilder {
 
         private String id;
         private String name;
         private String description;
-        private String userId;
 
         public CompanyDtoBuilder() {
         }
@@ -79,17 +69,11 @@ public class CompanyDto {
             return this;
         }
 
-        public CompanyDtoBuilder withUserId(String userId) {
-            this.userId = userId;
-            return this;
-        }
-
         public CompanyDto build() {
             CompanyDto companyDto = new CompanyDto();
             companyDto.setId(id);
             companyDto.setName(name);
             companyDto.setDescription(description);
-//            companyDto.setUserId(userId);
             return companyDto;
         }
     }

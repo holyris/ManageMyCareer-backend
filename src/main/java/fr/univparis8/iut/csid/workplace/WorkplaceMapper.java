@@ -65,7 +65,7 @@ public class WorkplaceMapper {
                 .collect(Collectors.toList());
     }
 
-    public static List<WorkplaceDto> toCompanyDtoList(List<Workplace> workplaces) {
+    public static List<WorkplaceDto> toWorkplaceDtoList(List<Workplace> workplaces) {
         return workplaces.stream()
                 .map(WorkplaceMapper::toWorkplaceDto)
                 .collect(Collectors.toList());
