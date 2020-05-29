@@ -26,8 +26,8 @@ public class FolderMapper {
     }
 
     public static Folder toFolder(FolderEntity folderEntity){
-        if(folderEntity.getFolderEntity() != null){
-            Folder folder = FolderMapper.toFolder(folderEntity.getFolderEntity());
+        if(folderEntity.getParentFolder() != null){
+            Folder folder = FolderMapper.toFolder(folderEntity.getParentFolder());
             return Folder.FolderBuilder.create()
                     .withId(folderEntity.getId())
                     .withName(folderEntity.getName())
@@ -51,7 +51,7 @@ public class FolderMapper {
             return FolderEntity.FolderEntityBuilder.create()
                     .withId(folder.getId())
                     .withName(folder.getName())
-                    .withFolderEntity(folderEntity)
+                    .withParentFolder(folderEntity)
                     .build();
         }else{
             return FolderEntity.FolderEntityBuilder.create()
