@@ -16,25 +16,10 @@ public class FileReceiveDto {
     private String workplace;
     private Double grossSalary;
     private Double netSalary;
+    private String folderId;
     private byte[] fileContent;
 
     public FileReceiveDto() {
-    }
-
-    public FileReceiveDto(String id, String name, String type, String documentType, Long size, Date documentDate, Date addedDate, Date modifiedDate, String company, String workplace, Double grossSalary, Double netSalary, byte[] fileContent) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.documentType = documentType;
-        this.size = size;
-        this.documentDate = documentDate;
-        this.addedDate = addedDate;
-        this.modifiedDate = modifiedDate;
-        this.company = company;
-        this.workplace = workplace;
-        this.grossSalary = grossSalary;
-        this.netSalary = netSalary;
-        this.fileContent = fileContent;
     }
 
     public String getId() {
@@ -133,6 +118,14 @@ public class FileReceiveDto {
         this.netSalary = netSalary;
     }
 
+    public String getFolderId() {
+        return folderId;
+    }
+
+    public void setFolderId(String folderId) {
+        this.folderId = folderId;
+    }
+
     public byte[] getFileContent() {
         return fileContent;
     }
@@ -141,8 +134,8 @@ public class FileReceiveDto {
         this.fileContent = fileContent;
     }
 
-    public static final class FileReceiveDtoBuilder{
 
+    public static final class FileReceiveDtoBuilder {
         private String id;
         private String name;
         private String type;
@@ -155,12 +148,15 @@ public class FileReceiveDto {
         private String workplace;
         private Double grossSalary;
         private Double netSalary;
+        private String folderId;
         private byte[] fileContent;
 
-        public FileReceiveDtoBuilder() {
+        private FileReceiveDtoBuilder() {
         }
 
-        public static FileReceiveDtoBuilder create(){return new FileReceiveDtoBuilder();}
+        public static FileReceiveDtoBuilder create() {
+            return new FileReceiveDtoBuilder();
+        }
 
         public FileReceiveDtoBuilder withId(String id) {
             this.id = id;
@@ -172,13 +168,13 @@ public class FileReceiveDto {
             return this;
         }
 
-        public FileReceiveDtoBuilder withDocumentType(String documentType) {
-            this.documentType = documentType;
+        public FileReceiveDtoBuilder withType(String type) {
+            this.type = type;
             return this;
         }
 
-        public FileReceiveDtoBuilder withType(String type) {
-            this.type = type;
+        public FileReceiveDtoBuilder withDocumentType(String documentType) {
+            this.documentType = documentType;
             return this;
         }
 
@@ -222,28 +218,33 @@ public class FileReceiveDto {
             return this;
         }
 
+        public FileReceiveDtoBuilder withFolderId(String folderId) {
+            this.folderId = folderId;
+            return this;
+        }
+
         public FileReceiveDtoBuilder withFileContent(byte[] fileContent) {
             this.fileContent = fileContent;
             return this;
         }
 
-
         public FileReceiveDto build() {
-            FileReceiveDto fileResponseDto = new FileReceiveDto();
-            fileResponseDto.setId(id);
-            fileResponseDto.setName(name);
-            fileResponseDto.setType(type);
-            fileResponseDto.setDocumentType(documentType);
-            fileResponseDto.setSize(size);
-            fileResponseDto.setDocumentDate(documentDate);
-            fileResponseDto.setAddedDate(addedDate);
-            fileResponseDto.setModifiedDate(modifiedDate);
-            fileResponseDto.setCompany(company);
-            fileResponseDto.setWorkplace(workplace);
-            fileResponseDto.setGrossSalary(grossSalary);
-            fileResponseDto.setNetSalary(netSalary);
-            fileResponseDto.setFileContent(fileContent);
-            return fileResponseDto;
+            FileReceiveDto fileReceiveDto = new FileReceiveDto();
+            fileReceiveDto.setId(id);
+            fileReceiveDto.setName(name);
+            fileReceiveDto.setType(type);
+            fileReceiveDto.setDocumentType(documentType);
+            fileReceiveDto.setSize(size);
+            fileReceiveDto.setDocumentDate(documentDate);
+            fileReceiveDto.setAddedDate(addedDate);
+            fileReceiveDto.setModifiedDate(modifiedDate);
+            fileReceiveDto.setCompany(company);
+            fileReceiveDto.setWorkplace(workplace);
+            fileReceiveDto.setGrossSalary(grossSalary);
+            fileReceiveDto.setNetSalary(netSalary);
+            fileReceiveDto.setFolderId(folderId);
+            fileReceiveDto.setFileContent(fileContent);
+            return fileReceiveDto;
         }
     }
 }

@@ -1,9 +1,7 @@
 package fr.univparis8.iut.csid.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.univparis8.iut.csid.company.CompanyEntity;
 import fr.univparis8.iut.csid.file.FileEntity;
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
@@ -25,10 +23,6 @@ public class UserEntity {
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<FileEntity> fileEntities;
-
-   /* @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Set<CompanyEntity> companyEntities;*/
 
     public UserEntity(){
     }
@@ -65,20 +59,11 @@ public class UserEntity {
         this.fileEntities = fileEntities;
     }
 
-   /* public Set<CompanyEntity> getCompanyEntities() {
-        return companyEntities;
-    }
-
-    public void setCompanyEntities(Set<CompanyEntity> companyEntities) {
-        this.companyEntities = companyEntities;
-    }*/
-
     public static final class UserEntityBuilder{
         private String username;
         private String password;
         private String enabled;
         private Set<FileEntity> fileEntities;
-        private Set<CompanyEntity> companyEntities;
 
         private UserEntityBuilder(){
 
@@ -108,10 +93,6 @@ public class UserEntity {
             return this;
         }
 
-        public UserEntityBuilder withCompanyEntities(Set<CompanyEntity> companyEntities){
-            this.companyEntities = companyEntities;
-            return this;
-        }
 
         public UserEntity build(){
             UserEntity userEntity = new UserEntity();
@@ -119,7 +100,6 @@ public class UserEntity {
             userEntity.setPassword(password);
             userEntity.setEnabled(enabled);
             userEntity.setFileEntities(fileEntities);
-//            userEntity.setCompanyEntities(companyEntities);
             return userEntity;
         }
 
