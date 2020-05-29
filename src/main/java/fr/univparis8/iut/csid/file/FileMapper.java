@@ -1,5 +1,9 @@
 package fr.univparis8.iut.csid.file;
 
+import fr.univparis8.iut.csid.folder.Folder;
+import fr.univparis8.iut.csid.folder.FolderEntity;
+import fr.univparis8.iut.csid.folder.FolderMapper;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,6 +11,7 @@ import java.util.stream.Collectors;
 public final class FileMapper {
 
     public static File toFile(FileEntity fileEntity){
+        Folder folder = FolderMapper.toFolder(fileEntity.getFolderEntity());
         return File.FileBuilder.create()
                 .withId(fileEntity.getId())
                 .withName(fileEntity.getName())
@@ -21,6 +26,7 @@ public final class FileMapper {
                 .withWorkplace(fileEntity.getWorkplace())
                 .withGrossSalary(fileEntity.getGrossSalary())
                 .withNetSalary(fileEntity.getNetSalary())
+                .withFolder(folder)
                 .build();
     }
 
@@ -38,10 +44,14 @@ public final class FileMapper {
                 .withWorkplace(file.getWorkplace())
                 .withGrossSalary(file.getGrossSalary())
                 .withNetSalary(file.getNetSalary())
+                .withFolderId(file.getFolder().getId())
                 .build();
     }
 
     public static FileEntity toFileEntity(File file){
+        FolderEntity folderEntity = FolderEntity.FolderEntityBuilder.create()
+                .withId(file.getFolder().getId())
+                .build();
 
         return FileEntity.FileEntityBuilder.create()
                 .withId(file.getId())
@@ -57,12 +67,16 @@ public final class FileMapper {
                 .withWorkplace(file.getWorkplace())
                 .withGrossSalary(file.getGrossSalary())
                 .withNetSalary(file.getNetSalary())
+                .withFolderEntity(folderEntity)
                 .build();
     }
 
     public static File toFile(FileReceiveDto fileReceiveDto) throws IOException {
         FileContentEntity fileContentEntity = new FileContentEntity();
         fileContentEntity.setFileContent(fileReceiveDto.getFileContent());
+        Folder folder = Folder.FolderBuilder.create()
+                .withId(fileReceiveDto.getFolderId())
+                .build();
 
         return File.FileBuilder.create()
                 .withId(fileReceiveDto.getId())
@@ -78,6 +92,7 @@ public final class FileMapper {
                 .withWorkplace(fileReceiveDto.getWorkplace())
                 .withGrossSalary(fileReceiveDto.getGrossSalary())
                 .withNetSalary(fileReceiveDto.getNetSalary())
+                .withFolder(folder)
                 .build();
     }
 

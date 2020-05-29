@@ -1,12 +1,15 @@
 package fr.univparis8.iut.csid.file;
 
+import fr.univparis8.iut.csid.folder.FolderEntity;
 import fr.univparis8.iut.csid.user.UserEntity;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name = "file" )
 public class FileEntity {
 
     @Id
@@ -24,6 +27,10 @@ public class FileEntity {
     private String workplace;
     private Double grossSalary;
     private Double netSalary;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "folder_id", referencedColumnName = "id")
+    private FolderEntity folderEntity;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn
@@ -140,6 +147,14 @@ public class FileEntity {
         this.fileContent = fileContent;
     }
 
+    public FolderEntity getFolderEntity() {
+        return folderEntity;
+    }
+
+    public void setFolderEntity(FolderEntity folderEntity) {
+        this.folderEntity = folderEntity;
+    }
+
     public UserEntity getUserEntity() {
         return userEntity;
     }
@@ -163,6 +178,9 @@ public class FileEntity {
         private Double netSalary;
         private FileContentEntity fileContent;
         private UserEntity userEntity;
+        private FolderEntity folderEntity;
+
+
 
         public FileEntityBuilder() {
         }
@@ -239,6 +257,11 @@ public class FileEntity {
             return this;
         }
 
+        public FileEntityBuilder withFolderEntity(FolderEntity folderEntity) {
+            this.folderEntity = folderEntity;
+            return this;
+        }
+
         public FileEntity build() {
             FileEntity fileEntity = new FileEntity();
             fileEntity.setId(id);
@@ -255,6 +278,7 @@ public class FileEntity {
             fileEntity.setGrossSalary(grossSalary);
             fileEntity.setNetSalary(netSalary);
             fileEntity.setUserEntity(userEntity);
+            fileEntity.setFolderEntity(folderEntity);
             return fileEntity;
         }
 

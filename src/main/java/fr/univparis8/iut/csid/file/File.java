@@ -1,6 +1,7 @@
 package fr.univparis8.iut.csid.file;
 
 
+import fr.univparis8.iut.csid.folder.Folder;
 import fr.univparis8.iut.csid.user.User;
 
 import java.util.Date;
@@ -21,8 +22,9 @@ public class File {
     private final Double netSalary;
     private final FileContentEntity fileContent;
     private final User user;
+    private final Folder folder;
 
-    public File(String id, String name, String type, String documentType, Long size, Date addedDate, Date modifiedDate, Date documentDate, String company, String workplace, Double grossSalary, Double netSalary, FileContentEntity fileContent, User user) {
+    public File(String id, String name, String type, String documentType, Long size, Date addedDate, Date modifiedDate, Date documentDate, String company, String workplace, Double grossSalary, Double netSalary, FileContentEntity fileContent, User user, Folder folder) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -37,6 +39,7 @@ public class File {
         this.netSalary = netSalary;
         this.fileContent = fileContent;
         this.user = user;
+        this.folder = folder;
     }
 
     public String getId() {
@@ -91,8 +94,12 @@ public class File {
         return fileContent;
     }
 
-    public User getUserEntity() {
+    public User getUser() {
         return user;
+    }
+
+    public Folder getFolder() {
+        return folder;
     }
 
     public File mergeWith(File other) {
@@ -110,12 +117,12 @@ public class File {
                 .withGrossSalary(other.grossSalary != null ? other.grossSalary : grossSalary)
                 .withNetSalary(other.netSalary != null ? other.netSalary : netSalary)
                 .withFileContent(fileContent)
+                .withFolder(folder)
                 .build();
     }
 
 
-    public static final class FileBuilder{
-
+    public static final class FileBuilder {
         private String id;
         private String name;
         private String type;
@@ -130,8 +137,9 @@ public class File {
         private Double netSalary;
         private FileContentEntity fileContent;
         private User user;
+        private Folder folder;
 
-        public FileBuilder() {
+        private FileBuilder() {
         }
 
         public static FileBuilder create() {
@@ -148,23 +156,18 @@ public class File {
             return this;
         }
 
-        public FileBuilder withDocumentType(String documentType) {
-            this.documentType = documentType;
-            return this;
-        }
-
         public FileBuilder withType(String type) {
             this.type = type;
             return this;
         }
 
-        public FileBuilder withSize(Long size) {
-            this.size = size;
+        public FileBuilder withDocumentType(String documentType) {
+            this.documentType = documentType;
             return this;
         }
 
-        public FileBuilder withDocumentDate(Date documentDate) {
-            this.documentDate = documentDate;
+        public FileBuilder withSize(Long size) {
+            this.size = size;
             return this;
         }
 
@@ -178,27 +181,30 @@ public class File {
             return this;
         }
 
+        public FileBuilder withDocumentDate(Date documentDate) {
+            this.documentDate = documentDate;
+            return this;
+        }
+
         public FileBuilder withCompany(String company) {
             this.company = company;
             return this;
         }
-        
+
         public FileBuilder withWorkplace(String workplace) {
             this.workplace = workplace;
             return this;
         }
-        
+
         public FileBuilder withGrossSalary(Double grossSalary) {
             this.grossSalary = grossSalary;
             return this;
         }
-        
+
         public FileBuilder withNetSalary(Double netSalary) {
             this.netSalary = netSalary;
             return this;
         }
-        
-        
 
         public FileBuilder withFileContent(FileContentEntity fileContent) {
             this.fileContent = fileContent;
@@ -210,8 +216,13 @@ public class File {
             return this;
         }
 
+        public FileBuilder withFolder(Folder folder) {
+            this.folder = folder;
+            return this;
+        }
+
         public File build() {
-            return new File(id, name, type, documentType, size, addedDate, modifiedDate, documentDate, company, workplace, grossSalary, netSalary, fileContent, user);
+            return new File(id, name, type, documentType, size, addedDate, modifiedDate, documentDate, company, workplace, grossSalary, netSalary, fileContent, user, folder);
         }
     }
 }
