@@ -2,6 +2,7 @@ package fr.univparis8.iut.csid.file;
 
 import fr.univparis8.iut.csid.folder.FolderEntity;
 import fr.univparis8.iut.csid.user.UserEntity;
+import org.hibernate.annotations.Any;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.lang.Nullable;
 
@@ -9,7 +10,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "file" )
+@Table(name = "file")
 public class FileEntity {
 
     @Id
@@ -30,6 +31,7 @@ public class FileEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "folder_id", referencedColumnName = "id")
+    @Nullable
     private FolderEntity folderEntity;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -40,7 +42,7 @@ public class FileEntity {
     @JoinColumn(name = "file_content_id", referencedColumnName = "id")
     private FileContentEntity fileContent;
 
-    public FileEntity(){
+    public FileEntity() {
     }
 
     public String getId() {
@@ -91,29 +93,29 @@ public class FileEntity {
         this.addedDate = addedDate;
     }
 
-  public Date getModifiedDate() {
-    return modifiedDate;
-  }
+    public Date getModifiedDate() {
+        return modifiedDate;
+    }
 
-  public void setModifiedDate(Date modifiedDate) {
-    this.modifiedDate = modifiedDate;
-  }
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
 
-  public Date getDocumentDate() {
-    return documentDate;
-  }
+    public Date getDocumentDate() {
+        return documentDate;
+    }
 
-  public void setDocumentDate(Date dateOfDoc) {
-    this.documentDate = dateOfDoc;
-  }
+    public void setDocumentDate(Date dateOfDoc) {
+        this.documentDate = dateOfDoc;
+    }
 
-  public String getCompany() {
-    return company;
-  }
+    public String getCompany() {
+        return company;
+    }
 
-  public void setCompany(String company) {
-    this.company = company;
-  }
+    public void setCompany(String company) {
+        this.company = company;
+    }
 
     public String getWorkplace() {
         return workplace;
@@ -181,11 +183,12 @@ public class FileEntity {
         private FolderEntity folderEntity;
 
 
-
         public FileEntityBuilder() {
         }
 
-        public static FileEntityBuilder create(){return new FileEntityBuilder();}
+        public static FileEntityBuilder create() {
+            return new FileEntityBuilder();
+        }
 
         public FileEntityBuilder withId(String id) {
             this.id = id;

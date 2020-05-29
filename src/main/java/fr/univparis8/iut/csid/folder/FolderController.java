@@ -21,4 +21,9 @@ public class FolderController {
     public List<FolderDto> get(){
         return  FolderMapper.toFolderDtoList(folderService.getAll());
     }
+
+    @GetMapping("/tree")
+    public List<FolderDto> getTree(){
+        return  FolderMapper.toFolderDtoList(folderService.getTree());
+    }
 }

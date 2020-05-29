@@ -1,6 +1,7 @@
 package fr.univparis8.iut.csid.folder;
 
 import fr.univparis8.iut.csid.file.FileEntity;
+import fr.univparis8.iut.csid.user.UserEntity;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.lang.Nullable;
 
@@ -20,12 +21,16 @@ public class FolderEntity {
     @OneToMany(mappedBy = "folderEntity", cascade = CascadeType.ALL)
     private Set<FileEntity> childrenFile;
 
-    @OneToOne(optional = true, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="parent_folder_id")
     private FolderEntity parentFolder;
 
     @OneToMany(mappedBy = "parentFolder", cascade = CascadeType.ALL)
     private Set<FolderEntity> childrenFolder;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn
+    private UserEntity userEntity;
 
     public FolderEntity() {
 
@@ -71,12 +76,21 @@ public class FolderEntity {
         this.childrenFolder = childrenFolder;
     }
 
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
+    }
+
     public static final class FolderEntityBuilder {
         private String id;
         private String name;
         private Set<FileEntity> childrenFile;
         private FolderEntity parentFolder;
         private Set<FolderEntity> childrenFolder;
+        private UserEntity userEntity;
 
         private FolderEntityBuilder() {
         }
@@ -110,6 +124,11 @@ public class FolderEntity {
             return this;
         }
 
+        public FolderEntityBuilder withUserEntity(UserEntity userEntity) {
+            this.userEntity = userEntity;
+            return this;
+        }
+
         public FolderEntity build() {
             FolderEntity folderEntity = new FolderEntity();
             folderEntity.setId(id);
@@ -117,6 +136,7 @@ public class FolderEntity {
             folderEntity.setChildrenFile(childrenFile);
             folderEntity.setParentFolder(parentFolder);
             folderEntity.setChildrenFolder(childrenFolder);
+            folderEntity.setUserEntity(userEntity);
             return folderEntity;
         }
     }

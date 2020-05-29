@@ -52,6 +52,14 @@ public class FileController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
                 .body(new ByteArrayResource(file.getFileContent().getFileContent()));
     }
+    @GetMapping("/companies")
+    public List<String> getCompanies(){
+        return fileService.getCompanies();
+    }
+    @GetMapping("/workplaces")
+    public List<String> getWorkplaces(){
+        return fileService.getWorkplaces();
+    }
 
     @PatchMapping
     public FileResponseDto updateFile(@RequestBody FileReceiveDto fileReceiveDto) throws IOException {

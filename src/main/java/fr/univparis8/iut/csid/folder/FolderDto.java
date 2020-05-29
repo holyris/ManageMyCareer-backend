@@ -4,7 +4,7 @@ public class FolderDto {
 
     private String id;
     private String name;
-    private String folderId;
+    private String parentFolderId;
 
     public FolderDto() {
     }
@@ -25,19 +25,19 @@ public class FolderDto {
         this.name = name;
     }
 
-    public String getFolderId() {
-        return folderId;
+    public String getParentFolderId() {
+        return parentFolderId;
     }
 
-    public void setFolderId(String folderId) {
-        this.folderId = folderId;
+    public void setParentFolderId(String parentFolderId) {
+        this.parentFolderId = parentFolderId;
     }
 
 
     public static final class FolderDtoBuilder {
         private String id;
         private String name;
-        private String folderId;
+        private String parentFolderId;
 
         private FolderDtoBuilder() {
         }
@@ -56,8 +56,8 @@ public class FolderDto {
             return this;
         }
 
-        public FolderDtoBuilder withFolderId(String folderId) {
-            this.folderId = folderId;
+        public FolderDtoBuilder withParentFolderId(String parentFolderId) {
+            this.parentFolderId = parentFolderId;
             return this;
         }
 
@@ -65,7 +65,7 @@ public class FolderDto {
             FolderDto folderDto = new FolderDto();
             folderDto.setId(id);
             folderDto.setName(name);
-            folderDto.setFolderId(folderId);
+            folderDto.setParentFolderId(parentFolderId);
             return folderDto;
         }
     }

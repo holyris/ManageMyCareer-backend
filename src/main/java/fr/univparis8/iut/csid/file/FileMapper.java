@@ -1,6 +1,7 @@
 package fr.univparis8.iut.csid.file;
 
 import fr.univparis8.iut.csid.folder.Folder;
+import fr.univparis8.iut.csid.folder.FolderDto;
 import fr.univparis8.iut.csid.folder.FolderEntity;
 import fr.univparis8.iut.csid.folder.FolderMapper;
 
@@ -10,7 +11,7 @@ import java.util.stream.Collectors;
 
 public final class FileMapper {
 
-    public static File toFile(FileEntity fileEntity){
+    public static File toFile(FileEntity fileEntity) {
         Folder folder = FolderMapper.toFolder(fileEntity.getFolderEntity());
         return File.FileBuilder.create()
                 .withId(fileEntity.getId())
@@ -30,7 +31,12 @@ public final class FileMapper {
                 .build();
     }
 
-    public static FileResponseDto toFileDto(File file){
+    public static FileResponseDto toFileDto(File file) {
+
+        String folderId = null;
+        if (file.getFolder() != null) {
+            folderId = file.getFolder().getId();
+        }
         return FileResponseDto.FileResponseDtoBuilder.create()
                 .withId(file.getId())
                 .withName(file.getName())
@@ -44,15 +50,12 @@ public final class FileMapper {
                 .withWorkplace(file.getWorkplace())
                 .withGrossSalary(file.getGrossSalary())
                 .withNetSalary(file.getNetSalary())
-                .withFolderId(file.getFolder().getId())
+                .withFolderId(folderId)
                 .build();
     }
 
-    public static FileEntity toFileEntity(File file){
-        FolderEntity folderEntity = FolderEntity.FolderEntityBuilder.create()
-                .withId(file.getFolder().getId())
-                .build();
-
+    public static FileEntity toFileEntity(File file) {
+        FolderEntity folderEntity = FolderMapper.toFolderEntity(file.getFolder());
         return FileEntity.FileEntityBuilder.create()
                 .withId(file.getId())
                 .withName(file.getName())
@@ -71,9 +74,10 @@ public final class FileMapper {
                 .build();
     }
 
-    public static File toFile(FileReceiveDto fileReceiveDto) throws IOException {
+    public static File toFile(FileReceiveDto fileReceiveDto) {
         FileContentEntity fileContentEntity = new FileContentEntity();
         fileContentEntity.setFileContent(fileReceiveDto.getFileContent());
+
         Folder folder = Folder.FolderBuilder.create()
                 .withId(fileReceiveDto.getFolderId())
                 .build();
@@ -107,9 +111,6 @@ public final class FileMapper {
                 .map(FileMapper::toFileDto)
                 .collect(Collectors.toList());
     }
-
-
-
 
 
 }
