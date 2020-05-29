@@ -2,6 +2,7 @@ package fr.univparis8.iut.csid.file;
 
 import fr.univparis8.iut.csid.exception.NotFoundException;
 
+import fr.univparis8.iut.csid.folder.FolderEntity;
 import fr.univparis8.iut.csid.folder.FolderService;
 import fr.univparis8.iut.csid.user.UserEntity;
 import fr.univparis8.iut.csid.user.UserService;
@@ -26,10 +27,16 @@ public class FileService {
         UserEntity userEntity = UserEntity.UserEntityBuilder.create()
                 .withUsername(userService.getCurrentUserId())
                 .build();
-        FileEntity fileEntity= FileMapper.toFileEntity(file);
+        FileEntity fileEntity = FileMapper.toFileEntity(file);
         fileEntity.setUserEntity(userEntity);
 
-        return FileMapper.toFile(fileRepository.save(fileEntity));
+        if (fileEntity.getFolderEntity().getId() == null) {
+            fileEntity.setFolderEntity(null);
+        }
+
+        FileEntity fileEntityResponse = fileRepository.save(fileEntity);
+
+        return FileMapper.toFile(fileEntityResponse);
     }
 
     public List<File> getAll() {
@@ -44,8 +51,22 @@ public class FileService {
                 .orElseThrow(() -> new NotFoundException("File not found with id " + fileId)));
     }
 
+    public List<String> getCompanies(){
+        UserEntity userEntity = UserEntity.UserEntityBuilder.create()
+                .withUsername(userService.getCurrentUserId())
+                .build();
+        return fileRepository.findCompaniesByUserEntity(userEntity);
+    }
+
+    public List<String> getWorkplaces(){
+        UserEntity userEntity = UserEntity.UserEntityBuilder.create()
+                .withUsername(userService.getCurrentUserId())
+                .build();
+        return fileRepository.findWorkplacesByUserEntity(userEntity);
+    }
+
     public File update(File file) {
-        if(file.getId() == null){
+        if (file.getId() == null) {
             throw new NotFoundException("File not found with id " + file.getId());
         }
         if (!fileRepository.existsById(file.getId())) {
@@ -63,10 +84,10 @@ public class FileService {
         return FileMapper.toFile(fileRepository.save(newFile));
     }
 
-    public File delete(String fileId){
+    public File delete(String fileId) {
         File file = FileMapper.toFile(fileRepository.getOne(fileId));
         System.out.println(fileRepository.existsById(file.getId()));
-        if(fileRepository.existsById(file.getId())) {
+        if (fileRepository.existsById(file.getId())) {
             fileRepository.deleteById(file.getId());
         }
         return file;

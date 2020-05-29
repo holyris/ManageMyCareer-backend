@@ -4,12 +4,12 @@ public class Folder {
 
     private final String id;
     private final String name;
-    private final Folder folder;
+    private final Folder parentFolder;
 
-    public Folder(String id, String name, Folder folder) {
+    public Folder(String id, String name, Folder parentFolder) {
         this.id = id;
         this.name = name;
-        this.folder = folder;
+        this.parentFolder = parentFolder;
     }
 
     public String getId() {
@@ -20,15 +20,15 @@ public class Folder {
         return name;
     }
 
-    public Folder getFolder() {
-        return folder;
+    public Folder getParentFolder() {
+        return parentFolder;
     }
 
 
     public static final class FolderBuilder {
         private String id;
         private String name;
-        private Folder folder;
+        private Folder parentFolder;
 
         private FolderBuilder() {
         }
@@ -47,13 +47,13 @@ public class Folder {
             return this;
         }
 
-        public FolderBuilder withFolder(Folder folder) {
-            this.folder = folder;
+        public FolderBuilder withParentFolder(Folder parentFolder) {
+            this.parentFolder = parentFolder;
             return this;
         }
 
         public Folder build() {
-            return new Folder(id, name, folder);
+            return new Folder(id, name, parentFolder);
         }
     }
 }
