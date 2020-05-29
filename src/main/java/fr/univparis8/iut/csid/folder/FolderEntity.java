@@ -18,11 +18,14 @@ public class FolderEntity {
     private String name;
 
     @OneToMany(mappedBy = "folderEntity", cascade = CascadeType.ALL)
-    private Set<FileEntity> fileEntities;
+    private Set<FileEntity> childrenFile;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @Nullable
-    private FolderEntity folderEntity;
+    @OneToOne(optional = true, cascade = CascadeType.MERGE)
+    @JoinColumn(name="parent_folder_id")
+    private FolderEntity parentFolder;
+
+    @OneToMany(mappedBy = "parentFolder", cascade = CascadeType.ALL)
+    private Set<FolderEntity> childrenFolder;
 
     public FolderEntity() {
 
@@ -44,39 +47,36 @@ public class FolderEntity {
         this.name = name;
     }
 
-    public Set<FileEntity> getFileEntities() {
-        return fileEntities;
+    public Set<FileEntity> getChildrenFile() {
+        return childrenFile;
     }
 
-    public void setFileEntities(Set<FileEntity> fileEntities) {
-        this.fileEntities = fileEntities;
+    public void setChildrenFile(Set<FileEntity> childrenFile) {
+        this.childrenFile = childrenFile;
     }
 
-    public FolderEntity getFolderEntity() {
-        return folderEntity;
+    public FolderEntity getParentFolder() {
+        return parentFolder;
     }
 
-    public void setFolderEntity(FolderEntity folderEntity) {
-        this.folderEntity = folderEntity;
+    public void setParentFolder(FolderEntity parentFolder) {
+        this.parentFolder = parentFolder;
     }
 
-/*
-    public Set<FolderEntity> getFolderEntities() {
-        return folderEntities;
+    public Set<FolderEntity> getChildrenFolder() {
+        return childrenFolder;
     }
 
-    public void setFolderEntities(Set<FolderEntity> folderEntities) {
-        this.folderEntities = folderEntities;
+    public void setChildrenFolder(Set<FolderEntity> childrenFolder) {
+        this.childrenFolder = childrenFolder;
     }
-*/
-
 
     public static final class FolderEntityBuilder {
         private String id;
         private String name;
-        private Set<FileEntity> fileEntities;
-        private FolderEntity folderEntity;
-//        private Set<FolderEntity> folderEntities;
+        private Set<FileEntity> childrenFile;
+        private FolderEntity parentFolder;
+        private Set<FolderEntity> childrenFolder;
 
         private FolderEntityBuilder() {
         }
@@ -95,29 +95,29 @@ public class FolderEntity {
             return this;
         }
 
-        public FolderEntityBuilder withFileEntities(Set<FileEntity> fileEntities) {
-            this.fileEntities = fileEntities;
+        public FolderEntityBuilder withChildrenFile(Set<FileEntity> childrenFile) {
+            this.childrenFile = childrenFile;
             return this;
         }
 
-        public FolderEntityBuilder withFolderEntity(FolderEntity folderEntity) {
-            this.folderEntity = folderEntity;
+        public FolderEntityBuilder withParentFolder(FolderEntity parentFolder) {
+            this.parentFolder = parentFolder;
             return this;
         }
-/*
-        public FolderEntityBuilder withFolderEntities(Set<FolderEntity> folderEntities) {
-            this.folderEntities = folderEntities;
+
+        public FolderEntityBuilder withChildrenFolder(Set<FolderEntity> childrenFolder) {
+            this.childrenFolder = childrenFolder;
             return this;
-        }*/
+        }
 
         public FolderEntity build() {
-            FolderEntity folderEntity1 = new FolderEntity();
-            folderEntity1.setId(id);
-            folderEntity1.setName(name);
-            folderEntity1.setFileEntities(fileEntities);
-            folderEntity1.setFolderEntity(folderEntity);
-//            folderEntity1.setFolderEntities(folderEntities);
-            return folderEntity1;
+            FolderEntity folderEntity = new FolderEntity();
+            folderEntity.setId(id);
+            folderEntity.setName(name);
+            folderEntity.setChildrenFile(childrenFile);
+            folderEntity.setParentFolder(parentFolder);
+            folderEntity.setChildrenFolder(childrenFolder);
+            return folderEntity;
         }
     }
 }
