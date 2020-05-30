@@ -23,12 +23,12 @@ public class FileController {
     private MimeTypes mimeTypes;
 
     @PostMapping
-    public List<FileResponseDto> uploadFiles(@RequestBody FileReceiveDto[] filesReceiveDto) throws IOException {
+    public List<FileResponseDto> uploadFiles(@RequestBody FileReceiveDto[] filesReceiveDto){
         ArrayList<FileResponseDto> response = new ArrayList<>();
         for(FileReceiveDto file : filesReceiveDto){
             file.setAddedDate(new Date());
-            response.add(FileMapper.toFileDto(fileService.saveFile(FileMapper.toFile(file))));
-
+            FileResponseDto fileDto = FileMapper.toFileDto(fileService.saveFile(FileMapper.toFile(file)));
+            response.add(fileDto);
         }
         return response;
     }
@@ -62,9 +62,8 @@ public class FileController {
     }
 
     @PatchMapping
-    public FileResponseDto updateFile(@RequestBody FileReceiveDto fileReceiveDto) throws IOException {
+    public FileResponseDto updateFile(@RequestBody FileReceiveDto fileReceiveDto){
         fileReceiveDto.setModifiedDate(new Date());
-        System.out.println(fileReceiveDto.getModifiedDate());
         return FileMapper.toFileDto(fileService.update(FileMapper.toFile(fileReceiveDto)));
     }
 

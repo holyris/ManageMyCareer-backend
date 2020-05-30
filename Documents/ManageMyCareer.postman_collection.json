@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "40d5172a-4840-42a9-b06e-c60d59a53064",
-		"name": "File",
+		"_postman_id": "f3e38d5b-d763-43eb-a0d4-47465e7ed400",
+		"name": "ManageMyCareer",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "[\n\t{\"name\" : \"test\",\n\t\"type\" : \"txt\",\n\t\"typeFile\":\"fichepaie\",\n\t\"size\" : \"150\",\n\t\"date\" : \"2020-04-23\",\n\t\"company\" : \"test\",\n\t\"workplace\" : \"test\",\n\t\"grossSalary\":\"1756\",\n\t\"netSalary\" :\"1521\",\n\t\"fileContent\": \"Y291Y291\"}\n]",
+							"raw": "[\n    {\n        \"name\": \"test\",\n        \"type\": \"txt\",\n        \"typeFile\": \"fichepaie\",\n        \"size\": \"150\",\n        \"date\": \"2020-04-23\",\n        \"company\": \"test\",\n        \"workplace\": \"test\",\n        \"grossSalary\": \"1756\",\n        \"netSalary\": \"1521\",\n        \"fileContent\": \"Y291Y291\",\n        \"folderId\":\"0a7e7843-6abd-4248-a02c-048e4889fad5\"\n    }\n]",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -158,6 +158,46 @@
 							"port": "8080",
 							"path": [
 								"files"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCompanies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/files/companies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"files",
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getWorkplaces",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/files/workplaces",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"files",
+								"workplaces"
 							]
 						}
 					},
@@ -327,16 +367,96 @@
 			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Company",
+			"name": "Folder",
 			"item": [
 				{
-					"name": "createCompany",
+					"name": "get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/folders/d5faf9e9-e7d9-47db-a4ff-78bfc93a671e",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"folders",
+								"d5faf9e9-e7d9-47db-a4ff-78bfc93a671e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/folders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"folders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTree",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/folders/tree",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"folders",
+								"tree"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getFiles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/folders/0a7e7843-6abd-4248-a02c-048e4889fad5/files",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"folders",
+								"0a7e7843-6abd-4248-a02c-048e4889fad5",
+								"files"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"name\" : \"ratp\", \"description\" : \"\"}",
+							"raw": "{\n    \"name\": \"test\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -344,46 +464,27 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/company",
+							"raw": "http://localhost:8080/folders",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"company"
+								"folders"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "getall",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/company",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"company"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update",
+					"name": "patch",
 					"request": {
 						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"id\": \"9e7698cc-1fa0-4eaf-9178-03f490d8edb6\", \"name\" : \"jdjdjdj\", \"description\" : \"test\"}",
+							"raw": "{\n    \"id\":\"10a27e35-483b-4e7c-9a08-bf6df7d6162f\",\n    \"name\": \"test patch null\",\n    \"parentFolderId\": null\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -391,34 +492,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/company",
+							"raw": "http://localhost:8080/folders",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"company"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getOne",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/company/37bcc05d-790c-4601-89ec-1a0deab00a3f",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"company",
-								"37bcc05d-790c-4601-89ec-1a0deab00a3f"
+								"folders"
 							]
 						}
 					},
@@ -430,136 +511,15 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/company/9e7698cc-1fa0-4eaf-9178-03f490d8edb6",
+							"raw": "http://localhost:8080/folders/0a7e7843-6abd-4248-a02c-048e4889fad5",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"company",
-								"9e7698cc-1fa0-4eaf-9178-03f490d8edb6"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"protocolProfileBehavior": {}
-		},
-		{
-			"name": "Workplace",
-			"item": [
-				{
-					"name": "create",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"name\" : \"conducteur\", \"description\" : \"test\", \"companyId\": \"dd74cfc8-3a72-4668-b81e-b16f63910182\"}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/workplaces",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"workplaces"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getall",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/workplaces",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"workplaces"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update",
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"id\": \"428487cc-ee46-4089-9da8-e6077087b156\",\r\n    \"name\": \"patch\",\r\n    \"companyId\": \"dd74cfc8-3a72-4668-b81e-b16f63910182\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/workplaces",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"workplaces"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getOne",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/workplaces/428487cc-ee46-4089-9da8-e6077087b156",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"workplaces",
-								"428487cc-ee46-4089-9da8-e6077087b156"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/workplaces/428487cc-ee46-4089-9da8-e6077087b156",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"workplaces",
-								"428487cc-ee46-4089-9da8-e6077087b156"
+								"folders",
+								"0a7e7843-6abd-4248-a02c-048e4889fad5"
 							]
 						}
 					},

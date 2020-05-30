@@ -1,9 +1,6 @@
 package fr.univparis8.iut.csid.file;
 
-import fr.univparis8.iut.csid.folder.Folder;
-import fr.univparis8.iut.csid.folder.FolderDto;
-import fr.univparis8.iut.csid.folder.FolderEntity;
-import fr.univparis8.iut.csid.folder.FolderMapper;
+import fr.univparis8.iut.csid.folder.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -78,9 +75,12 @@ public final class FileMapper {
         FileContentEntity fileContentEntity = new FileContentEntity();
         fileContentEntity.setFileContent(fileReceiveDto.getFileContent());
 
-        Folder folder = Folder.FolderBuilder.create()
-                .withId(fileReceiveDto.getFolderId())
-                .build();
+        Folder folder = null;
+        if (fileReceiveDto.getFolderId() != null) {
+            folder = Folder.FolderBuilder.create()
+                    .withId(fileReceiveDto.getFolderId())
+                    .build();
+        }
 
         return File.FileBuilder.create()
                 .withId(fileReceiveDto.getId())
@@ -100,7 +100,7 @@ public final class FileMapper {
                 .build();
     }
 
-    public static List<File> toFilesList(List<FileEntity> fileEntities) {
+    public static List<File> toFileList(List<FileEntity> fileEntities) {
         return fileEntities.stream()
                 .map(FileMapper::toFile)
                 .collect(Collectors.toList());
