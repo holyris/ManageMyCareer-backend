@@ -2,8 +2,8 @@ package fr.univparis8.iut.csid.file;
 
 import fr.univparis8.iut.csid.exception.NotFoundException;
 
-import fr.univparis8.iut.csid.folder.FolderEntity;
-import fr.univparis8.iut.csid.folder.FolderService;
+import fr.univparis8.iut.csid.folder.Folder;
+import fr.univparis8.iut.csid.folder.FolderMapper;
 import fr.univparis8.iut.csid.user.UserEntity;
 import fr.univparis8.iut.csid.user.UserService;
 import org.springframework.stereotype.Service;
@@ -15,12 +15,10 @@ public class FileService {
 
     private final FileRepository fileRepository;
     private final UserService userService;
-    private final FolderService folderService;
 
-    public FileService(FileRepository fileRepository, UserService userService, FolderService folderService) {
+    public FileService(FileRepository fileRepository, UserService userService) {
         this.fileRepository = fileRepository;
         this.userService = userService;
-        this.folderService = folderService;
     }
 
     public File saveFile(File file) {
@@ -29,10 +27,6 @@ public class FileService {
                 .build();
         FileEntity fileEntity = FileMapper.toFileEntity(file);
         fileEntity.setUserEntity(userEntity);
-
-        if (fileEntity.getFolderEntity().getId() == null) {
-            fileEntity.setFolderEntity(null);
-        }
 
         FileEntity fileEntityResponse = fileRepository.save(fileEntity);
 
@@ -43,12 +37,17 @@ public class FileService {
         UserEntity userEntity = UserEntity.UserEntityBuilder.create()
                 .withUsername(userService.getCurrentUserId())
                 .build();
-        return FileMapper.toFilesList(fileRepository.findAllByUserEntity(userEntity));
+        return FileMapper.toFileList(fileRepository.findAllByUserEntity(userEntity));
     }
 
     public File getFile(String fileId) {
         return FileMapper.toFile(fileRepository.findById(fileId)
                 .orElseThrow(() -> new NotFoundException("File not found with id " + fileId)));
+    }
+
+    public List<File> getByFolder(Folder folder){
+        List<FileEntity> fileEntities = fileRepository.findAllByFolderEntity(FolderMapper.toFolderEntity(folder));
+        return FileMapper.toFileList(fileEntities);
     }
 
     public List<String> getCompanies(){

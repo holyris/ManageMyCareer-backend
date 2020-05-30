@@ -1,5 +1,7 @@
 package fr.univparis8.iut.csid.folder;
 
+import fr.univparis8.iut.csid.file.File;
+
 public class Folder {
 
     private final String id;
@@ -22,6 +24,14 @@ public class Folder {
 
     public Folder getParentFolder() {
         return parentFolder;
+    }
+
+    public Folder mergeWith(Folder other) {
+        return FolderBuilder.create()
+                .withId(other.getId())
+                .withName(other.name != null ? other.name : name)
+                .withParentFolder(other.getParentFolder())
+                .build();
     }
 
 
