@@ -45,19 +45,19 @@ public class FileService {
                 .orElseThrow(() -> new NotFoundException("File not found with id " + fileId)));
     }
 
-    public List<File> getByFolder(Folder folder){
+    public List<File> getByFolder(Folder folder) {
         List<FileEntity> fileEntities = fileRepository.findAllByFolderEntity(FolderMapper.toFolderEntity(folder));
         return FileMapper.toFileList(fileEntities);
     }
 
-    public List<String> getCompanies(){
+    public List<String> getCompanies() {
         UserEntity userEntity = UserEntity.UserEntityBuilder.create()
                 .withUsername(userService.getCurrentUserId())
                 .build();
         return fileRepository.findCompaniesByUserEntity(userEntity);
     }
 
-    public List<String> getWorkplaces(){
+    public List<String> getWorkplaces() {
         UserEntity userEntity = UserEntity.UserEntityBuilder.create()
                 .withUsername(userService.getCurrentUserId())
                 .build();

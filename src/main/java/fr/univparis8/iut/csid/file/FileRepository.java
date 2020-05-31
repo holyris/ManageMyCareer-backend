@@ -15,9 +15,9 @@ public interface FileRepository extends JpaRepository<FileEntity, String> {
     List<FileEntity> findAllByUserEntity(UserEntity userEntity);
     List<FileEntity> findAllByFolderEntity(FolderEntity folderEntity);
 
-    @Query(value = "SELECT DISTINCT file.company FROM FileEntity file WHERE file.userEntity = :userEntity")
+    @Query(value = "SELECT DISTINCT file.company FROM FileEntity file WHERE file.userEntity = :userEntity AND file.company IS NOT NULL AND file.company != ''")
     List<String> findCompaniesByUserEntity(@Param("userEntity") UserEntity userEntity);
 
-    @Query(value = "SELECT DISTINCT file.workplace FROM FileEntity file WHERE file.userEntity = :userEntity")
+    @Query(value = "SELECT DISTINCT file.workplace FROM FileEntity file WHERE file.userEntity = :userEntity AND file.workplace IS NOT NULL AND file.workplace != ''")
     List<String> findWorkplacesByUserEntity(@Param("userEntity") UserEntity userEntity);
 }
