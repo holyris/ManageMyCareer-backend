@@ -117,7 +117,7 @@ public class File {
                 .withGrossSalary(other.grossSalary != null ? other.grossSalary : grossSalary)
                 .withNetSalary(other.netSalary != null ? other.netSalary : netSalary)
                 .withFileContent(fileContent)
-                .withFolder(folder)
+                .withFolder(other.folder)
                 .build();
     }
 
