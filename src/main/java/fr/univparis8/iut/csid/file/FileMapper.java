@@ -2,7 +2,7 @@ package fr.univparis8.iut.csid.file;
 
 import fr.univparis8.iut.csid.folder.*;
 
-import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +34,7 @@ public final class FileMapper {
         if (file.getFolder() != null) {
             folderId = file.getFolder().getId();
         }
+
         return FileResponseDto.FileResponseDtoBuilder.create()
                 .withId(file.getId())
                 .withName(file.getName())
@@ -41,6 +42,8 @@ public final class FileMapper {
                 .withDocumentType(file.getDocumentType())
                 .withSize(file.getSize())
                 .withDocumentDate(file.getDocumentDate())
+                .withDocumentMonth(new SimpleDateFormat("MMMM").format(file.getDocumentDate()))
+                .withDocumentYear(new SimpleDateFormat("Y").format(file.getDocumentDate()))
                 .withAddedDate(file.getAddedDate())
                 .withModifiedDate(file.getModifiedDate())
                 .withCompany(file.getCompany())

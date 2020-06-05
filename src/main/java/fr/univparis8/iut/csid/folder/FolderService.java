@@ -23,9 +23,7 @@ public class FolderService {
     }
 
     public Folder save(Folder folder) {
-        UserEntity userEntity = UserEntity.UserEntityBuilder.create()
-                .withUsername(userService.getCurrentUserId())
-                .build();
+        UserEntity userEntity = userService.getCurrentUserEntity();
         FolderEntity folderEntity = FolderMapper.toFolderEntity(folder);
         folderEntity.setUserEntity(userEntity);
 
@@ -33,9 +31,7 @@ public class FolderService {
     }
 
     public List<Folder> getAll() {
-        UserEntity userEntity = UserEntity.UserEntityBuilder.create()
-                .withUsername(userService.getCurrentUserId())
-                .build();
+        UserEntity userEntity = userService.getCurrentUserEntity();
         return FolderMapper.toFolderList(folderRepository.findAllByUserEntity(userEntity));
     }
 
@@ -77,20 +73,20 @@ public class FolderService {
         Folder currentFolder = FolderMapper.toFolder(folderRepository.getOne(folder.getId()));
         FolderEntity newFolderEntity = FolderMapper.toFolderEntity(currentFolder.mergeWith(folder));
 
-        UserEntity userEntity = UserEntity.UserEntityBuilder.create()
-                .withUsername(userService.getCurrentUserId())
-                .build();
+        UserEntity userEntity = userService.getCurrentUserEntity();
         newFolderEntity.setUserEntity(userEntity);
         return FolderMapper.toFolder(folderRepository.save(newFolderEntity));
     }
 
-    public Folder delete(String folderId) {
-        Folder folder = FolderMapper.toFolder(folderRepository.getOne(folderId));
-        System.out.println(folderRepository.existsById(folder.getId()));
-        if (folderRepository.existsById(folder.getId())) {
+    public Folder delete(String folderId){
+        if(folderRepository.existsById(folderId)){
+            Folder folder = FolderMapper.toFolder(folderRepository.getOne(folderId));
             folderRepository.deleteById(folder.getId());
+            return folder;
+        }else{
+            throw new NotFoundException("id folder non trouvé");
         }
-        return folder;
+
     }
 
     //return true if parentId is a parent of childId

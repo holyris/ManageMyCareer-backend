@@ -26,7 +26,6 @@ public class FileController {
     public List<FileResponseDto> uploadFiles(@RequestBody FileReceiveDto[] filesReceiveDto){
         ArrayList<FileResponseDto> response = new ArrayList<>();
         for(FileReceiveDto file : filesReceiveDto){
-            file.setAddedDate(new Date());
             FileResponseDto fileDto = FileMapper.toFileDto(fileService.saveFile(FileMapper.toFile(file)));
             response.add(fileDto);
         }
