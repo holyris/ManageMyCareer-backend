@@ -5,9 +5,12 @@ import fr.univparis8.iut.csid.user.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface FolderRepository extends JpaRepository<FolderEntity, String> {
+    Optional<FolderEntity> findByIdAndUserEntity(String id, UserEntity userEntity);
+
     List<FolderEntity> findAllByUserEntity(UserEntity userEntity);
 
-    List<FolderEntity> findAllByParentFolder(FolderEntity folderEntity);
+    List<FolderEntity> findAllByUserEntityAndParentFolder(UserEntity userEntity, FolderEntity folderEntity);
 }
