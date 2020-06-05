@@ -22,25 +22,15 @@ public class FileService {
         this.userService = userService;
     }
 
-    public File saveFile(File file) {
-        UserEntity userEntity = userService.getCurrentUserEntity();
-        FileEntity fileEntity = FileMapper.toFileEntity(file);
-        fileEntity.setUserEntity(userEntity);
-        fileEntity.setAddedDate(new Date());
-
-        FileEntity fileEntityResponse = fileRepository.save(fileEntity);
-
-        return FileMapper.toFile(fileEntityResponse);
-    }
-
     public List<File> getAll() {
-        UserEntity userEntity =userService.getCurrentUserEntity();
+        UserEntity userEntity = userService.getCurrentUserEntity();
         return FileMapper.toFileList(fileRepository.findAllByUserEntity(userEntity));
     }
 
-    public File getFile(String fileId) {
-        return FileMapper.toFile(fileRepository.findById(fileId)
-                .orElseThrow(() -> new NotFoundException("File not found with id " + fileId)));
+    public File getOne(String fileId) {
+        UserEntity userEntity = userService.getCurrentUserEntity();
+        return FileMapper.toFile(fileRepository.findByIdAndUserEntity(fileId, userEntity)
+                .orElseThrow(() -> new NotFoundException("File not found with id " + fileId + " for user " + userEntity.getUsername())));
     }
 
     public List<File> getByFolder(Folder folder) {
@@ -56,6 +46,17 @@ public class FileService {
     public List<String> getWorkplaces() {
         UserEntity userEntity = userService.getCurrentUserEntity();
         return fileRepository.findWorkplacesByUserEntity(userEntity);
+    }
+
+    public File save(File file) {
+        UserEntity userEntity = userService.getCurrentUserEntity();
+        FileEntity fileEntity = FileMapper.toFileEntity(file);
+        fileEntity.setUserEntity(userEntity);
+        fileEntity.setAddedDate(new Date());
+
+        FileEntity fileEntityResponse = fileRepository.save(fileEntity);
+
+        return FileMapper.toFile(fileEntityResponse);
     }
 
     public File update(File file) {
@@ -80,8 +81,8 @@ public class FileService {
             File file = FileMapper.toFile(fileRepository.getOne(fileId));
             fileRepository.deleteById(file.getId());
             return file;
-        }else{
-        throw new NotFoundException("id file non trouvé");
-         }
+        } else {
+            throw new NotFoundException("id file non trouvé");
+        }
     }
 }

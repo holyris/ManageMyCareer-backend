@@ -8,7 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,7 +25,7 @@ public class FileController {
     public List<FileResponseDto> uploadFiles(@RequestBody FileReceiveDto[] filesReceiveDto){
         ArrayList<FileResponseDto> response = new ArrayList<>();
         for(FileReceiveDto file : filesReceiveDto){
-            FileResponseDto fileDto = FileMapper.toFileDto(fileService.saveFile(FileMapper.toFile(file)));
+            FileResponseDto fileDto = FileMapper.toFileDto(fileService.save(FileMapper.toFile(file)));
             response.add(fileDto);
         }
         return response;
@@ -39,13 +38,13 @@ public class FileController {
 
     @GetMapping("/get_one")
     public FileResponseDto getOneFile(@RequestBody FileResponseDto fileResponseDto){
-        return FileMapper.toFileDto(fileService.getFile(fileResponseDto.getId()));
+        return FileMapper.toFileDto(fileService.getOne(fileResponseDto.getId()));
     }
 
     @GetMapping("/{fileId}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileId) {
 
-        File file = fileService.getFile(fileId);
+        File file = fileService.getOne(fileId);
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(file.getType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
