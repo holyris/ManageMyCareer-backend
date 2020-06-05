@@ -31,9 +31,16 @@ public final class FileMapper {
     public static FileResponseDto toFileDto(File file) {
 
         String folderId = null;
+        String documentMonth = null;
+        String documentYear = null;
         if (file.getFolder() != null) {
             folderId = file.getFolder().getId();
         }
+        if(file.getDocumentDate() != null){
+            documentMonth = new SimpleDateFormat("MMMM").format(file.getDocumentDate());
+            documentYear = new SimpleDateFormat("Y").format(file.getDocumentDate());
+        }
+
 
         return FileResponseDto.FileResponseDtoBuilder.create()
                 .withId(file.getId())
@@ -42,8 +49,8 @@ public final class FileMapper {
                 .withDocumentType(file.getDocumentType())
                 .withSize(file.getSize())
                 .withDocumentDate(file.getDocumentDate())
-                .withDocumentMonth(new SimpleDateFormat("MMMM").format(file.getDocumentDate()))
-                .withDocumentYear(new SimpleDateFormat("Y").format(file.getDocumentDate()))
+                .withDocumentMonth(documentMonth)
+                .withDocumentYear(documentYear)
                 .withAddedDate(file.getAddedDate())
                 .withModifiedDate(file.getModifiedDate())
                 .withCompany(file.getCompany())
