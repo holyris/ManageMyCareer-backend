@@ -17,6 +17,8 @@ public class FileResponseDto {
     private Date modifiedDate;
     @JsonProperty( access = JsonProperty.Access.READ_ONLY)
     private Date documentDate;
+    private String documentYear;
+    private String documentMonth;
     private String company;
     private String workplace;
     @JsonProperty( access = JsonProperty.Access.READ_ONLY)
@@ -92,6 +94,22 @@ public class FileResponseDto {
         this.documentDate = documentDate;
     }
 
+    public String getDocumentYear() {
+        return documentYear;
+    }
+
+    public void setDocumentYear(String documentYear) {
+        this.documentYear = documentYear;
+    }
+
+    public String getDocumentMonth() {
+        return documentMonth;
+    }
+
+    public void setDocumentMonth(String documentMonth) {
+        this.documentMonth = documentMonth;
+    }
+
     public String getCompany() {
         return company;
     }
@@ -142,6 +160,8 @@ public class FileResponseDto {
         private Date addedDate;
         private Date modifiedDate;
         private Date documentDate;
+        private String documentYear;
+        private String documentMonth;
         private String company;
         private String workplace;
         private Double grossSalary;
@@ -195,6 +215,16 @@ public class FileResponseDto {
             return this;
         }
 
+        public FileResponseDtoBuilder withDocumentYear(String documentYear) {
+            this.documentYear = documentYear;
+            return this;
+        }
+
+        public FileResponseDtoBuilder withDocumentMonth(String documentMonth) {
+            this.documentMonth = documentMonth;
+            return this;
+        }
+
         public FileResponseDtoBuilder withCompany(String company) {
             this.company = company;
             return this;
@@ -230,6 +260,8 @@ public class FileResponseDto {
             fileResponseDto.setAddedDate(addedDate);
             fileResponseDto.setModifiedDate(modifiedDate);
             fileResponseDto.setDocumentDate(documentDate);
+            fileResponseDto.setDocumentYear(documentYear);
+            fileResponseDto.setDocumentMonth(documentMonth);
             fileResponseDto.setCompany(company);
             fileResponseDto.setWorkplace(workplace);
             fileResponseDto.setGrossSalary(grossSalary);

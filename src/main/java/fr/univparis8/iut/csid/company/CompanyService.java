@@ -1,9 +1,6 @@
 package fr.univparis8.iut.csid.company;
 
 import fr.univparis8.iut.csid.exception.NotFoundException;
-import fr.univparis8.iut.csid.file.File;
-import fr.univparis8.iut.csid.file.FileMapper;
-import fr.univparis8.iut.csid.file.FileRepository;
 import fr.univparis8.iut.csid.user.UserEntity;
 import fr.univparis8.iut.csid.user.UserService;
 import fr.univparis8.iut.csid.workplace.Workplace;
@@ -26,18 +23,14 @@ public class CompanyService {
     }
 
     public Company save(Company company) {
-        UserEntity userEntity = UserEntity.UserEntityBuilder.create()
-                .withUsername(userService.getCurrentUserId())
-                .build();
+        UserEntity userEntity = userService.getCurrentUserEntity();
         CompanyEntity companyEntity = CompanyMapper.toCompanyEntity(company);
         companyEntity.setUserEntity(userEntity);
         return CompanyMapper.toCompany(companyRepository.save(companyEntity));
     }
 
     public List<Company> getAll() {
-        UserEntity userEntity = UserEntity.UserEntityBuilder.create()
-                .withUsername(userService.getCurrentUserId())
-                .build();
+        UserEntity userEntity = userService.getCurrentUserEntity();
         return CompanyMapper.toCompanyList(companyRepository.findAllByUserEntity(userEntity));
     }
 

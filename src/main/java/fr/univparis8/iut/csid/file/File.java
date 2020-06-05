@@ -5,7 +5,6 @@ import fr.univparis8.iut.csid.folder.Folder;
 import fr.univparis8.iut.csid.user.User;
 
 import java.util.Date;
-import java.util.Objects;
 
 public class File {
     private final String id;

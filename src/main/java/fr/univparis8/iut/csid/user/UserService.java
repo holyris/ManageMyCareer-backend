@@ -51,10 +51,10 @@ public class UserService {
         return SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    public String getCurrentUserId(){
+    public UserEntity getCurrentUserEntity(){
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println(user.getUsername());
-        return user.getUsername();
+        UserEntity userEntity = userRepository.getOne(user.getUsername());
+        return userEntity;
     }
 
 //    @PreAuthorize("hasAuthority('ADMIN')")

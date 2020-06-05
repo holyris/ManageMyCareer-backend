@@ -8,6 +8,7 @@ import fr.univparis8.iut.csid.user.UserEntity;
 import fr.univparis8.iut.csid.user.UserService;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -22,11 +23,10 @@ public class FileService {
     }
 
     public File saveFile(File file) {
-        UserEntity userEntity = UserEntity.UserEntityBuilder.create()
-                .withUsername(userService.getCurrentUserId())
-                .build();
+        UserEntity userEntity = userService.getCurrentUserEntity();
         FileEntity fileEntity = FileMapper.toFileEntity(file);
         fileEntity.setUserEntity(userEntity);
+        fileEntity.setAddedDate(new Date());
 
         FileEntity fileEntityResponse = fileRepository.save(fileEntity);
 
@@ -34,9 +34,7 @@ public class FileService {
     }
 
     public List<File> getAll() {
-        UserEntity userEntity = UserEntity.UserEntityBuilder.create()
-                .withUsername(userService.getCurrentUserId())
-                .build();
+        UserEntity userEntity =userService.getCurrentUserEntity();
         return FileMapper.toFileList(fileRepository.findAllByUserEntity(userEntity));
     }
 
@@ -51,16 +49,12 @@ public class FileService {
     }
 
     public List<String> getCompanies() {
-        UserEntity userEntity = UserEntity.UserEntityBuilder.create()
-                .withUsername(userService.getCurrentUserId())
-                .build();
+        UserEntity userEntity = userService.getCurrentUserEntity();
         return fileRepository.findCompaniesByUserEntity(userEntity);
     }
 
     public List<String> getWorkplaces() {
-        UserEntity userEntity = UserEntity.UserEntityBuilder.create()
-                .withUsername(userService.getCurrentUserId())
-                .build();
+        UserEntity userEntity = userService.getCurrentUserEntity();
         return fileRepository.findWorkplacesByUserEntity(userEntity);
     }
 
@@ -76,19 +70,18 @@ public class FileService {
 
         FileEntity newFile = FileMapper.toFileEntity(currentFile.mergeWith(file));
 
-        UserEntity userEntity = UserEntity.UserEntityBuilder.create()
-                .withUsername(userService.getCurrentUserId())
-                .build();
+        UserEntity userEntity = userService.getCurrentUserEntity();
         newFile.setUserEntity(userEntity);
         return FileMapper.toFile(fileRepository.save(newFile));
     }
 
     public File delete(String fileId) {
-        File file = FileMapper.toFile(fileRepository.getOne(fileId));
-        System.out.println(fileRepository.existsById(file.getId()));
-        if (fileRepository.existsById(file.getId())) {
+        if (fileRepository.existsById(fileId)) {
+            File file = FileMapper.toFile(fileRepository.getOne(fileId));
             fileRepository.deleteById(file.getId());
-        }
-        return file;
+            return file;
+        }else{
+        throw new NotFoundException("id file non trouvé");
+         }
     }
 }
