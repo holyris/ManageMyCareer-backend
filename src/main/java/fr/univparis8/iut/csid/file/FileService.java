@@ -35,7 +35,7 @@ public class FileService {
     }
 
     public List<File> getByFolder(Folder folder) {
-        List<FileEntity> fileEntities = fileRepository.findAllByFolderEntity(FolderMapper.toFolderEntity(folder));
+        List<FileEntity> fileEntities = fileRepository.findAllByFolderEntity(FolderMapper.toFolderEntity(folder), Sort.by(Sort.Direction.DESC));
         return FileMapper.toFileList(fileEntities);
     }
 
