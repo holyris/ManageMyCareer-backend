@@ -2,6 +2,7 @@ package fr.univparis8.iut.csid.file;
 
 import fr.univparis8.iut.csid.folder.FolderEntity;
 import fr.univparis8.iut.csid.user.UserEntity;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -15,7 +16,8 @@ public interface FileRepository extends JpaRepository<FileEntity, String> {
 
     Optional<FileEntity> findByIdAndUserEntity(String id, UserEntity userEntity);
 
-    List<FileEntity> findAllByUserEntity(UserEntity userEntity);
+    List<FileEntity> findAllByUserEntity(UserEntity userEntity, Sort sort);
+
     List<FileEntity> findAllByFolderEntity(FolderEntity folderEntity);
 
     @Query(value = "SELECT DISTINCT file.company FROM FileEntity file WHERE file.userEntity = :userEntity AND file.company IS NOT NULL AND file.company != ''")
