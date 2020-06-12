@@ -33,18 +33,18 @@ public class FileController {
 
     @GetMapping()
     public List<FileResponseDto> getAllFiles() {
-        return FileMapper.toFileDtoList(fileService.getAll());
+        return FileMapper.toFileDtoList(fileService.findAll());
     }
 
     @GetMapping("/get_one")
     public FileResponseDto getOneFile(@RequestBody FileResponseDto fileResponseDto){
-        return FileMapper.toFileDto(fileService.getOne(fileResponseDto.getId()));
+        return FileMapper.toFileDto(fileService.findById(fileResponseDto.getId()));
     }
 
     @GetMapping("/{fileId}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileId) {
 
-        File file = fileService.getOne(fileId);
+        File file = fileService.findById(fileId);
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(file.getType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
@@ -52,11 +52,11 @@ public class FileController {
     }
     @GetMapping("/companies")
     public List<String> getCompanies(){
-        return fileService.getCompanies();
+        return fileService.findAllCompanies();
     }
     @GetMapping("/workplaces")
     public List<String> getWorkplaces(){
-        return fileService.getWorkplaces();
+        return fileService.findAllWorkplaces();
     }
 
     @PatchMapping

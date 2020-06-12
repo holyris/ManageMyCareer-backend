@@ -1,14 +1,10 @@
 package fr.univparis8.iut.csid.folder;
 
 import fr.univparis8.iut.csid.file.FileMapper;
-import fr.univparis8.iut.csid.file.FileReceiveDto;
 import fr.univparis8.iut.csid.file.FileResponseDto;
-import fr.univparis8.iut.csid.file.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -20,12 +16,12 @@ public class FolderController {
 
     @GetMapping
     public List<FolderDto> getAll() {
-        return FolderMapper.toFolderDtoList(folderService.getAll());
+        return FolderMapper.toFolderDtoList(folderService.findAll());
     }
 
     @GetMapping("/{folderId}")
     public FolderDto get(@PathVariable String folderId){
-        return FolderMapper.toFolderDto(folderService.getOne(folderId));
+        return FolderMapper.toFolderDto(folderService.findById(folderId));
     }
 
     @GetMapping("/tree")
@@ -35,7 +31,7 @@ public class FolderController {
 
     @GetMapping("/{folderId}/files")
     public List<FileResponseDto> getFilesByFolder(@PathVariable String folderId){
-        return FileMapper.toFileDtoList(folderService.getFiles(folderId));
+        return FileMapper.toFileDtoList(folderService.findAllFilesById(folderId));
     }
 
     @PostMapping

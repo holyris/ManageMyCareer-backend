@@ -1,7 +1,6 @@
 package fr.univparis8.iut.csid.user;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,35 +26,34 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<UserDetails> getAll(){
-        return Collections.singletonList(jdbcUserDetailsManager.loadUserByUsername("admin"));
-    }
+  public List<UserDetails> getAll() {
+    return Collections.singletonList(jdbcUserDetailsManager.loadUserByUsername("admin"));
+  }
 
-    public void changePassword(ChangePasswordDto passwordDto){
-        jdbcUserDetailsManager.changePassword(passwordDto.getOldPassword(), passwordEncoder.encode(passwordDto.getNewPassword()));
-    }
+  public void changePassword(ChangePasswordDto passwordDto) {
+    jdbcUserDetailsManager.changePassword(passwordDto.getOldPassword(), passwordEncoder.encode(passwordDto.getNewPassword()));
+  }
 
-    public void createUser(UserCredentials newUser){
-        jdbcUserDetailsManager.createUser(
-                User.withUsername(newUser.getUsername())
-                        .password(passwordEncoder.encode(newUser.getPassword()))
-                        .authorities(AuthorityUtils.createAuthorityList("USER")).build());
-    }
+  public void save(UserCredentials newUser) {
+    jdbcUserDetailsManager.createUser(
+            User.withUsername(newUser.getUsername())
+                    .password(passwordEncoder.encode(newUser.getPassword()))
+                    .authorities(AuthorityUtils.createAuthorityList("USER")).build());
+  }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public void deleteUser(String user){
-        jdbcUserDetailsManager.deleteUser(user);
-    }
+  @PreAuthorize("hasAuthority('ADMIN')")
+  public void delete(String user) {
+    jdbcUserDetailsManager.deleteUser(user);
+  }
 
-    public Object getCurrentUser(){
-        return SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
+  public Object getCurrentUser() {
+    return SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+  }
 
-    public UserEntity getCurrentUserEntity(){
-        User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserEntity userEntity = userRepository.getOne(user.getUsername());
-        return userEntity;
-    }
+  public UserEntity getCurrentUserEntity() {
+    User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    return userRepository.getOne(user.getUsername());
+  }
 
 //    @PreAuthorize("hasAuthority('ADMIN')")
     public List<UserEntity> getAllUsers(){
