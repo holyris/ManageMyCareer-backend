@@ -6,6 +6,7 @@ import fr.univparis8.iut.csid.folder.Folder;
 import fr.univparis8.iut.csid.folder.FolderMapper;
 import fr.univparis8.iut.csid.user.UserEntity;
 import fr.univparis8.iut.csid.user.UserService;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -24,7 +25,7 @@ public class FileService {
 
     public List<File> getAll() {
         UserEntity userEntity = userService.getCurrentUserEntity();
-        return FileMapper.toFileList(fileRepository.findAllByUserEntity(userEntity));
+        return FileMapper.toFileList(fileRepository.findAllByUserEntity(userEntity, Sort.by(Sort.Direction.DESC, "addedDate")));
     }
 
     public File getOne(String fileId) {
