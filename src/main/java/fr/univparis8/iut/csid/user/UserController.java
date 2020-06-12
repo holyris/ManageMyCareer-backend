@@ -31,13 +31,13 @@ public class UserController {
 
     @PostMapping("/create_user")
     public UserCredentials createUser(@RequestBody UserCredentials newUser){
-        userService.createUser(newUser);
+        userService.save(newUser);
         return newUser;
     }
 
     @DeleteMapping("/{user}")
     public String deleteUser(@PathVariable String user){
-        userService.deleteUser(user);
+        userService.delete(user);
         return "L'utilisateur "+user+" à été supprimé";
     }
 

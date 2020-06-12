@@ -1,7 +1,6 @@
 package fr.univparis8.iut.csid.file;
 
 import fr.univparis8.iut.csid.exception.NotFoundException;
-
 import fr.univparis8.iut.csid.folder.Folder;
 import fr.univparis8.iut.csid.folder.FolderMapper;
 import fr.univparis8.iut.csid.user.UserEntity;
@@ -23,28 +22,28 @@ public class FileService {
         this.userService = userService;
     }
 
-    public List<File> getAll() {
+    public List<File> findAll() {
         UserEntity userEntity = userService.getCurrentUserEntity();
         return FileMapper.toFileList(fileRepository.findAllByUserEntity(userEntity, Sort.by(Sort.Direction.DESC, "addedDate")));
     }
 
-    public File getOne(String fileId) {
+    public File findById(String fileId) {
         UserEntity userEntity = userService.getCurrentUserEntity();
         return FileMapper.toFile(fileRepository.findByIdAndUserEntity(fileId, userEntity)
                 .orElseThrow(() -> new NotFoundException("File not found with id " + fileId + " for user " + userEntity.getUsername())));
     }
 
-    public List<File> getByFolder(Folder folder) {
+    public List<File> findAllByFolderEntity(Folder folder) {
         List<FileEntity> fileEntities = fileRepository.findAllByFolderEntity(FolderMapper.toFolderEntity(folder), Sort.by(Sort.Direction.DESC, "addedDate"));
         return FileMapper.toFileList(fileEntities);
     }
 
-    public List<String> getCompanies() {
+    public List<String> findAllCompanies() {
         UserEntity userEntity = userService.getCurrentUserEntity();
         return fileRepository.findCompaniesByUserEntity(userEntity);
     }
 
-    public List<String> getWorkplaces() {
+    public List<String> findAllWorkplaces() {
         UserEntity userEntity = userService.getCurrentUserEntity();
         return fileRepository.findWorkplacesByUserEntity(userEntity);
     }
@@ -68,7 +67,7 @@ public class FileService {
             throw new NotFoundException("File not found with id " + file.getId());
         }
 
-        File currentFile = FileMapper.toFile(fileRepository.getOne(file.getId()));
+        File currentFile = this.findById(file.getId());
 
         FileEntity newFile = FileMapper.toFileEntity(currentFile.mergeWith(file));
 
@@ -79,7 +78,7 @@ public class FileService {
 
     public File delete(String fileId) {
         if (fileRepository.existsById(fileId)) {
-            File file = FileMapper.toFile(fileRepository.getOne(fileId));
+            File file = this.findById(fileId);
             fileRepository.deleteById(file.getId());
             return file;
         } else {

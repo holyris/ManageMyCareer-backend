@@ -22,7 +22,7 @@ public class FolderService {
         this.fileService = fileService;
     }
 
-    public List<Folder> getAll() {
+    public List<Folder> findAll() {
         UserEntity userEntity = userService.getCurrentUserEntity();
         return FolderMapper.toFolderList(folderRepository.findAllByUserEntity(userEntity));
     }
@@ -33,14 +33,14 @@ public class FolderService {
         return FolderMapper.toFolderWithChildrenList(folderEntities);
     }
 
-    public Folder getOne(String folderId) {
+    public Folder findById(String folderId) {
         UserEntity userEntity = userService.getCurrentUserEntity();
         return FolderMapper.toFolder(folderRepository.findByIdAndUserEntity(folderId, userEntity)
                 .orElseThrow(() -> new NotFoundException("Folder not found with id " + folderId + " for user " + userEntity.getUsername())));
     }
 
-    public List<File> getFiles(String folderId) {
-        return this.fileService.getByFolder(this.getOne(folderId));
+    public List<File> findAllFilesById(String folderId) {
+        return this.fileService.findAllByFolderEntity(this.findById(folderId));
     }
 
     public Folder save(Folder folder) {
@@ -69,7 +69,7 @@ public class FolderService {
             }
         }
 
-        Folder currentFolder = this.getOne(folder.getId());
+        Folder currentFolder = this.findById(folder.getId());
         FolderEntity newFolderEntity = FolderMapper.toFolderEntity(currentFolder.mergeWith(folder));
 
         UserEntity userEntity = userService.getCurrentUserEntity();
@@ -79,7 +79,7 @@ public class FolderService {
 
     public Folder delete(String folderId) {
         if (folderRepository.existsById(folderId)) {
-            Folder folder = this.getOne(folderId);
+            Folder folder = this.findById(folderId);
             folderRepository.deleteById(folder.getId());
             return folder;
         } else {
@@ -93,7 +93,7 @@ public class FolderService {
         if (childId.equals(parentId)) {
             return true;
         } else {
-            FolderEntity childFolderEntity = FolderMapper.toFolderEntity(this.getOne(childId));
+            FolderEntity childFolderEntity = FolderMapper.toFolderEntity(this.findById(childId));
             if (childFolderEntity.getParentFolder() != null) {
                 return isChildOf(childFolderEntity.getParentFolder().getId(), parentId);
             }
