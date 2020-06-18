@@ -50,18 +50,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.jdbcAuthentication().dataSource(dataSource)
-            .withUser(
-                    User.withUsername("admin")
-                            .password(passwordEncoder().encode("admin"))
-                            .authorities(AuthorityUtils.createAuthorityList("ADMIN")).build()
-            );
-/*
+//            .withUser(
+//                    User.withUsername("admin")
+//                            .password(passwordEncoder().encode("admin"))
+//                            .authorities(AuthorityUtils.createAuthorityList("ADMIN")).build()
+//            );
             .usersByUsernameQuery(
                     "select username,password, enabled from users where username=?")
             .authoritiesByUsernameQuery(
                     "select username, authority from authorities where username=?")
             .passwordEncoder(new BCryptPasswordEncoder());
-*/
 
     auth.userDetailsService(jdbcUserDetailsManager());
   }
