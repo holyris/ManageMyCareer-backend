@@ -2,7 +2,6 @@ package fr.univparis8.iut.csid.file;
 
 import fr.univparis8.iut.csid.folder.FolderEntity;
 import fr.univparis8.iut.csid.user.UserEntity;
-import org.hibernate.annotations.Any;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.lang.Nullable;
 
@@ -38,7 +37,7 @@ public class FileEntity {
     @JoinColumn
     private UserEntity userEntity;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "file_content_id", referencedColumnName = "id")
     private FileContentEntity fileContent;
 

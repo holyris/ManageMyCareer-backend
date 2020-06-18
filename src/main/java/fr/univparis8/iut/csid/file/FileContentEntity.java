@@ -13,7 +13,7 @@ public class FileContentEntity {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    @OneToOne(mappedBy = "fileContent")
+    @OneToOne(mappedBy = "fileContent", fetch = FetchType.LAZY)
     private FileEntity file;
 
     @Lob

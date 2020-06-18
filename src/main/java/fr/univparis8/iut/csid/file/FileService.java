@@ -63,9 +63,6 @@ public class FileService {
         if (file.getId() == null) {
             throw new NotFoundException("File not found with id " + file.getId());
         }
-        if (!fileRepository.existsById(file.getId())) {
-            throw new NotFoundException("File not found with id " + file.getId());
-        }
 
         File currentFile = this.findById(file.getId());
 
