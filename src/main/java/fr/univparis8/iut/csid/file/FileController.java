@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -65,8 +66,8 @@ public class FileController {
         return FileMapper.toFileDto(fileService.update(FileMapper.toFile(fileReceiveDto)));
     }
 
-    @DeleteMapping("/{fileId}")
-    public FileResponseDto deleteFile(@PathVariable String fileId){
-        return FileMapper.toFileDto(fileService.delete(fileId));
+    @DeleteMapping
+    public int[] deleteFile(@RequestBody String[] fileIds) throws SQLException {
+        return fileService.delete(fileIds);
     }
 }

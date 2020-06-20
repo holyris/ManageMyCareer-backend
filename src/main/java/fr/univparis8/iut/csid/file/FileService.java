@@ -8,6 +8,13 @@ import fr.univparis8.iut.csid.user.UserService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +23,9 @@ public class FileService {
 
     private final FileRepository fileRepository;
     private final UserService userService;
+
+    @PersistenceContext(type = PersistenceContextType.EXTENDED)
+    private EntityManager entityManager;
 
     public FileService(FileRepository fileRepository, UserService userService) {
         this.fileRepository = fileRepository;
@@ -73,13 +83,19 @@ public class FileService {
         return FileMapper.toFile(fileRepository.save(newFile));
     }
 
-    public File delete(String fileId) {
-        if (fileRepository.existsById(fileId)) {
-            File file = this.findById(fileId);
-            fileRepository.deleteById(file.getId());
-            return file;
-        } else {
-            throw new NotFoundException("id file non trouvé");
+    public int[] delete(String[] fileIds) throws SQLException {
+        String sql = "DELETE FROM file where id=?";
+        PreparedStatement preparedStatement = null;
+        Connection connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/springsecurity", "root", "root");
+        preparedStatement = connection.prepareStatement(sql);
+
+        for (String fileId : fileIds) {
+            preparedStatement.setString(1,fileId);
+            preparedStatement.addBatch();
+
         }
+        int[] affectedRecords = preparedStatement.executeBatch();
+        return affectedRecords;
+
     }
 }

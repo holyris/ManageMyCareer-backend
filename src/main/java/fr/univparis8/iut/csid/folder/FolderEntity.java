@@ -17,14 +17,14 @@ public class FolderEntity {
     private String id;
     private String name;
 
-    @OneToMany(mappedBy = "folderEntity", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "folderEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<FileEntity> childFiles;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_folder_id")
     private FolderEntity parentFolder;
 
-    @OneToMany(mappedBy = "parentFolder", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "parentFolder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<FolderEntity> childFolders;
 
     @ManyToOne(fetch = FetchType.EAGER)

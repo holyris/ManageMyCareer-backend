@@ -20,7 +20,7 @@ public class UserEntity {
     @Autowired
     private String enabled;
 
-    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<FileEntity> fileEntities;
 
