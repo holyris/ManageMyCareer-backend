@@ -5,6 +5,7 @@ import fr.univparis8.iut.csid.folder.Folder;
 import fr.univparis8.iut.csid.folder.FolderMapper;
 import fr.univparis8.iut.csid.user.UserEntity;
 import fr.univparis8.iut.csid.user.UserService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,16 @@ public class FileService {
 
     private final FileRepository fileRepository;
     private final UserService userService;
+
+    @Value("${spring.datasource.url}")
+    private String dbUrl;
+
+    @Value("${spring.datasource.username}")
+    private String dbUsername;
+
+    @Value("${spring.datasource.password}")
+    private String dbPassword;
+
 
     @PersistenceContext(type = PersistenceContextType.EXTENDED)
     private EntityManager entityManager;
@@ -83,19 +94,16 @@ public class FileService {
         return FileMapper.toFile(fileRepository.save(newFile));
     }
 
-    public int[] delete(String[] fileIds) throws SQLException {
+    public void delete(String[] fileIds) throws SQLException {
         String sql = "DELETE FROM file where id=?";
         PreparedStatement preparedStatement = null;
-        Connection connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/springsecurity", "root", "root");
+        Connection connection = DriverManager.getConnection(this.dbUrl, this.dbUsername, this.dbPassword);
         preparedStatement = connection.prepareStatement(sql);
 
         for (String fileId : fileIds) {
-            preparedStatement.setString(1,fileId);
+            preparedStatement.setString(1, fileId);
             preparedStatement.addBatch();
-
         }
-        int[] affectedRecords = preparedStatement.executeBatch();
-        return affectedRecords;
-
+        preparedStatement.executeBatch();
     }
 }
