@@ -67,7 +67,7 @@ public class FileController {
     }
 
     @DeleteMapping
-    public int[] deleteFile(@RequestBody String[] fileIds) throws SQLException {
-        return fileService.delete(fileIds);
+    public void deleteFile(@RequestBody String[] fileIds) throws SQLException {
+        fileService.delete(fileIds);
     }
 }
