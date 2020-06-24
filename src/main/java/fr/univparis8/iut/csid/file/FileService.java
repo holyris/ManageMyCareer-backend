@@ -34,10 +34,6 @@ public class FileService {
     @Value("${spring.datasource.password}")
     private String dbPassword;
 
-
-    @PersistenceContext(type = PersistenceContextType.EXTENDED)
-    private EntityManager entityManager;
-
     public FileService(FileRepository fileRepository, UserService userService) {
         this.fileRepository = fileRepository;
         this.userService = userService;
@@ -69,15 +65,14 @@ public class FileService {
         return fileRepository.findWorkplacesByUserEntity(userEntity);
     }
 
-    public File save(File file) {
-        UserEntity userEntity = userService.getCurrentUserEntity();
-        FileEntity fileEntity = FileMapper.toFileEntity(file);
-        fileEntity.setUserEntity(userEntity);
-        fileEntity.setAddedDate(new Date());
-
-        FileEntity fileEntityResponse = fileRepository.save(fileEntity);
-
-        return FileMapper.toFile(fileEntityResponse);
+    public List<File> save(List<File> files) {
+        List<FileEntity> fileEntities = FileMapper.toFileEntitiesList(files);
+        Date dateNow = new Date();
+        for(FileEntity fileEntity : fileEntities){
+            fileEntity.setUserEntity(userService.getCurrentUserEntity());
+            fileEntity.setAddedDate(dateNow);
+        }
+        return FileMapper.toFileList(fileRepository.saveAll(fileEntities));
     }
 
     public File update(File file) {

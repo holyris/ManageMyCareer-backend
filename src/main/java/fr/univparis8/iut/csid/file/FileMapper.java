@@ -116,6 +116,18 @@ public final class FileMapper {
                 .collect(Collectors.toList());
     }
 
+    public static List<FileEntity> toFileEntitiesList(List<File> fileEntities) {
+        return fileEntities.stream()
+                .map(FileMapper::toFileEntity)
+                .collect(Collectors.toList());
+    }
+
+
+    public static List<File> DtotoFileList(List<FileReceiveDto> fileEntities) {
+        return fileEntities.stream()
+                .map(FileMapper::toFile)
+                .collect(Collectors.toList());
+    }
     public static List<FileResponseDto> toFileDtoList(List<File> files) {
         return files.stream()
                 .map(FileMapper::toFileDto)

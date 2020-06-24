@@ -23,13 +23,9 @@ public class FileController {
     private MimeTypes mimeTypes;
 
     @PostMapping
-    public List<FileResponseDto> uploadFiles(@RequestBody FileReceiveDto[] filesReceiveDto){
-        ArrayList<FileResponseDto> response = new ArrayList<>();
-        for(FileReceiveDto file : filesReceiveDto){
-            FileResponseDto fileDto = FileMapper.toFileDto(fileService.save(FileMapper.toFile(file)));
-            response.add(fileDto);
-        }
-        return response;
+    public List<FileResponseDto> uploadFiles(@RequestBody List<FileReceiveDto> filesReceiveDto){
+        fileService.save(FileMapper.DtotoFileList(filesReceiveDto));
+        return FileMapper.toFileDtoList(fileService.save(FileMapper.DtotoFileList(filesReceiveDto)));
     }
 
     @GetMapping()
