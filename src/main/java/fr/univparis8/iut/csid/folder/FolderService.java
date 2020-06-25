@@ -23,18 +23,18 @@ public class FolderService {
 
     public List<FolderModel> findAll() {
         UserEntity userEntity = userService.getCurrentUserEntity();
-        return FolderMapper.toFolderList(folderRepository.findAllByUserEntity(userEntity));
+        return FolderMapper.toFolderModelList(folderRepository.findAllByUserEntity(userEntity));
     }
 
-    public List<FolderWithChildren> getTree() {
+    public List<FolderWithChildrenModel> getTree() {
         UserEntity userEntity = userService.getCurrentUserEntity();
         List<FolderEntity> folderEntities = folderRepository.findAllByUserEntityAndParentFolder(userEntity, null);
-        return FolderMapper.toFolderWithChildrenList(folderEntities);
+        return FolderMapper.toFolderWithChildrenModelList(folderEntities);
     }
 
     public FolderModel getById(String folderId) {
         UserEntity userEntity = userService.getCurrentUserEntity();
-        return FolderMapper.toFolder(folderRepository.getByIdAndUserEntity(folderId, userEntity));
+        return FolderMapper.toFolderModel(folderRepository.getByIdAndUserEntity(folderId, userEntity));
     }
 
     public List<FileModel> findAllFilesById(String folderId) {
@@ -46,7 +46,7 @@ public class FolderService {
         FolderEntity folderEntity = FolderMapper.toFolderEntity(folderModel);
         folderEntity.setUserEntity(userEntity);
 
-        return FolderMapper.toFolder(folderRepository.save(folderEntity));
+        return FolderMapper.toFolderModel(folderRepository.save(folderEntity));
     }
 
     public FolderModel update(FolderModel folderModel) {
@@ -66,7 +66,7 @@ public class FolderService {
 
         UserEntity userEntity = userService.getCurrentUserEntity();
         newFolderEntity.setUserEntity(userEntity);
-        return FolderMapper.toFolder(folderRepository.save(newFolderEntity));
+        return FolderMapper.toFolderModel(folderRepository.save(newFolderEntity));
     }
 
     public void delete(String folderId) {

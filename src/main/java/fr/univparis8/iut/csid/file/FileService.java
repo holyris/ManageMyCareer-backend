@@ -23,17 +23,17 @@ public class FileService {
 
     public List<FileModel> findAll() {
         UserEntity userEntity = userService.getCurrentUserEntity();
-        return FileMapper.FileEntityListToFileList(fileRepository.findAllByUserEntity(userEntity, Sort.by(Sort.Direction.DESC, "addedDate")));
+        return FileMapper.FileEntityListToFileModelList(fileRepository.findAllByUserEntity(userEntity, Sort.by(Sort.Direction.DESC, "addedDate")));
     }
 
     public FileModel getById(String fileId) {
         UserEntity userEntity = userService.getCurrentUserEntity();
-        return FileMapper.toFile(fileRepository.getByIdAndUserEntity(fileId, userEntity));
+        return FileMapper.toFileModel(fileRepository.getByIdAndUserEntity(fileId, userEntity));
     }
 
     public List<FileModel> findAllByFolderEntity(FolderModel folderModel) {
         List<FileEntity> fileEntities = fileRepository.findAllByFolderEntity(FolderMapper.toFolderEntity(folderModel), Sort.by(Sort.Direction.DESC, "addedDate"));
-        return FileMapper.FileEntityListToFileList(fileEntities);
+        return FileMapper.FileEntityListToFileModelList(fileEntities);
     }
 
     public List<String> findAllCompanies() {
@@ -53,7 +53,7 @@ public class FileService {
             fileEntity.setUserEntity(userService.getCurrentUserEntity());
             fileEntity.setAddedDate(dateNow);
         }
-        return FileMapper.FileEntityListToFileList(fileRepository.saveAll(fileEntities));
+        return FileMapper.FileEntityListToFileModelList(fileRepository.saveAll(fileEntities));
     }
 
     public FileModel update(FileModel fileModel) {
@@ -63,7 +63,7 @@ public class FileService {
 
         UserEntity userEntity = userService.getCurrentUserEntity();
         newFile.setUserEntity(userEntity);
-        return FileMapper.toFile(fileRepository.save(newFile));
+        return FileMapper.toFileModel(fileRepository.save(newFile));
     }
 
     public void deleteInBatch(List<FileModel> fileModels) {

@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 
 public final class FileMapper {
 
-    public static FileModel toFile(FileEntity fileEntity) {
-        FolderModel folderModel = FolderMapper.toFolder(fileEntity.getFolderEntity());
+    public static FileModel toFileModel(FileEntity fileEntity) {
+        FolderModel folderModel = FolderMapper.toFolderModel(fileEntity.getFolderEntity());
         return FileModel.FileBuilder.create()
                 .withId(fileEntity.getId())
                 .withName(fileEntity.getName())
@@ -83,7 +83,7 @@ public final class FileMapper {
                 .build();
     }
 
-    public static FileModel toFile(FileReceiveDto fileReceiveDto) {
+    public static FileModel toFileModel(FileReceiveDto fileReceiveDto) {
         FileContentEntity fileContentEntity = new FileContentEntity();
         fileContentEntity.setFileContent(fileReceiveDto.getFileContent());
 
@@ -112,15 +112,15 @@ public final class FileMapper {
                 .build();
     }
 
-    public static List<FileModel> FileEntityListToFileList(List<FileEntity> fileEntities) {
+    public static List<FileModel> FileEntityListToFileModelList(List<FileEntity> fileEntities) {
         return fileEntities.stream()
-                .map(FileMapper::toFile)
+                .map(FileMapper::toFileModel)
                 .collect(Collectors.toList());
     }
 
-    public static List<FileModel> FileDtoListToFileList(List<FileReceiveDto> fileReceiveDtos) {
+    public static List<FileModel> FileDtoListToFileModelList(List<FileReceiveDto> fileReceiveDtos) {
         return fileReceiveDtos.stream()
-                .map(FileMapper::toFile)
+                .map(FileMapper::toFileModel)
                 .collect(Collectors.toList());
     }
 

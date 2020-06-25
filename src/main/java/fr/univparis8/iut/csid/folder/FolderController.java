@@ -36,12 +36,12 @@ public class FolderController {
 
     @PostMapping
     public FolderDto save(@RequestBody FolderDto folderDto) {
-        return FolderMapper.toFolderDto(folderService.save(FolderMapper.toFolder(folderDto)));
+        return FolderMapper.toFolderDto(folderService.save(FolderMapper.toFolderModel(folderDto)));
     }
 
     @PatchMapping
     public FolderDto update(@RequestBody FolderDto folderDto){
-        return FolderMapper.toFolderDto(folderService.update(FolderMapper.toFolder(folderDto)));
+        return FolderMapper.toFolderDto(folderService.update(FolderMapper.toFolderModel(folderDto)));
     }
 
     @DeleteMapping("/{folderId}")

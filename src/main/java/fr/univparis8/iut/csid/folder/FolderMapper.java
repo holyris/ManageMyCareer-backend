@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 public class FolderMapper {
 
-    public static FolderModel toFolder(FolderDto folderDto) {
+    public static FolderModel toFolderModel(FolderDto folderDto) {
         if (folderDto == null) return null;
 
         FolderModel parentFolderModel = null;
@@ -23,9 +23,9 @@ public class FolderMapper {
                 .build();
     }
 
-    public static FolderModel toFolder(FolderEntity folderEntity) {
+    public static FolderModel toFolderModel(FolderEntity folderEntity) {
         if (folderEntity == null) return null;
-        FolderModel parentFolderModel = FolderMapper.toFolder(folderEntity.getParentFolder());
+        FolderModel parentFolderModel = FolderMapper.toFolderModel(folderEntity.getParentFolder());
         return FolderModel.FolderBuilder.create()
                 .withId(folderEntity.getId())
                 .withName(folderEntity.getName())
@@ -59,33 +59,33 @@ public class FolderMapper {
     }
 
 
-    public static FolderWithChildren toFolderWithChildren(FolderEntity folderEntity) {
+    public static FolderWithChildrenModel toFolderWithChildrenModel(FolderEntity folderEntity) {
         if (folderEntity == null) return null;
 
         List<FolderEntity> folderEntities = new ArrayList<>(folderEntity.getChildFolders());
-        List<FolderWithChildren> childFolders = FolderMapper.toFolderWithChildrenList(folderEntities);
+        List<FolderWithChildrenModel> childFolders = FolderMapper.toFolderWithChildrenModelList(folderEntities);
 
-        return FolderWithChildren.FolderWithChildrenBuilder.create()
+        return FolderWithChildrenModel.FolderWithChildrenBuilder.create()
                 .withId(folderEntity.getId())
                 .withName(folderEntity.getName())
                 .withChildFolders(childFolders)
                 .build();
     }
 
-    public static FolderWithChildrenDto toFolderWithChildrenDto(FolderWithChildren folderWithChildren) {
-        if (folderWithChildren == null) return null;
+    public static FolderWithChildrenDto toFolderWithChildrenDto(FolderWithChildrenModel folderWithChildrenModel) {
+        if (folderWithChildrenModel == null) return null;
 
-        List<FolderWithChildrenDto> childFolders = FolderMapper.toFolderWithChildrenDtoList(folderWithChildren.getChildFolders());
+        List<FolderWithChildrenDto> childFolders = FolderMapper.toFolderWithChildrenDtoList(folderWithChildrenModel.getChildFolders());
         return FolderWithChildrenDto.FolderWithChildrenDtoBuilder.create()
-                .withId(folderWithChildren.getId())
-                .withName(folderWithChildren.getName())
+                .withId(folderWithChildrenModel.getId())
+                .withName(folderWithChildrenModel.getName())
                 .withChildFolders(childFolders)
                 .build();
     }
 
-    public static List<FolderModel> toFolderList(List<FolderEntity> folderEntities) {
+    public static List<FolderModel> toFolderModelList(List<FolderEntity> folderEntities) {
         return folderEntities.stream()
-                .map(FolderMapper::toFolder)
+                .map(FolderMapper::toFolderModel)
                 .collect(Collectors.toList());
     }
 
@@ -95,13 +95,13 @@ public class FolderMapper {
                 .collect(Collectors.toList());
     }
 
-    public static List<FolderWithChildren> toFolderWithChildrenList(List<FolderEntity> folderEntities) {
+    public static List<FolderWithChildrenModel> toFolderWithChildrenModelList(List<FolderEntity> folderEntities) {
         return folderEntities.stream()
-                .map(FolderMapper::toFolderWithChildren)
+                .map(FolderMapper::toFolderWithChildrenModel)
                 .collect(Collectors.toList());
     }
 
-    public static List<FolderWithChildrenDto> toFolderWithChildrenDtoList(List<FolderWithChildren> foldersWithChildren) {
+    public static List<FolderWithChildrenDto> toFolderWithChildrenDtoList(List<FolderWithChildrenModel> foldersWithChildren) {
         return foldersWithChildren.stream()
                 .map(FolderMapper::toFolderWithChildrenDto)
                 .collect(Collectors.toList());

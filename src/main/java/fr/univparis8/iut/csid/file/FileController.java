@@ -20,7 +20,7 @@ public class FileController {
 
     @PostMapping
     public List<FileResponseDto> uploadFiles(@RequestBody List<FileReceiveDto> fileReceiveDtos) {
-        List<FileModel> fileModelList = FileMapper.FileDtoListToFileList(fileReceiveDtos);
+        List<FileModel> fileModelList = FileMapper.FileDtoListToFileModelList(fileReceiveDtos);
         return FileMapper.toFileDtoList(fileService.saveAll(fileModelList));
     }
 
@@ -55,12 +55,12 @@ public class FileController {
     @PatchMapping
     public FileResponseDto updateFile(@RequestBody FileReceiveDto fileReceiveDto){
         fileReceiveDto.setModifiedDate(new Date());
-        return FileMapper.toFileDto(fileService.update(FileMapper.toFile(fileReceiveDto)));
+        return FileMapper.toFileDto(fileService.update(FileMapper.toFileModel(fileReceiveDto)));
     }
 
     @DeleteMapping
     public void deleteFile(@RequestBody List<FileReceiveDto> fileReceiveDtos) {
-        List<FileModel> fileModelList = FileMapper.FileDtoListToFileList(fileReceiveDtos);
+        List<FileModel> fileModelList = FileMapper.FileDtoListToFileModelList(fileReceiveDtos);
         fileService.deleteInBatch(fileModelList);
     }
 }
