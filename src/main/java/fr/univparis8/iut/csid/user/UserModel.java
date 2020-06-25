@@ -3,12 +3,12 @@ package fr.univparis8.iut.csid.user;
 
 import java.util.Objects;
 
-public class User {
+public class UserModel {
 
     private final String username;
     private final String password;
 
-    public User(String username, String password) {
+    public UserModel(String username, String password) {
         this.username = username;
         this.password = password;
     }
@@ -22,8 +22,8 @@ public class User {
         return password;
     }
 
-    public User mergeWith(User other) {
-        return User.UserBuilder.create()
+    public UserModel mergeWith(UserModel other) {
+        return UserModel.UserBuilder.create()
                 .withUsername(Objects.requireNonNullElse(other.username, username))
                 .withPassword(Objects.requireNonNullElse(other.password, password))
                 .build();
@@ -51,8 +51,8 @@ public class User {
             return this;
         }
 
-        public User build() {
-            return new User(username, password);
+        public UserModel build() {
+            return new UserModel(username, password);
         }
     }
 }

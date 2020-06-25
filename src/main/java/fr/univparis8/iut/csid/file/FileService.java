@@ -1,6 +1,6 @@
 package fr.univparis8.iut.csid.file;
 
-import fr.univparis8.iut.csid.folder.Folder;
+import fr.univparis8.iut.csid.folder.FolderModel;
 import fr.univparis8.iut.csid.folder.FolderMapper;
 import fr.univparis8.iut.csid.user.UserEntity;
 import fr.univparis8.iut.csid.user.UserService;
@@ -21,18 +21,18 @@ public class FileService {
         this.userService = userService;
     }
 
-    public List<File> findAll() {
+    public List<FileModel> findAll() {
         UserEntity userEntity = userService.getCurrentUserEntity();
         return FileMapper.FileEntityListToFileList(fileRepository.findAllByUserEntity(userEntity, Sort.by(Sort.Direction.DESC, "addedDate")));
     }
 
-    public File getById(String fileId) {
+    public FileModel getById(String fileId) {
         UserEntity userEntity = userService.getCurrentUserEntity();
         return FileMapper.toFile(fileRepository.getByIdAndUserEntity(fileId, userEntity));
     }
 
-    public List<File> findAllByFolderEntity(Folder folder) {
-        List<FileEntity> fileEntities = fileRepository.findAllByFolderEntity(FolderMapper.toFolderEntity(folder), Sort.by(Sort.Direction.DESC, "addedDate"));
+    public List<FileModel> findAllByFolderEntity(FolderModel folderModel) {
+        List<FileEntity> fileEntities = fileRepository.findAllByFolderEntity(FolderMapper.toFolderEntity(folderModel), Sort.by(Sort.Direction.DESC, "addedDate"));
         return FileMapper.FileEntityListToFileList(fileEntities);
     }
 
@@ -46,8 +46,8 @@ public class FileService {
         return fileRepository.findWorkplacesByUserEntity(userEntity);
     }
 
-    public List<File> saveAll(List<File> files) {
-        List<FileEntity> fileEntities = FileMapper.toFileEntityList(files);
+    public List<FileModel> saveAll(List<FileModel> fileModels) {
+        List<FileEntity> fileEntities = FileMapper.toFileEntityList(fileModels);
         Date dateNow = new Date();
         for (FileEntity fileEntity : fileEntities) {
             fileEntity.setUserEntity(userService.getCurrentUserEntity());
@@ -56,18 +56,18 @@ public class FileService {
         return FileMapper.FileEntityListToFileList(fileRepository.saveAll(fileEntities));
     }
 
-    public File update(File file) {
-        File currentFile = this.getById(file.getId());
+    public FileModel update(FileModel fileModel) {
+        FileModel currentFileModel = this.getById(fileModel.getId());
 
-        FileEntity newFile = FileMapper.toFileEntity(currentFile.mergeWith(file));
+        FileEntity newFile = FileMapper.toFileEntity(currentFileModel.mergeWith(fileModel));
 
         UserEntity userEntity = userService.getCurrentUserEntity();
         newFile.setUserEntity(userEntity);
         return FileMapper.toFile(fileRepository.save(newFile));
     }
 
-    public void deleteInBatch(List<File> files) {
-        List<FileEntity> fileEntities = FileMapper.toFileEntityList(files);
+    public void deleteInBatch(List<FileModel> fileModels) {
+        List<FileEntity> fileEntities = FileMapper.toFileEntityList(fileModels);
         fileRepository.deleteInBatch(fileEntities);
     }
 }

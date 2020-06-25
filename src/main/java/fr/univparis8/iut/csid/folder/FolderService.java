@@ -1,6 +1,6 @@
 package fr.univparis8.iut.csid.folder;
 
-import fr.univparis8.iut.csid.file.File;
+import fr.univparis8.iut.csid.file.FileModel;
 import fr.univparis8.iut.csid.file.FileService;
 import fr.univparis8.iut.csid.user.UserEntity;
 import fr.univparis8.iut.csid.user.UserService;
@@ -21,7 +21,7 @@ public class FolderService {
         this.fileService = fileService;
     }
 
-    public List<Folder> findAll() {
+    public List<FolderModel> findAll() {
         UserEntity userEntity = userService.getCurrentUserEntity();
         return FolderMapper.toFolderList(folderRepository.findAllByUserEntity(userEntity));
     }
@@ -32,37 +32,37 @@ public class FolderService {
         return FolderMapper.toFolderWithChildrenList(folderEntities);
     }
 
-    public Folder getById(String folderId) {
+    public FolderModel getById(String folderId) {
         UserEntity userEntity = userService.getCurrentUserEntity();
         return FolderMapper.toFolder(folderRepository.getByIdAndUserEntity(folderId, userEntity));
     }
 
-    public List<File> findAllFilesById(String folderId) {
+    public List<FileModel> findAllFilesById(String folderId) {
         return this.fileService.findAllByFolderEntity(this.getById(folderId));
     }
 
-    public Folder save(Folder folder) {
+    public FolderModel save(FolderModel folderModel) {
         UserEntity userEntity = userService.getCurrentUserEntity();
-        FolderEntity folderEntity = FolderMapper.toFolderEntity(folder);
+        FolderEntity folderEntity = FolderMapper.toFolderEntity(folderModel);
         folderEntity.setUserEntity(userEntity);
 
         return FolderMapper.toFolder(folderRepository.save(folderEntity));
     }
 
-    public Folder update(Folder folder) {
+    public FolderModel update(FolderModel folderModel) {
 
-        if (folder.getParentFolder() != null) {
-            if (folder.getId().equals(folder.getParentFolder().getId())) {
+        if (folderModel.getParentFolderModel() != null) {
+            if (folderModel.getId().equals(folderModel.getParentFolderModel().getId())) {
                 throw new IllegalArgumentException("A folder can't be a direct child of himself");
             }
 
-            if (this.isChildOf(folder.getParentFolder().getId(), folder.getId())) {
+            if (this.isChildOf(folderModel.getParentFolderModel().getId(), folderModel.getId())) {
                 throw new IllegalArgumentException("A folder can't be a child of himself");
             }
         }
 
-        Folder currentFolder = this.getById(folder.getId());
-        FolderEntity newFolderEntity = FolderMapper.toFolderEntity(currentFolder.mergeWith(folder));
+        FolderModel currentFolderModel = this.getById(folderModel.getId());
+        FolderEntity newFolderEntity = FolderMapper.toFolderEntity(currentFolderModel.mergeWith(folderModel));
 
         UserEntity userEntity = userService.getCurrentUserEntity();
         newFolderEntity.setUserEntity(userEntity);

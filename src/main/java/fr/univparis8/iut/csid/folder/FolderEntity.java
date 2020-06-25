@@ -24,10 +24,10 @@ public class FolderEntity {
     @JoinColumn(name = "parent_folder_id")
     private FolderEntity parentFolder;
 
-    @OneToMany(mappedBy = "parentFolder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "parentFolder", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<FolderEntity> childFolders;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private UserEntity userEntity;
 

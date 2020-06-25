@@ -1,6 +1,6 @@
 package fr.univparis8.iut.csid.file;
 
-import fr.univparis8.iut.csid.folder.Folder;
+import fr.univparis8.iut.csid.folder.FolderModel;
 import fr.univparis8.iut.csid.folder.FolderEntity;
 import fr.univparis8.iut.csid.folder.FolderMapper;
 
@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 
 public final class FileMapper {
 
-    public static File toFile(FileEntity fileEntity) {
-        Folder folder = FolderMapper.toFolder(fileEntity.getFolderEntity());
-        return File.FileBuilder.create()
+    public static FileModel toFile(FileEntity fileEntity) {
+        FolderModel folderModel = FolderMapper.toFolder(fileEntity.getFolderEntity());
+        return FileModel.FileBuilder.create()
                 .withId(fileEntity.getId())
                 .withName(fileEntity.getName())
                 .withType(fileEntity.getType())
@@ -26,75 +26,75 @@ public final class FileMapper {
                 .withWorkplace(fileEntity.getWorkplace())
                 .withGrossSalary(fileEntity.getGrossSalary())
                 .withNetSalary(fileEntity.getNetSalary())
-                .withFolder(folder)
+                .withFolder(folderModel)
                 .build();
     }
 
-    public static FileResponseDto toFileDto(File file) {
+    public static FileResponseDto toFileDto(FileModel fileModel) {
 
         String folderId = null;
         String documentMonth = null;
         String documentYear = null;
-        if (file.getFolder() != null) {
-            folderId = file.getFolder().getId();
+        if (fileModel.getFolderModel() != null) {
+            folderId = fileModel.getFolderModel().getId();
         }
-        if(file.getDocumentDate() != null){
-            documentMonth = new SimpleDateFormat("MMMM").format(file.getDocumentDate());
-            documentYear = new SimpleDateFormat("y").format(file.getDocumentDate());
+        if(fileModel.getDocumentDate() != null){
+            documentMonth = new SimpleDateFormat("MMMM").format(fileModel.getDocumentDate());
+            documentYear = new SimpleDateFormat("y").format(fileModel.getDocumentDate());
         }
 
 
         return FileResponseDto.FileResponseDtoBuilder.create()
-                .withId(file.getId())
-                .withName(file.getName())
-                .withType(file.getType())
-                .withDocumentType(file.getDocumentType())
-                .withSize(file.getSize())
-                .withDocumentDate(file.getDocumentDate())
+                .withId(fileModel.getId())
+                .withName(fileModel.getName())
+                .withType(fileModel.getType())
+                .withDocumentType(fileModel.getDocumentType())
+                .withSize(fileModel.getSize())
+                .withDocumentDate(fileModel.getDocumentDate())
                 .withDocumentMonth(documentMonth)
                 .withDocumentYear(documentYear)
-                .withAddedDate(file.getAddedDate())
-                .withModifiedDate(file.getModifiedDate())
-                .withCompany(file.getCompany())
-                .withWorkplace(file.getWorkplace())
-                .withGrossSalary(file.getGrossSalary())
-                .withNetSalary(file.getNetSalary())
+                .withAddedDate(fileModel.getAddedDate())
+                .withModifiedDate(fileModel.getModifiedDate())
+                .withCompany(fileModel.getCompany())
+                .withWorkplace(fileModel.getWorkplace())
+                .withGrossSalary(fileModel.getGrossSalary())
+                .withNetSalary(fileModel.getNetSalary())
                 .withFolderId(folderId)
                 .build();
     }
 
-    public static FileEntity toFileEntity(File file) {
-        FolderEntity folderEntity = FolderMapper.toFolderEntity(file.getFolder());
+    public static FileEntity toFileEntity(FileModel fileModel) {
+        FolderEntity folderEntity = FolderMapper.toFolderEntity(fileModel.getFolderModel());
         return FileEntity.FileEntityBuilder.create()
-                .withId(file.getId())
-                .withName(file.getName())
-                .withType(file.getType())
-                .withDocumentType(file.getDocumentType())
-                .withSize(file.getSize())
-                .withData(file.getFileContent())
-                .withDocumentDate(file.getDocumentDate())
-                .withAddedDate(file.getAddedDate())
-                .withModifiedDate(file.getModifiedDate())
-                .withCompany(file.getCompany())
-                .withWorkplace(file.getWorkplace())
-                .withGrossSalary(file.getGrossSalary())
-                .withNetSalary(file.getNetSalary())
+                .withId(fileModel.getId())
+                .withName(fileModel.getName())
+                .withType(fileModel.getType())
+                .withDocumentType(fileModel.getDocumentType())
+                .withSize(fileModel.getSize())
+                .withData(fileModel.getFileContent())
+                .withDocumentDate(fileModel.getDocumentDate())
+                .withAddedDate(fileModel.getAddedDate())
+                .withModifiedDate(fileModel.getModifiedDate())
+                .withCompany(fileModel.getCompany())
+                .withWorkplace(fileModel.getWorkplace())
+                .withGrossSalary(fileModel.getGrossSalary())
+                .withNetSalary(fileModel.getNetSalary())
                 .withFolderEntity(folderEntity)
                 .build();
     }
 
-    public static File toFile(FileReceiveDto fileReceiveDto) {
+    public static FileModel toFile(FileReceiveDto fileReceiveDto) {
         FileContentEntity fileContentEntity = new FileContentEntity();
         fileContentEntity.setFileContent(fileReceiveDto.getFileContent());
 
-        Folder folder = null;
+        FolderModel folderModel = null;
         if (fileReceiveDto.getFolderId() != null) {
-            folder = Folder.FolderBuilder.create()
+            folderModel = FolderModel.FolderBuilder.create()
                     .withId(fileReceiveDto.getFolderId())
                     .build();
         }
 
-        return File.FileBuilder.create()
+        return FileModel.FileBuilder.create()
                 .withId(fileReceiveDto.getId())
                 .withName(fileReceiveDto.getName())
                 .withType(fileReceiveDto.getType())
@@ -108,30 +108,30 @@ public final class FileMapper {
                 .withWorkplace(fileReceiveDto.getWorkplace())
                 .withGrossSalary(fileReceiveDto.getGrossSalary())
                 .withNetSalary(fileReceiveDto.getNetSalary())
-                .withFolder(folder)
+                .withFolder(folderModel)
                 .build();
     }
 
-    public static List<File> FileEntityListToFileList(List<FileEntity> fileEntities) {
+    public static List<FileModel> FileEntityListToFileList(List<FileEntity> fileEntities) {
         return fileEntities.stream()
                 .map(FileMapper::toFile)
                 .collect(Collectors.toList());
     }
 
-    public static List<File> FileDtoListToFileList(List<FileReceiveDto> fileReceiveDtos) {
+    public static List<FileModel> FileDtoListToFileList(List<FileReceiveDto> fileReceiveDtos) {
         return fileReceiveDtos.stream()
                 .map(FileMapper::toFile)
                 .collect(Collectors.toList());
     }
 
-    public static List<FileResponseDto> toFileDtoList(List<File> files) {
-        return files.stream()
+    public static List<FileResponseDto> toFileDtoList(List<FileModel> fileModels) {
+        return fileModels.stream()
                 .map(FileMapper::toFileDto)
                 .collect(Collectors.toList());
     }
 
-    public static List<FileEntity> toFileEntityList(List<File> files) {
-        return files.stream()
+    public static List<FileEntity> toFileEntityList(List<FileModel> fileModels) {
+        return fileModels.stream()
                 .map(FileMapper::toFileEntity)
                 .collect(Collectors.toList());
     }

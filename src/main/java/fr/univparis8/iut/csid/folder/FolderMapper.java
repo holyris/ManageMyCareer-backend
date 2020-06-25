@@ -2,59 +2,58 @@ package fr.univparis8.iut.csid.folder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class FolderMapper {
 
-    public static Folder toFolder(FolderDto folderDto) {
+    public static FolderModel toFolder(FolderDto folderDto) {
         if (folderDto == null) return null;
 
-        Folder parentFolder = null;
+        FolderModel parentFolderModel = null;
         if (folderDto.getParentFolderId() != null) {
-            parentFolder = Folder.FolderBuilder.create()
+            parentFolderModel = FolderModel.FolderBuilder.create()
                     .withId(folderDto.getParentFolderId())
                     .build();
         }
 
-        return Folder.FolderBuilder.create()
+        return FolderModel.FolderBuilder.create()
                 .withId(folderDto.getId())
                 .withName(folderDto.getName())
-                .withParentFolder(parentFolder)
+                .withParentFolder(parentFolderModel)
                 .build();
     }
 
-    public static Folder toFolder(FolderEntity folderEntity) {
+    public static FolderModel toFolder(FolderEntity folderEntity) {
         if (folderEntity == null) return null;
-        Folder parentFolder = FolderMapper.toFolder(folderEntity.getParentFolder());
-        return Folder.FolderBuilder.create()
+        FolderModel parentFolderModel = FolderMapper.toFolder(folderEntity.getParentFolder());
+        return FolderModel.FolderBuilder.create()
                 .withId(folderEntity.getId())
                 .withName(folderEntity.getName())
-                .withParentFolder(parentFolder)
+                .withParentFolder(parentFolderModel)
                 .build();
     }
 
-    public static FolderEntity toFolderEntity(Folder folder) {
-        if (folder == null) return null;
+    public static FolderEntity toFolderEntity(FolderModel folderModel) {
+        if (folderModel == null) return null;
 
-        FolderEntity parentFolderEntity = FolderMapper.toFolderEntity(folder.getParentFolder());
+        FolderEntity parentFolderEntity = FolderMapper.toFolderEntity(folderModel.getParentFolderModel());
         return FolderEntity.FolderEntityBuilder.create()
-                .withId(folder.getId())
-                .withName(folder.getName())
+                .withId(folderModel.getId())
+                .withName(folderModel.getName())
                 .withParentFolder(parentFolderEntity)
                 .build();
     }
 
-    public static FolderDto toFolderDto(Folder folder) {
-        if (folder == null) return null;
+    public static FolderDto toFolderDto(FolderModel folderModel) {
+        if (folderModel == null) return null;
 
         String parentFolderId = null;
-        if (folder.getParentFolder() != null) {
-            parentFolderId = folder.getParentFolder().getId();
+        if (folderModel.getParentFolderModel() != null) {
+            parentFolderId = folderModel.getParentFolderModel().getId();
         }
         return FolderDto.FolderDtoBuilder.create()
-                .withId(folder.getId())
-                .withName(folder.getName())
+                .withId(folderModel.getId())
+                .withName(folderModel.getName())
                 .withParentFolderId(parentFolderId)
                 .build();
     }
@@ -84,14 +83,14 @@ public class FolderMapper {
                 .build();
     }
 
-    public static List<Folder> toFolderList(List<FolderEntity> folderEntities) {
+    public static List<FolderModel> toFolderList(List<FolderEntity> folderEntities) {
         return folderEntities.stream()
                 .map(FolderMapper::toFolder)
                 .collect(Collectors.toList());
     }
 
-    public static List<FolderDto> toFolderDtoList(List<Folder> folders) {
-        return folders.stream()
+    public static List<FolderDto> toFolderDtoList(List<FolderModel> folderModels) {
+        return folderModels.stream()
                 .map(FolderMapper::toFolderDto)
                 .collect(Collectors.toList());
     }

@@ -20,8 +20,8 @@ public class FileController {
 
     @PostMapping
     public List<FileResponseDto> uploadFiles(@RequestBody List<FileReceiveDto> fileReceiveDtos) {
-        List<File> fileList = FileMapper.FileDtoListToFileList(fileReceiveDtos);
-        return FileMapper.toFileDtoList(fileService.saveAll(fileList));
+        List<FileModel> fileModelList = FileMapper.FileDtoListToFileList(fileReceiveDtos);
+        return FileMapper.toFileDtoList(fileService.saveAll(fileModelList));
     }
 
     @GetMapping()
@@ -37,11 +37,11 @@ public class FileController {
     @GetMapping("/{fileId}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileId) {
 
-        File file = fileService.getById(fileId);
+        FileModel fileModel = fileService.getById(fileId);
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(file.getType()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
-                .body(new ByteArrayResource(file.getFileContent().getFileContent()));
+                .contentType(MediaType.parseMediaType(fileModel.getType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileModel.getName() + "\"")
+                .body(new ByteArrayResource(fileModel.getFileContent().getFileContent()));
     }
     @GetMapping("/companies")
     public List<String> getCompanies(){
@@ -60,7 +60,7 @@ public class FileController {
 
     @DeleteMapping
     public void deleteFile(@RequestBody List<FileReceiveDto> fileReceiveDtos) {
-        List<File> fileList = FileMapper.FileDtoListToFileList(fileReceiveDtos);
-        fileService.deleteInBatch(fileList);
+        List<FileModel> fileModelList = FileMapper.FileDtoListToFileList(fileReceiveDtos);
+        fileService.deleteInBatch(fileModelList);
     }
 }

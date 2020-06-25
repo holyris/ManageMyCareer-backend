@@ -1,12 +1,12 @@
 package fr.univparis8.iut.csid.file;
 
 
-import fr.univparis8.iut.csid.folder.Folder;
-import fr.univparis8.iut.csid.user.User;
+import fr.univparis8.iut.csid.folder.FolderModel;
+import fr.univparis8.iut.csid.user.UserModel;
 
 import java.util.Date;
 
-public class File {
+public class FileModel {
     private final String id;
     private final String name;
     private final String type;
@@ -20,10 +20,10 @@ public class File {
     private final Double grossSalary;
     private final Double netSalary;
     private final FileContentEntity fileContent;
-    private final User user;
-    private final Folder folder;
+    private final UserModel userModel;
+    private final FolderModel folderModel;
 
-    public File(String id, String name, String type, String documentType, Long size, Date addedDate, Date modifiedDate, Date documentDate, String company, String workplace, Double grossSalary, Double netSalary, FileContentEntity fileContent, User user, Folder folder) {
+    public FileModel(String id, String name, String type, String documentType, Long size, Date addedDate, Date modifiedDate, Date documentDate, String company, String workplace, Double grossSalary, Double netSalary, FileContentEntity fileContent, UserModel userModel, FolderModel folderModel) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -37,8 +37,8 @@ public class File {
         this.grossSalary = grossSalary;
         this.netSalary = netSalary;
         this.fileContent = fileContent;
-        this.user = user;
-        this.folder = folder;
+        this.userModel = userModel;
+        this.folderModel = folderModel;
     }
 
     public String getId() {
@@ -93,15 +93,15 @@ public class File {
         return fileContent;
     }
 
-    public User getUser() {
-        return user;
+    public UserModel getUserModel() {
+        return userModel;
     }
 
-    public Folder getFolder() {
-        return folder;
+    public FolderModel getFolderModel() {
+        return folderModel;
     }
 
-    public File mergeWith(File other) {
+    public FileModel mergeWith(FileModel other) {
         return FileBuilder.create()
                 .withId(id)
                 .withName(other.name != null ? other.name : name)
@@ -116,7 +116,7 @@ public class File {
                 .withGrossSalary(other.grossSalary != null ? other.grossSalary : grossSalary)
                 .withNetSalary(other.netSalary != null ? other.netSalary : netSalary)
                 .withFileContent(fileContent)
-                .withFolder(other.folder)
+                .withFolder(other.folderModel)
                 .build();
     }
 
@@ -135,8 +135,8 @@ public class File {
         private Double grossSalary;
         private Double netSalary;
         private FileContentEntity fileContent;
-        private User user;
-        private Folder folder;
+        private UserModel userModel;
+        private FolderModel folderModel;
 
         private FileBuilder() {
         }
@@ -210,18 +210,18 @@ public class File {
             return this;
         }
 
-        public FileBuilder withUser(User user) {
-            this.user = user;
+        public FileBuilder withUser(UserModel userModel) {
+            this.userModel = userModel;
             return this;
         }
 
-        public FileBuilder withFolder(Folder folder) {
-            this.folder = folder;
+        public FileBuilder withFolder(FolderModel folderModel) {
+            this.folderModel = folderModel;
             return this;
         }
 
-        public File build() {
-            return new File(id, name, type, documentType, size, addedDate, modifiedDate, documentDate, company, workplace, grossSalary, netSalary, fileContent, user, folder);
+        public FileModel build() {
+            return new FileModel(id, name, type, documentType, size, addedDate, modifiedDate, documentDate, company, workplace, grossSalary, netSalary, fileContent, userModel, folderModel);
         }
     }
 }
