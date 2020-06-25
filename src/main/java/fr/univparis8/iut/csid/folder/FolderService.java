@@ -1,6 +1,5 @@
 package fr.univparis8.iut.csid.folder;
 
-import fr.univparis8.iut.csid.exception.NotFoundException;
 import fr.univparis8.iut.csid.file.File;
 import fr.univparis8.iut.csid.file.FileService;
 import fr.univparis8.iut.csid.user.UserEntity;
@@ -33,14 +32,13 @@ public class FolderService {
         return FolderMapper.toFolderWithChildrenList(folderEntities);
     }
 
-    public Folder findById(String folderId) {
+    public Folder getById(String folderId) {
         UserEntity userEntity = userService.getCurrentUserEntity();
-        return FolderMapper.toFolder(folderRepository.findByIdAndUserEntity(folderId, userEntity)
-                .orElseThrow(() -> new NotFoundException("Folder not found with id " + folderId + " for user " + userEntity.getUsername())));
+        return FolderMapper.toFolder(folderRepository.getByIdAndUserEntity(folderId, userEntity));
     }
 
     public List<File> findAllFilesById(String folderId) {
-        return this.fileService.findAllByFolderEntity(this.findById(folderId));
+        return this.fileService.findAllByFolderEntity(this.getById(folderId));
     }
 
     public Folder save(Folder folder) {
@@ -52,12 +50,6 @@ public class FolderService {
     }
 
     public Folder update(Folder folder) {
-        if (folder.getId() == null) {
-            throw new NotFoundException("Id is null");
-        }
-        if (!folderRepository.existsById(folder.getId())) {
-            throw new NotFoundException("Folder not found with id " + folder.getId());
-        }
 
         if (folder.getParentFolder() != null) {
             if (folder.getId().equals(folder.getParentFolder().getId())) {
@@ -69,7 +61,7 @@ public class FolderService {
             }
         }
 
-        Folder currentFolder = this.findById(folder.getId());
+        Folder currentFolder = this.getById(folder.getId());
         FolderEntity newFolderEntity = FolderMapper.toFolderEntity(currentFolder.mergeWith(folder));
 
         UserEntity userEntity = userService.getCurrentUserEntity();
@@ -77,15 +69,8 @@ public class FolderService {
         return FolderMapper.toFolder(folderRepository.save(newFolderEntity));
     }
 
-    public Folder delete(String folderId) {
-        if (folderRepository.existsById(folderId)) {
-            Folder folder = this.findById(folderId);
-            folderRepository.deleteById(folder.getId());
-            return folder;
-        } else {
-            throw new NotFoundException("Folder not found with id " + folderId);
-        }
-
+    public void delete(String folderId) {
+        folderRepository.deleteById(folderId);
     }
 
     //return true if parentId is a parent of childId
@@ -93,7 +78,7 @@ public class FolderService {
         if (childId.equals(parentId)) {
             return true;
         } else {
-            FolderEntity childFolderEntity = FolderMapper.toFolderEntity(this.findById(childId));
+            FolderEntity childFolderEntity = FolderMapper.toFolderEntity(this.getById(childId));
             if (childFolderEntity.getParentFolder() != null) {
                 return isChildOf(childFolderEntity.getParentFolder().getId(), parentId);
             }

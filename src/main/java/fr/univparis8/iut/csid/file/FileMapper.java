@@ -1,6 +1,8 @@
 package fr.univparis8.iut.csid.file;
 
-import fr.univparis8.iut.csid.folder.*;
+import fr.univparis8.iut.csid.folder.Folder;
+import fr.univparis8.iut.csid.folder.FolderEntity;
+import fr.univparis8.iut.csid.folder.FolderMapper;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -38,7 +40,7 @@ public final class FileMapper {
         }
         if(file.getDocumentDate() != null){
             documentMonth = new SimpleDateFormat("MMMM").format(file.getDocumentDate());
-            documentYear = new SimpleDateFormat("Y").format(file.getDocumentDate());
+            documentYear = new SimpleDateFormat("y").format(file.getDocumentDate());
         }
 
 
@@ -110,27 +112,27 @@ public final class FileMapper {
                 .build();
     }
 
-    public static List<File> toFileList(List<FileEntity> fileEntities) {
+    public static List<File> FileEntityListToFileList(List<FileEntity> fileEntities) {
         return fileEntities.stream()
                 .map(FileMapper::toFile)
                 .collect(Collectors.toList());
     }
 
-    public static List<FileEntity> toFileEntitiesList(List<File> fileEntities) {
-        return fileEntities.stream()
-                .map(FileMapper::toFileEntity)
-                .collect(Collectors.toList());
-    }
-
-
-    public static List<File> DtotoFileList(List<FileReceiveDto> fileEntities) {
-        return fileEntities.stream()
+    public static List<File> FileDtoListToFileList(List<FileReceiveDto> fileReceiveDtos) {
+        return fileReceiveDtos.stream()
                 .map(FileMapper::toFile)
                 .collect(Collectors.toList());
     }
+
     public static List<FileResponseDto> toFileDtoList(List<File> files) {
         return files.stream()
                 .map(FileMapper::toFileDto)
+                .collect(Collectors.toList());
+    }
+
+    public static List<FileEntity> toFileEntityList(List<File> files) {
+        return files.stream()
+                .map(FileMapper::toFileEntity)
                 .collect(Collectors.toList());
     }
 

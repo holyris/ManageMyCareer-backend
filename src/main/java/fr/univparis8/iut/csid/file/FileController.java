@@ -8,8 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,12 +18,10 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
-    private MimeTypes mimeTypes;
-
     @PostMapping
-    public List<FileResponseDto> uploadFiles(@RequestBody List<FileReceiveDto> filesReceiveDto){
-        fileService.save(FileMapper.DtotoFileList(filesReceiveDto));
-        return FileMapper.toFileDtoList(fileService.save(FileMapper.DtotoFileList(filesReceiveDto)));
+    public List<FileResponseDto> uploadFiles(@RequestBody List<FileReceiveDto> fileReceiveDtos) {
+        List<File> fileList = FileMapper.FileDtoListToFileList(fileReceiveDtos);
+        return FileMapper.toFileDtoList(fileService.saveAll(fileList));
     }
 
     @GetMapping()
@@ -35,13 +31,13 @@ public class FileController {
 
     @GetMapping("/get_one")
     public FileResponseDto getOneFile(@RequestBody FileResponseDto fileResponseDto){
-        return FileMapper.toFileDto(fileService.findById(fileResponseDto.getId()));
+        return FileMapper.toFileDto(fileService.getById(fileResponseDto.getId()));
     }
 
     @GetMapping("/{fileId}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileId) {
 
-        File file = fileService.findById(fileId);
+        File file = fileService.getById(fileId);
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(file.getType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
@@ -63,7 +59,8 @@ public class FileController {
     }
 
     @DeleteMapping
-    public void deleteFile(@RequestBody String[] fileIds) throws SQLException {
-        fileService.delete(fileIds);
+    public void deleteFile(@RequestBody List<FileReceiveDto> fileReceiveDtos) {
+        List<File> fileList = FileMapper.FileDtoListToFileList(fileReceiveDtos);
+        fileService.deleteInBatch(fileList);
     }
 }
