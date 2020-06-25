@@ -24,7 +24,7 @@ public class FolderEntity {
     @JoinColumn(name = "parent_folder_id")
     private FolderEntity parentFolder;
 
-    @OneToMany(mappedBy = "parentFolder", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "parentFolder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<FolderEntity> childFolders;
 
     @ManyToOne(fetch = FetchType.LAZY)
