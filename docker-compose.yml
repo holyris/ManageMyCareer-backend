@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  manage-my-career-api:
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile
+      target: development
+    ports:
+      - "8000:8080"
+    depends_on:
+      - manage-my-career-db
+
+
+  manage-my-career-db:
+    image: mysql
+    volumes:
+      - mmc-mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: manage_my_career
+      MYSQL_USER: mmc
+      MYSQL_PASSWORD: mmc
+    ports:
+      - "3306:3306"
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "9000:8080"
+
+
+volumes:
+  mmc-mysql-data:
