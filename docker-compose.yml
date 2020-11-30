@@ -1,18 +1,17 @@
 version: "3"
 
 services:
-  manage-my-career-api:
+  api:
     build:
       context: ./
       dockerfile: ./docker/Dockerfile
-      target: development
     ports:
-      - "8000:8080"
+      - "8080:8080"
     depends_on:
-      - manage-my-career-db
+      - database
 
 
-  manage-my-career-db:
+  database:
     image: mysql
     volumes:
       - mmc-mysql-data:/var/lib/mysql
