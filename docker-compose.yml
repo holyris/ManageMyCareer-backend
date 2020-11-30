@@ -27,7 +27,7 @@ services:
     image: adminer
     restart: always
     ports:
-      - "9000:8080"
+      - "9000:80"
 
 
 volumes:
