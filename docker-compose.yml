@@ -20,8 +20,6 @@ services:
       MYSQL_DATABASE: manage_my_career
       MYSQL_USER: mmc
       MYSQL_PASSWORD: mmc
-    ports:
-      - "3306:3306"
 
   adminer:
     image: adminer
