@@ -3,10 +3,12 @@ WORKDIR /workspace/app
 
 COPY mvnw .
 COPY .mvn .mvn
-COPY src src
 COPY pom.xml .
+RUN chmod +x mvnw
+RUN ./mvnw dependency:go-offline
 
-RUN chmod +x mvnw && ./mvnw dependency:go-offline && ./mvnw install -DskipTests
+COPY src src
+RUN ./mvnw install -DskipTests
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
 
