@@ -5,14 +5,15 @@ services:
     build:
       context: ./
       dockerfile: ./docker/Dockerfile
+    restart: always
     ports:
       - "8080:8080"
     depends_on:
       - database
 
-
   database:
     image: mysql
+    restart: always
     volumes:
       - mmc-mysql-data:/var/lib/mysql
     environment:
@@ -26,7 +27,6 @@ services:
     restart: always
     ports:
       - "8081:8080"
-
 
 volumes:
   mmc-mysql-data:
