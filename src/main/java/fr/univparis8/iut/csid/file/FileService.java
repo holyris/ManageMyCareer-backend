@@ -1,7 +1,6 @@
 package fr.univparis8.iut.csid.file;
 
-import fr.univparis8.iut.csid.exception.NotFoundException;
-import fr.univparis8.iut.csid.folder.Folder;
+import fr.univparis8.iut.csid.folder.FolderModel;
 import fr.univparis8.iut.csid.folder.FolderMapper;
 import fr.univparis8.iut.csid.user.UserEntity;
 import fr.univparis8.iut.csid.user.UserService;
@@ -43,20 +42,19 @@ public class FileService {
         this.userService = userService;
     }
 
-    public List<File> findAll() {
+    public List<FileModel> findAll() {
         UserEntity userEntity = userService.getCurrentUserEntity();
-        return FileMapper.toFileList(fileRepository.findAllByUserEntity(userEntity, Sort.by(Sort.Direction.DESC, "addedDate")));
+        return FileMapper.FileEntityListToFileModelList(fileRepository.findAllByUserEntity(userEntity, Sort.by(Sort.Direction.DESC, "addedDate")));
     }
 
-    public File findById(String fileId) {
+    public FileModel getById(String fileId) {
         UserEntity userEntity = userService.getCurrentUserEntity();
-        return FileMapper.toFile(fileRepository.findByIdAndUserEntity(fileId, userEntity)
-                .orElseThrow(() -> new NotFoundException("File not found with id " + fileId + " for user " + userEntity.getUsername())));
+        return FileMapper.toFileModel(fileRepository.getByIdAndUserEntity(fileId, userEntity));
     }
 
-    public List<File> findAllByFolderEntity(Folder folder) {
-        List<FileEntity> fileEntities = fileRepository.findAllByFolderEntity(FolderMapper.toFolderEntity(folder), Sort.by(Sort.Direction.DESC, "addedDate"));
-        return FileMapper.toFileList(fileEntities);
+    public List<FileModel> findAllByFolderEntity(FolderModel folderModel) {
+        List<FileEntity> fileEntities = fileRepository.findAllByFolderEntity(FolderMapper.toFolderEntity(folderModel), Sort.by(Sort.Direction.DESC, "addedDate"));
+        return FileMapper.FileEntityListToFileModelList(fileEntities);
     }
 
     public List<String> findAllCompanies() {
@@ -69,41 +67,28 @@ public class FileService {
         return fileRepository.findWorkplacesByUserEntity(userEntity);
     }
 
-    public File save(File file) {
-        UserEntity userEntity = userService.getCurrentUserEntity();
-        FileEntity fileEntity = FileMapper.toFileEntity(file);
-        fileEntity.setUserEntity(userEntity);
-        fileEntity.setAddedDate(new Date());
-
-        FileEntity fileEntityResponse = fileRepository.save(fileEntity);
-
-        return FileMapper.toFile(fileEntityResponse);
+    public List<FileModel> saveAll(List<FileModel> fileModels) {
+        List<FileEntity> fileEntities = FileMapper.toFileEntityList(fileModels);
+        Date dateNow = new Date();
+        for (FileEntity fileEntity : fileEntities) {
+            fileEntity.setUserEntity(userService.getCurrentUserEntity());
+            fileEntity.setAddedDate(dateNow);
+        }
+        return FileMapper.FileEntityListToFileModelList(fileRepository.saveAll(fileEntities));
     }
 
-    public File update(File file) {
-        if (file.getId() == null) {
-            throw new NotFoundException("File not found with id " + file.getId());
-        }
+    public FileModel update(FileModel fileModel) {
+        FileModel currentFileModel = this.getById(fileModel.getId());
 
-        File currentFile = this.findById(file.getId());
-
-        FileEntity newFile = FileMapper.toFileEntity(currentFile.mergeWith(file));
+        FileEntity newFile = FileMapper.toFileEntity(currentFileModel.mergeWith(fileModel));
 
         UserEntity userEntity = userService.getCurrentUserEntity();
         newFile.setUserEntity(userEntity);
-        return FileMapper.toFile(fileRepository.save(newFile));
+        return FileMapper.toFileModel(fileRepository.save(newFile));
     }
 
-    public void delete(String[] fileIds) throws SQLException {
-        String sql = "DELETE FROM file where id=?";
-        PreparedStatement preparedStatement = null;
-        Connection connection = DriverManager.getConnection(this.dbUrl, this.dbUsername, this.dbPassword);
-        preparedStatement = connection.prepareStatement(sql);
-
-        for (String fileId : fileIds) {
-            preparedStatement.setString(1, fileId);
-            preparedStatement.addBatch();
-        }
-        preparedStatement.executeBatch();
+    public void deleteInBatch(List<FileModel> fileModels) {
+        List<FileEntity> fileEntities = FileMapper.toFileEntityList(fileModels);
+        fileRepository.deleteInBatch(fileEntities);
     }
 }

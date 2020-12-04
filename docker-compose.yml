@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  api:
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+
+  database:
+    image: mysql
+    restart: always
+    volumes:
+      - mmc-mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: manage_my_career
+      MYSQL_USER: mmc
+      MYSQL_PASSWORD: mmc
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8081:8080"
+
+volumes:
+  mmc-mysql-data:

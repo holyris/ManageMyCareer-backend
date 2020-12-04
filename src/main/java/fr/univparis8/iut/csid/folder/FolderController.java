@@ -15,13 +15,13 @@ public class FolderController {
     FolderService folderService;
 
     @GetMapping
-    public List<FolderDto> getAll() {
+    public List<FolderDto> findAll() {
         return FolderMapper.toFolderDtoList(folderService.findAll());
     }
 
     @GetMapping("/{folderId}")
     public FolderDto get(@PathVariable String folderId){
-        return FolderMapper.toFolderDto(folderService.findById(folderId));
+        return FolderMapper.toFolderDto(folderService.getById(folderId));
     }
 
     @GetMapping("/tree")
@@ -30,22 +30,22 @@ public class FolderController {
     }
 
     @GetMapping("/{folderId}/files")
-    public List<FileResponseDto> getFilesByFolder(@PathVariable String folderId){
+    public List<FileResponseDto> findFilesByFolder(@PathVariable String folderId) {
         return FileMapper.toFileDtoList(folderService.findAllFilesById(folderId));
     }
 
     @PostMapping
     public FolderDto save(@RequestBody FolderDto folderDto) {
-        return FolderMapper.toFolderDto(folderService.save(FolderMapper.toFolder(folderDto)));
+        return FolderMapper.toFolderDto(folderService.save(FolderMapper.toFolderModel(folderDto)));
     }
 
     @PatchMapping
     public FolderDto update(@RequestBody FolderDto folderDto){
-        return FolderMapper.toFolderDto(folderService.update(FolderMapper.toFolder(folderDto)));
+        return FolderMapper.toFolderDto(folderService.update(FolderMapper.toFolderModel(folderDto)));
     }
 
     @DeleteMapping("/{folderId}")
-    public FolderDto delete(@PathVariable String folderId){
-        return FolderMapper.toFolderDto(folderService.delete(folderId));
+    public void delete(@PathVariable String folderId) {
+        folderService.delete(folderId);
     }
 }

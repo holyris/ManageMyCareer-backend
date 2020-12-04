@@ -27,7 +27,7 @@ public class FolderEntity {
     @OneToMany(mappedBy = "parentFolder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<FolderEntity> childFolders;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private UserEntity userEntity;
 

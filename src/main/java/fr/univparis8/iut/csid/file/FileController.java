@@ -8,8 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,16 +18,10 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
-    private MimeTypes mimeTypes;
-
     @PostMapping
-    public List<FileResponseDto> uploadFiles(@RequestBody FileReceiveDto[] filesReceiveDto){
-        ArrayList<FileResponseDto> response = new ArrayList<>();
-        for(FileReceiveDto file : filesReceiveDto){
-            FileResponseDto fileDto = FileMapper.toFileDto(fileService.save(FileMapper.toFile(file)));
-            response.add(fileDto);
-        }
-        return response;
+    public List<FileResponseDto> uploadFiles(@RequestBody List<FileReceiveDto> fileReceiveDtos) {
+        List<FileModel> fileModelList = FileMapper.FileDtoListToFileModelList(fileReceiveDtos);
+        return FileMapper.toFileDtoList(fileService.saveAll(fileModelList));
     }
 
     @GetMapping()
@@ -39,17 +31,17 @@ public class FileController {
 
     @GetMapping("/get_one")
     public FileResponseDto getOneFile(@RequestBody FileResponseDto fileResponseDto){
-        return FileMapper.toFileDto(fileService.findById(fileResponseDto.getId()));
+        return FileMapper.toFileDto(fileService.getById(fileResponseDto.getId()));
     }
 
     @GetMapping("/{fileId}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileId) {
 
-        File file = fileService.findById(fileId);
+        FileModel fileModel = fileService.getById(fileId);
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(file.getType()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
-                .body(new ByteArrayResource(file.getFileContent().getFileContent()));
+                .contentType(MediaType.parseMediaType(fileModel.getType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileModel.getName() + "\"")
+                .body(new ByteArrayResource(fileModel.getFileContent().getFileContent()));
     }
     @GetMapping("/companies")
     public List<String> getCompanies(){
@@ -63,11 +55,12 @@ public class FileController {
     @PatchMapping
     public FileResponseDto updateFile(@RequestBody FileReceiveDto fileReceiveDto){
         fileReceiveDto.setModifiedDate(new Date());
-        return FileMapper.toFileDto(fileService.update(FileMapper.toFile(fileReceiveDto)));
+        return FileMapper.toFileDto(fileService.update(FileMapper.toFileModel(fileReceiveDto)));
     }
 
     @DeleteMapping
-    public void deleteFile(@RequestBody String[] fileIds) throws SQLException {
-        fileService.delete(fileIds);
+    public void deleteFile(@RequestBody List<FileReceiveDto> fileReceiveDtos) {
+        List<FileModel> fileModelList = FileMapper.FileDtoListToFileModelList(fileReceiveDtos);
+        fileService.deleteInBatch(fileModelList);
     }
 }

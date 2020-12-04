@@ -1,17 +1,15 @@
 package fr.univparis8.iut.csid.folder;
 
-import fr.univparis8.iut.csid.file.File;
-
-public class Folder {
+public class FolderModel {
 
     private final String id;
     private final String name;
-    private final Folder parentFolder;
+    private final FolderModel parentFolderModel;
 
-    public Folder(String id, String name, Folder parentFolder) {
+    public FolderModel(String id, String name, FolderModel parentFolderModel) {
         this.id = id;
         this.name = name;
-        this.parentFolder = parentFolder;
+        this.parentFolderModel = parentFolderModel;
     }
 
     public String getId() {
@@ -22,15 +20,15 @@ public class Folder {
         return name;
     }
 
-    public Folder getParentFolder() {
-        return parentFolder;
+    public FolderModel getParentFolderModel() {
+        return parentFolderModel;
     }
 
-    public Folder mergeWith(Folder other) {
+    public FolderModel mergeWith(FolderModel other) {
         return FolderBuilder.create()
                 .withId(other.getId())
                 .withName(other.name != null ? other.name : name)
-                .withParentFolder(other.getParentFolder())
+                .withParentFolder(other.getParentFolderModel())
                 .build();
     }
 
@@ -38,7 +36,7 @@ public class Folder {
     public static final class FolderBuilder {
         private String id;
         private String name;
-        private Folder parentFolder;
+        private FolderModel parentFolderModel;
 
         private FolderBuilder() {
         }
@@ -57,13 +55,13 @@ public class Folder {
             return this;
         }
 
-        public FolderBuilder withParentFolder(Folder parentFolder) {
-            this.parentFolder = parentFolder;
+        public FolderBuilder withParentFolder(FolderModel parentFolderModel) {
+            this.parentFolderModel = parentFolderModel;
             return this;
         }
 
-        public Folder build() {
-            return new Folder(id, name, parentFolder);
+        public FolderModel build() {
+            return new FolderModel(id, name, parentFolderModel);
         }
     }
 }

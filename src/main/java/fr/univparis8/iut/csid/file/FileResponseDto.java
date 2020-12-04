@@ -1,8 +1,5 @@
 package fr.univparis8.iut.csid.file;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.univparis8.iut.csid.folder.FolderDto;
-
 import java.util.Date;
 
 public class FileResponseDto {
@@ -10,20 +7,15 @@ public class FileResponseDto {
     private String name;
     private String type;
     private String documentType;
-    @JsonProperty( access = JsonProperty.Access.READ_ONLY)
     private Long size;
-    @JsonProperty( access = JsonProperty.Access.READ_ONLY)
     private Date addedDate;
     private Date modifiedDate;
-    @JsonProperty( access = JsonProperty.Access.READ_ONLY)
     private Date documentDate;
     private String documentYear;
     private String documentMonth;
     private String company;
     private String workplace;
-    @JsonProperty( access = JsonProperty.Access.READ_ONLY)
     private Double grossSalary;
-    @JsonProperty( access = JsonProperty.Access.READ_ONLY)
     private Double netSalary;
     private String folderId;
 

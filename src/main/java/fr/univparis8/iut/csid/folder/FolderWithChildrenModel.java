@@ -2,12 +2,12 @@ package fr.univparis8.iut.csid.folder;
 
 import java.util.List;
 
-public class FolderWithChildren {
+public class FolderWithChildrenModel {
     private final String id;
     private final String name;
-    private final List<FolderWithChildren> childFolders;
+    private final List<FolderWithChildrenModel> childFolders;
 
-    public FolderWithChildren(String id, String name, List<FolderWithChildren> childFolders) {
+    public FolderWithChildrenModel(String id, String name, List<FolderWithChildrenModel> childFolders) {
         this.id = id;
         this.name = name;
         this.childFolders = childFolders;
@@ -21,14 +21,14 @@ public class FolderWithChildren {
         return name;
     }
 
-    public List<FolderWithChildren> getChildFolders() {
+    public List<FolderWithChildrenModel> getChildFolders() {
         return childFolders;
     }
 
     public static final class FolderWithChildrenBuilder {
         private String id;
         private String name;
-        private List<FolderWithChildren> childFolders;
+        private List<FolderWithChildrenModel> childFolders;
 
         private FolderWithChildrenBuilder() {
         }
@@ -47,13 +47,13 @@ public class FolderWithChildren {
             return this;
         }
 
-        public FolderWithChildrenBuilder withChildFolders(List<FolderWithChildren> childFolders) {
+        public FolderWithChildrenBuilder withChildFolders(List<FolderWithChildrenModel> childFolders) {
             this.childFolders = childFolders;
             return this;
         }
 
-        public FolderWithChildren build() {
-            return new FolderWithChildren(id, name, childFolders);
+        public FolderWithChildrenModel build() {
+            return new FolderWithChildrenModel(id, name, childFolders);
         }
     }
 }

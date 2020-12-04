@@ -2,107 +2,106 @@ package fr.univparis8.iut.csid.folder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class FolderMapper {
 
-    public static Folder toFolder(FolderDto folderDto) {
+    public static FolderModel toFolderModel(FolderDto folderDto) {
         if (folderDto == null) return null;
 
-        Folder parentFolder = null;
+        FolderModel parentFolderModel = null;
         if (folderDto.getParentFolderId() != null) {
-            parentFolder = Folder.FolderBuilder.create()
+            parentFolderModel = FolderModel.FolderBuilder.create()
                     .withId(folderDto.getParentFolderId())
                     .build();
         }
 
-        return Folder.FolderBuilder.create()
+        return FolderModel.FolderBuilder.create()
                 .withId(folderDto.getId())
                 .withName(folderDto.getName())
-                .withParentFolder(parentFolder)
+                .withParentFolder(parentFolderModel)
                 .build();
     }
 
-    public static Folder toFolder(FolderEntity folderEntity) {
+    public static FolderModel toFolderModel(FolderEntity folderEntity) {
         if (folderEntity == null) return null;
-        Folder parentFolder = FolderMapper.toFolder(folderEntity.getParentFolder());
-        return Folder.FolderBuilder.create()
+        FolderModel parentFolderModel = FolderMapper.toFolderModel(folderEntity.getParentFolder());
+        return FolderModel.FolderBuilder.create()
                 .withId(folderEntity.getId())
                 .withName(folderEntity.getName())
-                .withParentFolder(parentFolder)
+                .withParentFolder(parentFolderModel)
                 .build();
     }
 
-    public static FolderEntity toFolderEntity(Folder folder) {
-        if (folder == null) return null;
+    public static FolderEntity toFolderEntity(FolderModel folderModel) {
+        if (folderModel == null) return null;
 
-        FolderEntity parentFolderEntity = FolderMapper.toFolderEntity(folder.getParentFolder());
+        FolderEntity parentFolderEntity = FolderMapper.toFolderEntity(folderModel.getParentFolderModel());
         return FolderEntity.FolderEntityBuilder.create()
-                .withId(folder.getId())
-                .withName(folder.getName())
+                .withId(folderModel.getId())
+                .withName(folderModel.getName())
                 .withParentFolder(parentFolderEntity)
                 .build();
     }
 
-    public static FolderDto toFolderDto(Folder folder) {
-        if (folder == null) return null;
+    public static FolderDto toFolderDto(FolderModel folderModel) {
+        if (folderModel == null) return null;
 
         String parentFolderId = null;
-        if (folder.getParentFolder() != null) {
-            parentFolderId = folder.getParentFolder().getId();
+        if (folderModel.getParentFolderModel() != null) {
+            parentFolderId = folderModel.getParentFolderModel().getId();
         }
         return FolderDto.FolderDtoBuilder.create()
-                .withId(folder.getId())
-                .withName(folder.getName())
+                .withId(folderModel.getId())
+                .withName(folderModel.getName())
                 .withParentFolderId(parentFolderId)
                 .build();
     }
 
 
-    public static FolderWithChildren toFolderWithChildren(FolderEntity folderEntity) {
+    public static FolderWithChildrenModel toFolderWithChildrenModel(FolderEntity folderEntity) {
         if (folderEntity == null) return null;
 
         List<FolderEntity> folderEntities = new ArrayList<>(folderEntity.getChildFolders());
-        List<FolderWithChildren> childFolders = FolderMapper.toFolderWithChildrenList(folderEntities);
+        List<FolderWithChildrenModel> childFolders = FolderMapper.toFolderWithChildrenModelList(folderEntities);
 
-        return FolderWithChildren.FolderWithChildrenBuilder.create()
+        return FolderWithChildrenModel.FolderWithChildrenBuilder.create()
                 .withId(folderEntity.getId())
                 .withName(folderEntity.getName())
                 .withChildFolders(childFolders)
                 .build();
     }
 
-    public static FolderWithChildrenDto toFolderWithChildrenDto(FolderWithChildren folderWithChildren) {
-        if (folderWithChildren == null) return null;
+    public static FolderWithChildrenDto toFolderWithChildrenDto(FolderWithChildrenModel folderWithChildrenModel) {
+        if (folderWithChildrenModel == null) return null;
 
-        List<FolderWithChildrenDto> childFolders = FolderMapper.toFolderWithChildrenDtoList(folderWithChildren.getChildFolders());
+        List<FolderWithChildrenDto> childFolders = FolderMapper.toFolderWithChildrenDtoList(folderWithChildrenModel.getChildFolders());
         return FolderWithChildrenDto.FolderWithChildrenDtoBuilder.create()
-                .withId(folderWithChildren.getId())
-                .withName(folderWithChildren.getName())
+                .withId(folderWithChildrenModel.getId())
+                .withName(folderWithChildrenModel.getName())
                 .withChildFolders(childFolders)
                 .build();
     }
 
-    public static List<Folder> toFolderList(List<FolderEntity> folderEntities) {
+    public static List<FolderModel> toFolderModelList(List<FolderEntity> folderEntities) {
         return folderEntities.stream()
-                .map(FolderMapper::toFolder)
+                .map(FolderMapper::toFolderModel)
                 .collect(Collectors.toList());
     }
 
-    public static List<FolderDto> toFolderDtoList(List<Folder> folders) {
-        return folders.stream()
+    public static List<FolderDto> toFolderDtoList(List<FolderModel> folderModels) {
+        return folderModels.stream()
                 .map(FolderMapper::toFolderDto)
                 .collect(Collectors.toList());
     }
 
-    public static List<FolderWithChildren> toFolderWithChildrenList(List<FolderEntity> folderEntities) {
+    public static List<FolderWithChildrenModel> toFolderWithChildrenModelList(List<FolderEntity> folderEntities) {
         return folderEntities.stream()
-                .map(FolderMapper::toFolderWithChildren)
+                .map(FolderMapper::toFolderWithChildrenModel)
                 .collect(Collectors.toList());
     }
 
-    public static List<FolderWithChildrenDto> toFolderWithChildrenDtoList(List<FolderWithChildren> foldersWithChildren) {
+    public static List<FolderWithChildrenDto> toFolderWithChildrenDtoList(List<FolderWithChildrenModel> foldersWithChildren) {
         return foldersWithChildren.stream()
                 .map(FolderMapper::toFolderWithChildrenDto)
                 .collect(Collectors.toList());
